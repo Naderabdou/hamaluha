@@ -36,7 +36,6 @@ return Application::configure(basePath: dirname(__DIR__))
             'login.throttle' => LoginThrottle::class,
             'check.type' => CheckType::class,
             'lang' => Lang::class,
-
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('country_code')->nullable();
             $table->string('phone')->nullable()->unique();
             $table->string('code')->nullable();
             $table->timestamp('code_expire_at')->nullable();
@@ -24,9 +23,9 @@ return new class extends Migration
             $table->string('social_id')->nullable();
             $table->boolean('is_notify')->default(1);
             $table->string('password');
+            $table->text('desc')->nullable();
             $table->string('image')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->enum('gender', ['male', 'female', 'other'])->default('other');
             $table->enum('type', ['user', 'admin', 'provider'])->default('user');
             $table->rememberToken();
             $table->timestamps();
