@@ -35,7 +35,6 @@ class CategoryResource extends Resource
     protected static ?int $navigationSort = 2;
 
 
-    // }
     public static function getModelLabel(): string
     {
         return __('Category');
@@ -152,7 +151,7 @@ class CategoryResource extends Resource
         return $table
 
             ->emptyStateHeading(__('No Categories Found'))
-            ->emptyStateDescription(__('Start by creating a new Category.'))
+            ->emptyStateDescription(__('Start by creating a new category.'))
             ->emptyStateIcon('icon-app')
             ->striped()
             ->heading(__('Categories'))

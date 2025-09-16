@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('order_number')->unique();
             $table->foreignId('user_id')->constrained('users')->onDelete('restrict');
             $table->decimal('total', 10, 2);
             $table->enum('type', ['order', 'cart'])->default('cart');

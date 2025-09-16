@@ -67,57 +67,6 @@ class Settings extends SettingsPage
                                     ->maxLength(255)
                                     ->required(),
 
-
-                                RichEditor::make('about_desc_ar')
-                                    ->label(__('Description (Arabic)'))
-                                    ->autofocus()
-                                    ->minLength(3)
-
-
-                                    ->required(),
-                                RichEditor::make('about_desc_en')
-                                    ->label(__('Description (English)'))
-                                    ->autofocus()
-                                    ->minLength(3)
-
-
-                                    ->required(),
-
-
-                                // RichEditor::make('policy_desc_ar')
-                                //     ->label(__('privacy policy (Arabic)'))
-                                //     ->autofocus()
-                                //     ->minLength(3)
-
-
-
-                                //     ->required(),
-                                // RichEditor::make('policy_desc_en')
-                                //     ->label(__('privacy policy (English)'))
-                                //     ->autofocus()
-                                //     ->minLength(3)
-
-                                //     ->required(),
-
-
-                                RichEditor::make('privacy_policy_ar')
-                                    ->label(__('سياسة الخصوصية بالعربية'))
-                                    ->autofocus()
-                                    ->minLength(3)
-
-                                    ->required(),
-
-
-                                RichEditor::make('privacy_policy_en')
-                                    ->label(__('سياسة الخصوصية بالإنجليزية'))
-                                    ->autofocus()
-                                    ->minLength(3)
-                                    ->required(),
-
-
-
-
-
                                 FileUpload::make('logo')
                                     ->label(__('Logo'))
                                     ->image()
@@ -136,10 +85,274 @@ class Settings extends SettingsPage
 
                                     ->reorderable()
                                     ->required(),
+                            ])->columns(2),
+
+                        Tabs\Tab::make(__('About'))
+                            ->icon('heroicon-o-cog-6-tooth')
+                            ->badge(4)
+                            ->schema([
+
+                                TextInput::make('about_header_ar')
+                                    ->label(__('About (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                                TextInput::make('about_header_en')
+                                    ->label(__('About (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+
+                                RichEditor::make('about_desc_ar')
+                                    ->label(__('Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+
+
+                                    ->required(),
+                                RichEditor::make('about_desc_en')
+                                    ->label(__('Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+
+
+                                RichEditor::make('vision_ar')
+                                    ->label(__('Vision (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+
+
+                                    ->required(),
+                                RichEditor::make('vision_en')
+                                    ->label(__('Vision (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+
+
+                                RichEditor::make('message_ar')
+                                    ->label(__('Message (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+
+
+                                    ->required(),
+                                RichEditor::make('message_en')
+                                    ->label(__('Message (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
 
 
 
                             ])->columns(2),
+
+                        Tabs\Tab::make(__('Pages'))
+                            ->icon('heroicon-o-cog-6-tooth')
+                            ->badge(4)
+                            ->schema([
+
+                                RichEditor::make('products_desc_ar')
+                                    ->label(__('Products Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+
+
+                                    ->required(),
+                                RichEditor::make('products_desc_en')
+                                    ->label(__('Products Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+
+
+                                RichEditor::make('offers_desc_ar')
+                                    ->label(__('Offers Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+
+                                    ->required(),
+                                RichEditor::make('offers_desc_en')
+                                    ->label(__('Offers Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+
+                                RichEditor::make('stores_desc_ar')
+                                    ->label(__('Stores Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+
+                                    ->required(),
+                                RichEditor::make('stores_desc_en')
+                                    ->label(__('Stores Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+
+                                RichEditor::make('cart_desc_ar')
+                                    ->label(__('Cart Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+
+                                    ->required(),
+                                RichEditor::make('cart_desc_en')
+                                    ->label(__('Cart Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+
+                                RichEditor::make('partners_desc_ar')
+                                    ->label(__('Partners Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+
+                                    ->required(),
+                                RichEditor::make('partners_desc_en')
+                                    ->label(__('Partners Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+
+                                RichEditor::make('questions_desc_ar')
+                                    ->label(__('Questions Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+
+                                    ->required(),
+                                RichEditor::make('questions_desc_en')
+                                    ->label(__('Questions Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+
+                                RichEditor::make('contacts_desc_ar')
+                                    ->label(__('Contact Us Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+
+                                    ->required(),
+                                RichEditor::make('contacts_desc_en')
+                                    ->label(__('Contact Us Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+                                FileUpload::make('contacts_banner')
+                                    ->label(__('Contact Us Banner'))
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('settings')
+                                    ->columnSpanFull()
+                                    ->reorderable()
+                                    ->required(),
+
+                            ])->columns(2),
+
+
+
+                        Tabs\Tab::make(__('Provider Journey Steps'))
+                            ->icon('heroicon-o-truck')
+                            ->badge(4)
+                            ->schema([
+
+                                TextInput::make('join_us_title_ar')
+                                    ->label(__('Join Us Title (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                                TextInput::make('join_us_title_en')
+                                    ->label(__('Join Us Title (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+
+                                RichEditor::make('join_us_desc_ar')
+                                    ->label(__('Join Us Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+                                RichEditor::make('join_us_desc_en')
+                                    ->label(__('Join Us Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+
+                                TextInput::make('journey_step1_title_ar')
+                                    ->label(__('Step 1 Title (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                                TextInput::make('journey_step1_title_en')
+                                    ->label(__('Step 1 Title (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+
+                                RichEditor::make('journey_step1_desc_ar')
+                                    ->label(__('Step 1 Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+                                RichEditor::make('journey_step1_desc_en')
+                                    ->label(__('Step 1 Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+                                TextInput::make('journey_step2_title_ar')
+                                    ->label(__('Step 2 Title (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                                TextInput::make('journey_step2_title_en')
+                                    ->label(__('Step 2 Title (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                                RichEditor::make('journey_step2_desc_ar')
+                                    ->label(__('Step 2 Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+                                RichEditor::make('journey_step2_desc_en')
+                                    ->label(__('Step 2 Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+                                TextInput::make('journey_step3_title_ar')
+                                    ->label(__('Step 3 Title (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                                TextInput::make('journey_step3_title_en')
+                                    ->label(__('Step 3 Title (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                                RichEditor::make('journey_step3_desc_ar')
+                                    ->label(__('Step 3 Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                                RichEditor::make('journey_step3_desc_en')
+                                    ->label(__('Step 3 Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                            ])->columns(2),
+
                         Tabs\Tab::make(__('Contact Details'))
                             ->icon('heroicon-o-at-symbol')
                             ->badge(11)
@@ -173,24 +386,6 @@ class Settings extends SettingsPage
 
                                     ->required(),
 
-                                // TextInput::make('support_link')
-                                //     ->label(__('Support Link'))
-                                //     ->autofocus()
-
-                                //     ->required(),
-
-
-
-
-
-
-                                // // TextInput::make('facebook')
-                                // //     ->label(__('facebook'))
-                                // //     ->autofocus()
-                                // //     ->url()
-                                // //     ->columnSpanFull()
-
-                                //     ->required(),
                                 TextInput::make('address')
                                     ->label(__('Address'))
                                     ->autofocus()
@@ -219,23 +414,78 @@ class Settings extends SettingsPage
 
                             ])->columns(2),
 
+                        Tabs\Tab::make(__('Footer & SEO'))
+                            ->icon('heroicon-o-cog-6-tooth')
+                            ->badge(6)
+                            ->schema([
+                                FileUpload::make('footer_logo')
+                                ->label(__('Footer Logo'))
+                                ->image()
+                                ->disk('public')
+                                ->directory('settings')
+                                ->columnSpanFull()
+                                ->reorderable()
+                                ->required(),
+                                Textarea::make('subscribe_header_ar')
+                                    ->label(__('Subscribe Header (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+                                Textarea::make('subscribe_header_en')
+                                    ->label(__('Subscribe Header (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                                TextInput::make('desc_header_ar')
+                                    ->label(__('Subscribe Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                                TextInput::make('desc_header_en')
+                                    ->label(__('Subscribe Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                                Textarea::make('footer_desc_ar')
+                                    ->label(__('Footer Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+                                Textarea::make('footer_desc_en')
+                                    ->label(__('Footer Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                                TextInput::make('copy_right_ar')
+                                    ->label(__('Copy Right (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                                TextInput::make('copy_right_en')
+                                    ->label(__('Copy Right (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                                    Textarea::make('policy_desc_ar')
+                                    ->label(__('Privacy & Policy Description (Arabic)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->required(),
+                                Textarea::make('policy_desc_en')
+                                    ->label(__('Privacy & Policy Description (English)'))
+                                    ->autofocus()
+                                    ->minLength(3)
+                                    ->maxLength(255)
+                                    ->required(),
+                            ])->columns(2),
+                ])
+        ])->columns(1);
 
-
-
-
-
-
-
-
-
-                        // Tabs\Tab::make(__('privacy and return delivery policy'))
-                        //     ->icon('heroicon-o-truck')
-                        //     ->badge(4)
-                        //     ->schema([])->columns(2),
-
-
-
-                    ]),
-            ])->columns(1);
     }
 }
