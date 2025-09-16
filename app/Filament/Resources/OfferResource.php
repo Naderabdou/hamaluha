@@ -22,6 +22,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Section as FormSection;
 use App\Filament\Resources\OfferResource\RelationManagers;
 
+//todo : remove unused imports
+//todo : use TextColumn
+//todo : translation for offer keys
+//todo : validation for dates
 class OfferResource extends Resource
 {
     protected static ?string $model = Offer::class;

@@ -15,6 +15,10 @@ use App\Filament\Resources\QuestionsResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\QuestionsResource\RelationManagers;
 
+//todo : remove unused imports
+//todo : translation for question and answer keys
+//todo : in question unique for both languages
+//todo : in table view show question based on current locale
 class QuestionsResource extends Resource
 {
     protected static ?string $model = Question::class;

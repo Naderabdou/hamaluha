@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            //Todo: what is parent_id? what you mean
             $table->foreignId('parent_id')->nullable()->constrained('reviews')->onDelete('cascade');
             $table->decimal('rating', 2, 1)->nullable();
             $table->string('comment')->nullable();

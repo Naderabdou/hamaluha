@@ -15,6 +15,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SubscriptionResource\Pages;
 use App\Filament\Resources\SubscriptionResource\RelationManagers;
 
+//todo : remove unused imports
+//todo : add view page to View all Product details
+//todo : add filter
+//todo : translation all data in table
 class SubscriptionResource extends Resource
 {
     protected static ?string $model = Subscription::class;

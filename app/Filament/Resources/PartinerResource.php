@@ -18,6 +18,7 @@ use App\Filament\Resources\PartinerResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PartinerResource\RelationManagers;
 
+//todo : remove unused imports
 class PartinerResource extends Resource
 {
     protected static ?string $model = Partiner::class;
