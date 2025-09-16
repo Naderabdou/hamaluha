@@ -13,16 +13,17 @@ use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Hash;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Infolists\Components\Grid;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
 
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Validation\Rules\Password;
 
+use Illuminate\Validation\Rules\Password;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\Livewire;
 use Filament\Infolists\Components\TextEntry;
@@ -108,9 +109,8 @@ class ProviderResource extends Resource
                                 ->visible(fn(Get $get): bool => filled($get('password')))
                                 ->dehydrated(false),
 
-                            TextInput::make('type')
-                                ->hidden()
-                                ->default(UserType::PROVIDER),
+                            Hidden::make('type')
+                                ->default(UserType::PROVIDER)
                         ]),
                 ]),
 

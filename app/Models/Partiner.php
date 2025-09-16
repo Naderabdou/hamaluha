@@ -8,5 +8,7 @@ class Partiner extends Model
 {
     protected $fillable = [
         'image',
+        'name_ar',
+        'name_en',
     ];
 }

@@ -54,17 +54,22 @@ class SubscriptionResource extends Resource
             })
             ->columns([
 
-                Tables\Columns\TextColumn::make('name_' . app()->getLocale())
+                Tables\Columns\TextColumn::make('email')
                     ->label(__('email'))
                     ->searchable()
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('Subscribed At'))
+                    ->dateTime('d.m.Y H:i')
+                    ->sortable()
 
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -85,7 +90,7 @@ class SubscriptionResource extends Resource
         return [
             'index' => Pages\ListSubscriptions::route('/'),
             // 'create' => Pages\CreateSubscription::route('/create'),
-            'edit' => Pages\EditSubscription::route('/{record}/edit'),
+            // 'edit' => Pages\EditSubscription::route('/{record}/edit'),
         ];
     }
 }

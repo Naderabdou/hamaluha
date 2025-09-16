@@ -45,7 +45,7 @@ class Product extends Model
 
     public function getDescAttribute(): string
     {
-        return $this['desc_' . app()->getLocale()];
+        return $this['desc_' . app()->getLocale()] ?? '';
     }
 
     public function getRouteKeyName():string

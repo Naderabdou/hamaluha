@@ -11,7 +11,7 @@ use Spatie\Sluggable\SlugOptions;
 
 class Offer extends Model
 {
-    use HasSlug;
+    // use HasSlug;
     protected $fillable = [
         'provider_id',
         'desc_ar',
@@ -20,8 +20,8 @@ class Offer extends Model
         'image',
         'type',
         'is_active',
-        'started_at',
-        'ended_at',
+        'start_at',
+        'end_at',
     ];
 
     protected $appends = ['image_path'];
@@ -43,10 +43,10 @@ class Offer extends Model
         return $this['desc_' . app()->getLocale()];
     }
 
-    public function getRouteKeyName(): string
-    {
-        return 'slug';
-    }
+    // public function getRouteKeyName(): string
+    // {
+    //     return 'slug';
+    // }
 
     public function provider():BelongsTo
     {
