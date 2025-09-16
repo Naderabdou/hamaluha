@@ -24,6 +24,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Section as FormSection;
 use App\Filament\Resources\ProductResource\RelationManagers;
 
+//todo : remove unused imports
+//todo : sub category show main category How to do that?
+//todo : in table view show product name based on current locale
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;

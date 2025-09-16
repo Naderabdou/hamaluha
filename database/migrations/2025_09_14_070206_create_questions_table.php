@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('question_ar');
             $table->string('question_en');
+            //Todo: why nullable?
             $table->string('answer_ar')->nullable();
             $table->string('answer_en')->nullable();
             $table->timestamps();

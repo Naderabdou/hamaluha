@@ -13,6 +13,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+//todo : remove unused imports
+//todo why exists Form
+//todo : where buttons for reply and delete
+//todo : why editing exists
+//todo : add view page
 class ContactsResource extends Resource
 {
     protected static ?string $model = Contact::class;

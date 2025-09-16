@@ -15,6 +15,10 @@ use App\Filament\Resources\GoalsResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\GoalsResource\RelationManagers;
 
+//todo : remove unused imports
+//todo please import Forms\Components\TextInput
+//todo in table view golal beased on current locale
+
 class GoalsResource extends Resource
 {
     protected static ?string $model = Goal::class;
@@ -40,22 +44,22 @@ class GoalsResource extends Resource
     {
         return $form
             ->schema([
-                    Grid::make()->schema([
+                Grid::make()->schema([
                     Section::make(__('Main Information'))
                         ->description(__('This is the main information about the goal.'))
                         ->collapsible(true)
-                ->schema([
-                    Forms\Components\TextInput::make('goal_ar')
-                        ->label(__('Goal in Arabic'))
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('goal_en')
-                        ->label(__('Goal in English'))
-                        ->required()
-                        ->maxLength(255),
+                        ->schema([
+                            Forms\Components\TextInput::make('goal_ar')
+                                ->label(__('Goal in Arabic'))
+                                ->required()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('goal_en')
+                                ->label(__('Goal in English'))
+                                ->required()
+                                ->maxLength(255),
+                        ])
                 ])
-            ])
-        ]);
+            ]);
     }
 
     public static function table(Table $table): Table

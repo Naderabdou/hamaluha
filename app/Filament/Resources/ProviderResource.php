@@ -31,6 +31,7 @@ use Filament\Forms\Components\Grid as FormGrid;
 use App\Filament\Resources\ProviderResource\Pages;
 use Filament\Forms\Components\Section as FormSection;
 
+//todo : remove unused imports
 class ProviderResource extends Resource
 {
     protected static ?string $model = User::class;
@@ -219,7 +220,7 @@ class ProviderResource extends Resource
                     ->columns(1),
 
                 Section::make(__('Offers'))
-                ->description(__('This is the offers section.'))
+                    ->description(__('This is the offers section.'))
                     ->collapsible(true)
                     ->schema([
                         Livewire::make(

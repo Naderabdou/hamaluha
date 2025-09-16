@@ -26,6 +26,14 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 
+
+//todo : remove unused imports
+//todo : desc_ar and desc_en must use Textarea not TextInput
+//todo : sub category min 1
+//todo : image required only for main category not sub category
+//todo : in table show image not icon
+
+
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
