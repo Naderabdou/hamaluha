@@ -10,11 +10,22 @@ class EditProduct extends EditRecord
 {
     protected static string $resource = ProductResource::class;
 
-    protected function getHeaderActions(): array
+    protected function afterSave(): void
     {
-        return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
-        ];
+        $estate = $this->record;
+        if ($estate->images) {
+
+            $estate->images()->delete();
+        }
+
+        // Fetch the uploaded images from the form
+        $uploadedImages = $this->form->getState()['images']; // Use the correct key to get only the images
+
+        // Loop through the images and store them
+        foreach ($uploadedImages as $image) {
+            $estate->images()->create([
+                'image' => $image,
+            ]);
+        }
     }
 }

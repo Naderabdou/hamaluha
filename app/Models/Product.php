@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+
 class Product extends Model
 {
-        use HasSlug;
+    use HasSlug;
 
     protected $fillable = [
         'slug',
@@ -24,18 +25,13 @@ class Product extends Model
         'file',
     ];
 
-    protected $appends = ['image_path', 'name'];
+    protected $appends = ['name'];
 
-    public function getSlugOptions() : SlugOptions
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom('name_en')
             ->saveSlugsTo('slug');
-    }
-
-    public function getImagePathAttribute(): string
-    {
-        return asset('storage/' . $this->image);
     }
 
     public function getNameAttribute(): string
@@ -48,45 +44,55 @@ class Product extends Model
         return $this['desc_' . app()->getLocale()] ?? '';
     }
 
-    public function getRouteKeyName():string
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
 
-    public function category():BelongsTo
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function provider():BelongsTo
+    public function images(): HasMany
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function provider(): BelongsTo
     {
         return $this->belongsTo(User::class, 'provider_id');
     }
 
-    public function offers():BelongsToMany
+    public function offers(): BelongsToMany
     {
-        return $this->belongsToMany(Offer::class,'offer_products','offer_id','product_id');
+        return $this->belongsToMany(Offer::class, 'offer_products', 'offer_id', 'product_id');
     }
 
-    public function orders():BelongsToMany
+    public function orders(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class,'order_items','order_id','product_id')
-                    ->withPivot('provider_id','name','image','price')->withTimestamps();
+        return $this->belongsToMany(Order::class, 'order_items', 'order_id', 'product_id')
+            ->withPivot('provider_id', 'name', 'image', 'price')->withTimestamps();
     }
 
-    public function favouritedBy():BelongsToMany
+    public function favouritedBy(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'favourites', 'product_id', 'user_id');
     }
 
-    public function reviews() : HasMany
+    public function reviews(): HasMany
     {
         return $this->hasMany(Review::class, 'product_id');
     }
 
-    public function ratingAvg()
+    public function getReviewsCountAttribute()
     {
-        return $this->reviews()->avg('rating');
+        return $this->reviews()->count();
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        return round($this->reviews()->avg('rating'), 1) ?? 0;
     }
 }

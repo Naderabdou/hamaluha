@@ -4,8 +4,6 @@ namespace App\Filament\Widgets;
 
 use App\Models\Order;
 use Carbon\Carbon;
-use App\Models\UserSubscription;
-use App\Models\ProviderSubscription;
 use EightyNine\FilamentAdvancedWidget\AdvancedChartWidget;
 
 class OrdersUserChart extends AdvancedChartWidget
@@ -15,7 +13,7 @@ class OrdersUserChart extends AdvancedChartWidget
     protected static ?string $iconColor = 'primary';
     protected static ?string $iconBackgroundColor = 'white';
 
-
+    protected int|string|array $columnSpan = 'full';
     public ?string $filter = 'today';
 
     public function getHeading(): string
@@ -27,6 +25,8 @@ class OrdersUserChart extends AdvancedChartWidget
     {
         return __('عدد الطلبات حسب الفترة المختارة');
     }
+
+
 
     protected function getFilters(): ?array
     {
@@ -141,4 +141,7 @@ class OrdersUserChart extends AdvancedChartWidget
     {
         return 'bar';
     }
+
+
+
 }

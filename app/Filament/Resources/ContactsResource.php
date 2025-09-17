@@ -2,22 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ContactsResource\Pages;
-use App\Filament\Resources\ContactsResource\RelationManagers;
-use App\Models\Contact;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Contact;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Infolists\Infolist;
+use Filament\Resources\Resource;
+use Filament\Infolists\Components\Grid;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use App\Filament\Resources\ContactsResource\Pages;
 
-//todo : remove unused imports
-//todo why exists Form
-//todo : where buttons for reply and delete
-//todo : why editing exists
-//todo : add view page
 class ContactsResource extends Resource
 {
     protected static ?string $model = Contact::class;
@@ -42,24 +41,7 @@ protected static ?string $navigationIcon = 'Contact';
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\TextInput::make('phone')
-                    ->tel()
-                    ->maxLength(20),
-
-                Forms\Components\Textarea::make('message')
-                    ->maxLength(65535),
-
-                Forms\Components\Toggle::make('is_replied')
-                    ->label('Is Replied?'),
+                //
             ]);
     }
 
@@ -76,24 +58,19 @@ protected static ?string $navigationIcon = 'Contact';
                 return $query->latest('created_at');
             })
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('phone'),
+                TextColumn::make('phone'),
 
-                Tables\Columns\TextColumn::make('message')
-                    ->limit(50)
-                    ->tooltip(fn ($record) => $record->message),
-
-                Tables\Columns\IconColumn::make('is_replied')
-                    ->boolean()
+                ToggleColumn::make('is_replied')
                     ->label('Replied'),
 
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime('d M Y H:i')
                     ->sortable(),
             ])
@@ -101,7 +78,8 @@ protected static ?string $navigationIcon = 'Contact';
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -122,7 +100,33 @@ protected static ?string $navigationIcon = 'Contact';
         return [
             'index' => Pages\ListContacts::route('/'),
             // 'create' => Pages\CreateContacts::route('/create'),
-            'edit' => Pages\EditContacts::route('/{record}/edit'),
+            // 'edit' => Pages\EditContacts::route('/{record}/edit'),
+            'view' => Pages\ViewContacts::route('/{record}'),
         ];
+    }
+
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist->schema([
+
+            Grid::make()->schema([
+
+                Section::make(__('Contact Details'))
+                    ->schema([
+                    TextEntry::make('name')->label(__('Name')),
+                    TextEntry::make('email')->label(__('Email')),
+                    TextEntry::make('phone')->label(__('Phone')),
+                    TextEntry::make('created_at')->label(__('Created At'))->dateTime('d M Y H:i'),
+                    TextEntry::make('message')->label(__('Message')),
+
+                    ])
+                    ->columns(2),
+
+            ])
+
+
+
+        ]);
     }
 }

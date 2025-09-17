@@ -10,10 +10,10 @@ class ViewOffer extends ViewRecord
 {
     protected static string $resource = OfferResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\EditAction::make(),
-        ];
-    }
+    // protected function getHeaderActions(): array
+    // {
+    //     return [
+    //         Actions\EditAction::make(),
+    //     ];
+    // }
 }

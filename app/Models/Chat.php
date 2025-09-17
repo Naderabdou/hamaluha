@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ *
+ * @property int $user_one_id
+ * @property int $user_two_id
+ *
+ */
 class Chat extends Model
 {
-    protected $table = "chats";
-
     protected $fillable = [
         'user_one_id',
         'user_two_id',

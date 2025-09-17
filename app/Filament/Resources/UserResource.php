@@ -13,15 +13,10 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\Section;
-use Filament\Infolists\Components\Fieldset;
-use Filament\Infolists\Components\Livewire;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ImageEntry;
 use App\Filament\Resources\UserResource\Pages;
-use Filament\Infolists\Components\Section as InfoSection;
 
-//todo : remove unused imports
-//todo : add view page to View all Product details
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;

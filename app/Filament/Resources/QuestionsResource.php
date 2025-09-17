@@ -12,18 +12,15 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\QuestionsResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\QuestionsResource\RelationManagers;
 
-//todo : remove unused imports
+
 //todo : translation for question and answer keys
 //todo : in question unique for both languages
-//todo : in table view show question based on current locale
 class QuestionsResource extends Resource
 {
     protected static ?string $model = Question::class;
 
-protected static ?string $navigationIcon = 'question1';
+    protected static ?string $navigationIcon = 'question1';
 
     protected static ?int $navigationSort = 3;
 
@@ -44,27 +41,31 @@ protected static ?string $navigationIcon = 'question1';
         return $form
             ->schema([
                 Grid::make()->schema([
-                Section::make(__('Main Information'))
-                ->description(__('This is the main information about the questions.'))
-                ->collapsible(true)
-                ->schema([
-                    Forms\Components\TextInput::make('question_ar')
-                        ->label(__('Question in Arabic'))
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('question_en')
-                        ->label(__('Question in English'))
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\Textarea::make('answer_ar')
-                        ->label(__('Answer in Arabic'))
-                        ->required(),
-                    Forms\Components\Textarea::make('answer_en')
-                        ->label(__('Answer in English'))
-                        ->required(),
+                    Section::make(__('Main Information'))
+                        ->description(__('This is the main information about the questions.'))
+                        ->collapsible(true)
+                        ->schema([
+                            Forms\Components\TextInput::make('question_ar')
+                                ->label(__('Question in Arabic'))
+                                ->required()
+                                ->unique()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('question_en')
+                                ->label(__('Question in English'))
+                                ->required()
+                                ->unique()
+                                ->maxLength(255),
+                            Forms\Components\Textarea::make('answer_ar')
+                                ->label(__('Answer in Arabic'))
+                                ->unique()
+                                ->required(),
+                            Forms\Components\Textarea::make('answer_en')
+                                ->label(__('Answer in English'))
+                                ->unique()
+                                ->required(),
+                        ])
                 ])
-            ])
-        ]);
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -80,11 +81,11 @@ protected static ?string $navigationIcon = 'question1';
                 return $query->latest('created_at');
             })
             ->columns([
-                Tables\Columns\TextColumn::make('question_ar')
+                Tables\Columns\TextColumn::make('question_' . app()->getLocale())
                     ->label(__('Question'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('answer_ar')
+                Tables\Columns\TextColumn::make('answer_' . app()->getLocale())
                     ->label(__('Answer'))
                     ->searchable()
                     ->sortable(),

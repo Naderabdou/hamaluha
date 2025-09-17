@@ -8,13 +8,11 @@ use App\Enums\UserType;
 use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
-use Faker\Provider\Image;
 use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Select;
 use Filament\Infolists\Components\Grid;
 use Filament\Tables\Columns\TextColumn;
 
@@ -32,7 +30,6 @@ use Filament\Forms\Components\Grid as FormGrid;
 use App\Filament\Resources\ProviderResource\Pages;
 use Filament\Forms\Components\Section as FormSection;
 
-//todo : remove unused imports
 class ProviderResource extends Resource
 {
     protected static ?string $model = User::class;
@@ -191,7 +188,8 @@ class ProviderResource extends Resource
                         ImageEntry::make('image')
                             ->label(__('Image'))
                             ->circular()
-                            ->size(120),
+                            ->size(120)
+                            ->columnSpanFull(),
 
                         TextEntry::make('name')
                             ->label(__('Name')),
@@ -203,9 +201,9 @@ class ProviderResource extends Resource
                             ->label(__('Phone')),
 
                         TextEntry::make('desc')
-                            ->label(__('Description')),
-
-                    ]),
+                            ->label(__('Description'))
+                            ->columnSpanFull(),
+                    ])->columns(3),
 
                 Section::make(__('Products'))
                     ->description(__('List of products of this provider.'))

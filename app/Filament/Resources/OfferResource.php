@@ -9,21 +9,22 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Infolists\Components\Grid;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Infolists\Components\ImageEntry;
 use App\Filament\Resources\OfferResource\Pages;
 use Filament\Forms\Components\Grid as FormGrid;
 use Filament\Infolists\Components\RepeatableEntry;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Section as FormSection;
-use App\Filament\Resources\OfferResource\RelationManagers;
 
-//todo : remove unused imports
-//todo : use TextColumn
 //todo : translation for offer keys
 //todo : validation for dates
 class OfferResource extends Resource
@@ -53,7 +54,7 @@ class OfferResource extends Resource
                         ->description(__('This is the main information about the category.'))
                         ->collapsible(true)
                         ->schema([
-                            Forms\Components\Select::make('provider_id')
+                            Select::make('provider_id')
                             ->label(__('Provider'))
                                 ->options(\App\Models\User::where('type', 'provider')
                                 ->pluck('name', 'id'))
@@ -61,29 +62,29 @@ class OfferResource extends Resource
                                 ->required()
                                 ->reactive(),
 
-                            Forms\Components\TextInput::make('desc_ar')->label('Description (Arabic)'),
-                            Forms\Components\TextInput::make('desc_en')->label('Description (English)'),
+                            TextInput::make('desc_ar')->label('Description (Arabic)'),
+                            TextInput::make('desc_en')->label('Description (English)'),
 
-                            Forms\Components\TextInput::make('discount')
+                            TextInput::make('discount')
                                 ->numeric()
                                 ->minValue(0)
                                 ->maxValue(100)
                                 ->suffix('%'),
 
-                            Forms\Components\Select::make('type')
+                            Select::make('type')
                                 ->options([
                                     'discount' => 'خصم على منتج واحد',
                                     'offer'    => 'عرض على مجموعة منتجات',
                                 ])
                                 ->required()
                                 ->reactive(),
-                            Forms\Components\FileUpload::make('image')
+                            FileUpload::make('image')
                             ->image()
                             ->directory('offers')
                             ->disk('public')
                             ->visible(fn($get) => $get('type') === 'offer'),
 
-                            Forms\Components\Select::make('product_id')
+                            Select::make('product_id')
                                 ->label('المنتج')
                                 ->relationship('products', 'id')
                                 ->options(function (callable $get) {
@@ -102,7 +103,7 @@ class OfferResource extends Resource
                                 ->required(fn($get) => $get('type') === 'discount')
                                 ->reactive(),
 
-                            Forms\Components\Select::make('products')
+                            Select::make('products')
                                 ->label('المنتجات')
                                 ->multiple()
                                 ->relationship('products', 'id')
@@ -122,12 +123,12 @@ class OfferResource extends Resource
                                 ->required(fn($get) => $get('type') === 'offer')
                                 ->reactive(),
 
-                            Forms\Components\Toggle::make('is_active')
+                            Toggle::make('is_active')
                                 ->label('نشط')
                                 ->default(true),
 
-                            Forms\Components\DateTimePicker::make('start_at')->label('تاريخ البداية'),
-                            Forms\Components\DateTimePicker::make('end_at')->label('تاريخ النهاية'),
+                            DateTimePicker::make('start_at')->label('تاريخ البداية'),
+                            DateTimePicker::make('end_at')->label('تاريخ النهاية'),
                         ])->columns(1),
 
 

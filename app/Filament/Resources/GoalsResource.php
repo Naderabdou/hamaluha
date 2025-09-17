@@ -10,14 +10,12 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\GoalsResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\GoalsResource\RelationManagers;
 
-//todo : remove unused imports
 //todo please import Forms\Components\TextInput
-//todo in table view golal beased on current locale
 
 class GoalsResource extends Resource
 {
@@ -49,11 +47,11 @@ class GoalsResource extends Resource
                         ->description(__('This is the main information about the goal.'))
                         ->collapsible(true)
                         ->schema([
-                            Forms\Components\TextInput::make('goal_ar')
+                            TextInput::make('goal_ar')
                                 ->label(__('Goal in Arabic'))
                                 ->required()
                                 ->maxLength(255),
-                            Forms\Components\TextInput::make('goal_en')
+                            TextInput::make('goal_en')
                                 ->label(__('Goal in English'))
                                 ->required()
                                 ->maxLength(255),
@@ -75,15 +73,11 @@ class GoalsResource extends Resource
                 return $query->latest('created_at');
             })
             ->columns([
-                Tables\Columns\TextColumn::make('goal_ar')
-                    ->label(__('Goal in Arabic'))
+                TextColumn::make('goal')
+                    ->label(__('Goal'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('goal_en')
-                    ->label(__('Goal in English'))
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label(__('Created At'))
                     ->dateTime()
                     ->sortable()

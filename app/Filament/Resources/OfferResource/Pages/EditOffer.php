@@ -10,11 +10,11 @@ class EditOffer extends EditRecord
 {
     protected static string $resource = OfferResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
-        ];
-    }
+    // protected function getHeaderActions(): array
+    // {
+    //     return [
+    //         Actions\ViewAction::make(),
+    //         Actions\DeleteAction::make(),
+    //     ];
+    // }
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\ProductResource\Pages;
+namespace App\Filament\Resources\ContactsResource\Pages;
 
-use App\Filament\Resources\ProductResource;
+use App\Filament\Resources\ContactsResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 
-class ViewProduct extends ViewRecord
+class ViewContacts extends ViewRecord
 {
-    protected static string $resource = ProductResource::class;
+    protected static string $resource = ContactsResource::class;
 
     protected function getHeaderActions(): array
     {

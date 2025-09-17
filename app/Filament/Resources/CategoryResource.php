@@ -5,33 +5,19 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Category;
-use App\Models\Document;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Grid;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
-use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\CategoryResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-
-
-//todo : remove unused imports
-//todo : desc_ar and desc_en must use Textarea not TextInput
-//todo : sub category min 1
-//todo : image required only for main category not sub category
-//todo : in table show image not icon
 
 
 class CategoryResource extends Resource
@@ -92,7 +78,7 @@ class CategoryResource extends Resource
                                 ->maxSize(2048),
 
 
-                                TextInput::make('desc_ar')
+                            Textarea::make('desc_ar')
                                 ->label(__('desc_ar'))
                                 ->minLength(3)
                                 ->regex('/^[\p{Arabic}\p{N}\s]+$/u')
@@ -101,7 +87,7 @@ class CategoryResource extends Resource
                                 ->autofocus()
                                 ->required(),
 
-                            TextInput::make('desc_en')
+                            Textarea::make('desc_en')
                                 ->label(__('desc_en'))
                                 ->minLength(3)
                                 ->maxLength(255)
@@ -169,8 +155,8 @@ class CategoryResource extends Resource
             })
             ->columns([
 
-                ImageColumn::make('icon')
-                    ->label(__('Icon'))
+                ImageColumn::make('image')
+                    ->label(__('Image'))
                     ->circular()
                     ->stacked(),
 

@@ -5,26 +5,28 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Product;
+use Filament\Forms\Get;
 use App\Models\Category;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Infolists\Components\Grid;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\Livewire;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Components\ImageEntry;
 use Filament\Forms\Components\Grid as FormGrid;
 use App\Filament\Resources\ProductResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Forms\Components\Section as FormSection;
-use App\Filament\Resources\ProductResource\RelationManagers;
 
-//todo : remove unused imports
 //todo : sub category show main category How to do that?
 //todo : in table view show product name based on current locale
 class ProductResource extends Resource
@@ -54,42 +56,51 @@ class ProductResource extends Resource
                         ->description(__('This is the main information about the product.'))
                         ->collapsible(true)
                         ->schema([
-                            Forms\Components\TextInput::make('name_ar')
-                            ->label(__('name_ar'))
-                            ->required(),
+                            TextInput::make('name_ar')
+                                ->label(__('name_ar'))
+                                ->required(),
 
-                            Forms\Components\TextInput::make('name_en')
+                            TextInput::make('name_en')
                                 ->label(__('name_en'))
                                 ->required(),
 
-                            Forms\Components\Textarea::make('desc_ar')
+                            Textarea::make('desc_ar')
                                 ->label(__('desc_ar')),
 
-                            Forms\Components\Textarea::make('desc_en')
+                            Textarea::make('desc_en')
                                 ->label(__('desc_en')),
 
-                            Forms\Components\TextInput::make(__('price'))
+                            TextInput::make('price')
                                 ->numeric()
                                 ->required()
                                 ->label('السعر'),
 
-                            Forms\Components\FileUpload::make(__('file'))
-                                ->label('ملف المنتج')
+                            FileUpload::make('file')
+                                ->label(__('ملف المنتج'))
                                 ->directory('products/files'),
 
-                            Forms\Components\Select::make('parent_category_id')
+                            Select::make('parent_category_id')
                                 ->label(__('Main Category'))
-                                ->options(Category::whereNull('parent_id')->pluck('name_ar','id'))
-                                ->reactive()
-                                ->afterStateUpdated(fn (callable $set) => $set('category_id', null)),
+                                ->relationship(
+                                    name: 'category',
+                                    titleAttribute: 'name_' . app()->getLocale(),
+                                    modifyQueryUsing: fn($query) => $query->whereNull('parent_id')
+                                )
+                                ->reactive(),
 
-                            Forms\Components\Select::make('category_id')
+                            Select::make('category_id')
                                 ->label(__('Sub Category'))
-                                ->options(fn (callable $get) =>
-                                    Category::where('parent_id', $get('parent_category_id'))->pluck('name_ar','id')
+                                ->options(
+                                    fn(Get $get) =>
+                                    $get('parent_category_id')
+                                        ? Category::where('parent_id', $get('parent_category_id'))
+                                        ->pluck('name_' . app()->getLocale(), 'id')
+                                        : []
                                 )
                                 ->required()
-                                ->reactive(),
+                                ->reactive()
+                                ->disabled(fn(Get $get) => !$get('parent_category_id')),
+
 
                             Forms\Components\Select::make('provider_id')
                                 ->label(__('Provider'))
@@ -97,15 +108,53 @@ class ProductResource extends Resource
                                 ->searchable()
                                 ->required(),
 
-                            Forms\Components\FileUpload::make('images')
-                                ->label('صور المنتج')
-                                ->multiple()
-                                ->directory('products')
-                                ->reorderable()
-                                ->image()
-                                ->maxFiles(10)
+                            // Forms\Components\FileUpload::make('images')
+                            //     ->label((__('Product Images')))
+                            //     ->multiple()
+                            //     ->disk('public')
+                            //     ->directory('products')
+                            //     ->reorderable()
+                            //     ->image()
+                            //     ->maxFiles(10)
+                            //     ->helperText(__('You can upload up to 10 images.'))
+                            //     ->afterStateUpdated(function ($state, $record) {
+                            //         if ($record) {
+                            //             $record->images()->delete();
+                            //             foreach ($state as $file) {
+                            //                 $record->images()->create([
+                            //                     'image' => $file,
+                            //                 ]);
+                            //             }
+                            //         }
+                            //     })
+
+
+                            FileUpload::make('images')
+                                ->label(__('images'))
+                                ->disk('public')->directory('products')
+                                ->columnSpanFull()
+                                ->preserveFilenames()
                                 ->required()
-                                ->helperText('ارفع أكتر من صورة للمنتج'),
+                                ->image()
+                                ->maxSize(4096)
+                                ->multiple()
+                                ->imageResizeMode('cover')
+                                ->imageCropAspectRatio('16:9')
+                                ->imageEditor()
+                                ->imageEditorViewportWidth('1920')
+                                ->imageEditorViewportHeight('1080')
+                                ->maxFiles(20)
+                                ->minFiles(3)
+                                ->hint(new HtmlString(__('<strong>يجب ان تكون الصور بجودة عالية وواضحة للمنتج و اقصي عدد 20 صور</strong>')))
+                                ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml', 'image/webp'])
+                                ->afterStateHydrated(function ($set, $state, $record) {
+                                    if ($record && $record->images) {
+                                        $set(
+                                            'images',
+                                            $record->images->pluck('image')->toArray()
+                                        );
+                                    }
+                                }),
                         ])->columns(1),
                 ]),
             ]);
@@ -124,11 +173,11 @@ class ProductResource extends Resource
                 return $query->latest('created_at');
             })
             ->columns([
-                TextColumn::make('name_ar')->label('الاسم (عربي)')->searchable(),
-                TextColumn::make('price')->label('السعر'),
-                TextColumn::make('category.name')->label('التصنيف'),
-                TextColumn::make('provider.name')->label('البائع'),
-                TextColumn::make('created_at')->dateTime('d/m/Y')->label('تاريخ الإضافة'),
+                TextColumn::make('name_' . app()->getLocale())->label(__('name'))->searchable(),
+                TextColumn::make('price')->label(__('price')),
+                TextColumn::make('category.name')->label(__('Category')),
+                TextColumn::make('provider.name')->label(__('Provider')),
+                TextColumn::make('created_at')->dateTime('d/m/Y')->label(__('Created At')),
             ])
             ->filters([
                 //
@@ -171,34 +220,66 @@ class ProductResource extends Resource
                     ->description(__('This is the main information about the product.'))
                     ->collapsible()
                     ->schema([
-                        ImageEntry::make('image')
-                            ->label(__('Image'))
-                            ->circular()
-                            ->size(120),
                         TextEntry::make('name')
                             ->label(__('Name')),
                         TextEntry::make('category.name')
                             ->label(__('Category')),
                         TextEntry::make('provider.name')
                             ->label(__('Provider')),
-                        TextEntry::make('desc')
-                            ->label(__('Description')),
                         TextEntry::make('price')
-                        ->label(__('Price')),
+                            ->label(__('Price'))
+                            ->money('SAR'),
+                        TextEntry::make('desc')
+                            ->label(__('Description'))
+                            ->columnSpanFull(),
+                    ])->columns(2),
 
-                    ]),
+                Section::make(__('images'))
+                    ->description(__('List of images of this product.'))
+                    ->collapsible(true)
+                    ->schema([
+                        Livewire::make(
+                            'display-product-images',
+                            ['images' => $infolist->record]
+                        )
 
-                // Section::make(__('Products'))
-                //     ->description(__('List of products of this provider.'))
-                //     ->collapsible(true)
-                //     ->schema([
-                //         Livewire::make(
-                //             'display-provider-products',
-                //             ['products' => $infolist->record]
-                //         )
+                    ])
+                    ->columns(1),
 
-                //     ])
-                //  ->columns(1),
+
+                Section::make(__('Reviews and Ratings'))
+                    ->description(__('This is the main information about the reviews.'))
+                    ->collapsible()
+                    ->schema([
+                        TextEntry::make('reviews_count')
+                            ->label(__('Total Reviews')),
+
+                        TextEntry::make('average_rating')
+                            ->label(__('Average Rating')),
+
+                        RepeatableEntry::make('reviews')
+                            ->label(__('Reviews'))
+                            ->schema([
+                                TextEntry::make('user.name')
+                                    ->label(__('User')),
+
+                                TextEntry::make('rating')
+                                    ->label(__('Rating')),
+
+                                TextEntry::make('created_at')
+                                    ->label(__('Created At'))
+                                    ->dateTime('d/m/Y'),
+
+                                TextEntry::make('comment')
+                                    ->label(__('Comment'))
+                                    ->columnSpanFull(),
+                            ])
+                            ->columns(3)
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(2)
+
+
 
             ])
 

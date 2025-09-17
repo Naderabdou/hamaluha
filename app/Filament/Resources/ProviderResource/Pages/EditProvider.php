@@ -10,10 +10,10 @@ class EditProvider extends EditRecord
 {
     protected static string $resource = ProviderResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
+    // protected function getHeaderActions(): array
+    // {
+    //     return [
+            // Actions\DeleteAction::make(),
+    //     ];
+    // }
 }
