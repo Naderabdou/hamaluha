@@ -37,7 +37,7 @@ class RoleResource extends Resource implements HasShieldPermissions
     }
 
     protected static ?string $recordTitleAttribute = 'name';
-    protected static ?int $navigationSort = 9;
+    protected static ?int $navigationSort = 8;
 
     public static function getPermissionPrefixes(): array
     {
@@ -106,7 +106,7 @@ class RoleResource extends Resource implements HasShieldPermissions
     {
         return $table
             ->modifyQueryUsing(function (Builder $query) {
-                return $query->latest('created_at')->whereNotIn('name', ['admin', 'super_admin', 'user','provider']);
+                return $query->latest('created_at')->whereNotIn('name', ['admin', 'super_admin', 'user', 'provider']);
             })
             ->columns([
                 Tables\Columns\TextColumn::make('name')

@@ -27,8 +27,7 @@ use App\Filament\Resources\ProductResource\Pages;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Forms\Components\Section as FormSection;
 
-//todo : sub category show main category How to do that?
-//todo : in table view show product name based on current locale
+
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;

@@ -15,12 +15,10 @@ use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Hidden;
 use Filament\Infolists\Components\Grid;
 use Filament\Tables\Columns\TextColumn;
-
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
-
 use Illuminate\Validation\Rules\Password;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\Livewire;
@@ -35,7 +33,7 @@ class ProviderResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'icon-provider';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     public static function getModelLabel(): string
     {

@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use Filament\Tables;
 use App\Models\Offer;
 use Filament\Forms\Form;
@@ -25,8 +24,7 @@ use Filament\Forms\Components\Grid as FormGrid;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Forms\Components\Section as FormSection;
 
-//todo : translation for offer keys
-//todo : validation for dates
+
 class OfferResource extends Resource
 {
     protected static ?string $model = Offer::class;

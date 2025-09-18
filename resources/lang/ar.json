@@ -1351,6 +1351,8 @@
     "This package has reached its subscription limit.": "تم الوصول إلى الحد الأقصى للاشتراكات في هذه الباقة.",
     "Subscription created successfully": "تم إنشاء الاشتراك بنجاح",
     "Goals": "اهدافنا",
-    "Goal": "هدف"
+    "Goal": "هدف",
+    "Subscription" : "اشتراك",
+    "Subscriptions" : "اشتراكات"
 
 }
