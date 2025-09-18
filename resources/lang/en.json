@@ -226,7 +226,13 @@
     "الوقت المحدد غير موجود في النظام." : "The specified time is not available in the system.",
     "تم تفعيل الأبعاد" : "Dimensions Activated",
     "تم إلغاء تفعيل الأبعاد" : "Dimensions Deactivated",
-    "تم ارسال طلبك بنجاح" : "Your request has been sent successfully"
+    "تم ارسال طلبك بنجاح" : "Your request has been sent successfully",
+    "إحصائيات الطلبات" : "Order statistics",
+    "عدد الطلبات حسب الفترة المختارة" : "Number of requests according to the selected period",
+    "السنة الحالية" : "current year",
+    "الشهر الحالي" : "This month",
+    "الأسبوع الحالي" : "This week",
+    "اليوم" : "Today"
 
 
 

@@ -31,10 +31,10 @@ class OrdersUserChart extends AdvancedChartWidget
     protected function getFilters(): ?array
     {
         return [
-            'today' => 'اليوم',
-            'week' => 'الأسبوع الحالي',
-            'month' => 'الشهر الحالي',
-            'year' => 'السنة الحالية',
+            'today' => __('اليوم'),
+            'week' => __('الأسبوع الحالي'),
+            'month' => __('الشهر الحالي'),
+            'year' => __('السنة الحالية'),
         ];
     }
 
