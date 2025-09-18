@@ -21,7 +21,7 @@ class ContactsResource extends Resource
 {
     protected static ?string $model = Contact::class;
 
-protected static ?string $navigationIcon = 'Contact';
+    protected static ?string $navigationIcon = 'Contact';
 
     protected static ?int $navigationSort = 3;
 
@@ -59,18 +59,22 @@ protected static ?string $navigationIcon = 'Contact';
             })
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('Name'))
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('email')
+                    ->label(__('Email'))
                     ->searchable(),
 
-                TextColumn::make('phone'),
+                TextColumn::make('phone')
+                    ->label(__('Phone')),
 
                 ToggleColumn::make('is_replied')
-                    ->label('Replied'),
+                    ->label(__('Replied')),
 
                 TextColumn::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime('d M Y H:i')
                     ->sortable(),
             ])
@@ -114,11 +118,11 @@ protected static ?string $navigationIcon = 'Contact';
 
                 Section::make(__('Contact Details'))
                     ->schema([
-                    TextEntry::make('name')->label(__('Name')),
-                    TextEntry::make('email')->label(__('Email')),
-                    TextEntry::make('phone')->label(__('Phone')),
-                    TextEntry::make('created_at')->label(__('Created At'))->dateTime('d M Y H:i'),
-                    TextEntry::make('message')->label(__('Message')),
+                        TextEntry::make('name')->label(__('Name')),
+                        TextEntry::make('email')->label(__('Email')),
+                        TextEntry::make('phone')->label(__('Phone')),
+                        TextEntry::make('created_at')->label(__('Created At'))->dateTime('d M Y H:i'),
+                        TextEntry::make('message')->label(__('Message')),
 
                     ])
                     ->columns(2),

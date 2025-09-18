@@ -25,8 +25,6 @@ use Filament\Forms\Components\Grid as FormGrid;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Forms\Components\Section as FormSection;
 
-//todo : translation for offer keys
-//todo : validation for dates
 class OfferResource extends Resource
 {
     protected static ?string $model = Offer::class;
@@ -62,19 +60,21 @@ class OfferResource extends Resource
                                 ->required()
                                 ->reactive(),
 
-                            TextInput::make('desc_ar')->label('Description (Arabic)'),
-                            TextInput::make('desc_en')->label('Description (English)'),
+                            TextInput::make('desc_ar')->label(__('Description (Arabic)')),
+                            TextInput::make('desc_en')->label(__('Description (English)')),
 
                             TextInput::make('discount')
+                            ->label(__('Discount'))
                                 ->numeric()
                                 ->minValue(0)
                                 ->maxValue(100)
                                 ->suffix('%'),
 
                             Select::make('type')
+                            ->label(__('Type of Offer'))
                                 ->options([
-                                    'discount' => 'خصم على منتج واحد',
-                                    'offer'    => 'عرض على مجموعة منتجات',
+                                    'discount' => __('discount on a single product'),
+                                    'offer'    => __('offer on a group of products'),
                                 ])
                                 ->required()
                                 ->reactive(),
@@ -124,11 +124,11 @@ class OfferResource extends Resource
                                 ->reactive(),
 
                             Toggle::make('is_active')
-                                ->label('نشط')
+                                ->label(__('Active'))
                                 ->default(true),
 
-                            DateTimePicker::make('start_at')->label('تاريخ البداية'),
-                            DateTimePicker::make('end_at')->label('تاريخ النهاية'),
+                            DateTimePicker::make('start_at')->label('تاريخ البداية')->before('end_date'),
+                            DateTimePicker::make('end_at')->label('تاريخ النهاية')->after('start_date'),
                         ])->columns(1),
 
 
@@ -212,16 +212,17 @@ class OfferResource extends Resource
                     ])
                     ->columns(2),
 
-                Section::make(__('Products'))
+                Section::make(__('Products in Offer'))
                     ->schema([
                         RepeatableEntry::make('products')
+                        ->label(__('Products'))
                             ->schema([
-                                TextEntry::make('name_ar')
-                                    ->label(__('Name (Arabic)')),
-                                TextEntry::make('name_en')
-                                    ->label(__('Name (English)')),
+                                TextEntry::make('name_'.app()->getLocale())
+                                    ->label(__('Name')),
+                                TextEntry::make('price')
+                                    ->label(__('Price')),
                             ])
-                            ->columnSpanFull(),
+                            ->columns(3),
                     ]),
 
             ])

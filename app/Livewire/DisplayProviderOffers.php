@@ -30,10 +30,10 @@ class DisplayProviderOffers extends Component  implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->emptyStateHeading(__('No Products Found'))
+            ->emptyStateHeading(__('No Offers Found'))
             ->emptyStateIcon('icon-box')
-            ->heading(__('Provider Products'))
-            ->description(__('List of products of this provider'))
+            ->heading(__('Provider Offers'))
+            ->description(__('List of offers of this provider'))
             ->striped()
             ->query(Offer::query()->where('provider_id', $this->record->id))
             ->columns([

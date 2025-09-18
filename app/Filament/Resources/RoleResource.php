@@ -117,6 +117,7 @@ class RoleResource extends Resource implements HasShieldPermissions
                 Tables\Columns\TextColumn::make('guard_name')
                     ->badge()
                     ->color('warning')
+                        ->visible(false)
                     ->label(__('filament-shield::filament-shield.column.guard_name')),
                 Tables\Columns\TextColumn::make('team.name')
                     ->default('Global')
