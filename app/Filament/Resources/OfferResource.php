@@ -127,8 +127,8 @@ class OfferResource extends Resource
                                 ->label(__('Active'))
                                 ->default(true),
 
-                            DateTimePicker::make('start_at')->label('تاريخ البداية')->before('end_date'),
-                            DateTimePicker::make('end_at')->label('تاريخ النهاية')->after('start_date'),
+                            DateTimePicker::make('start_at')->label('تاريخ البداية')->before('end_at'),
+                            DateTimePicker::make('end_at')->label('تاريخ النهاية')->after('start_at'),
                         ])->columns(1),
 
 
