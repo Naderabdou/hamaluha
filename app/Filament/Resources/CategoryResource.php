@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use Filament\Tables;
 use App\Models\Category;
 use Filament\Forms\Form;
@@ -26,7 +25,7 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'icon-app';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 1;
 
 
     public static function getModelLabel(): string

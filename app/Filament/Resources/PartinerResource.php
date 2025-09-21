@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use Filament\Tables;
 use App\Models\Partiner;
 use Filament\Forms\Form;
@@ -22,7 +21,7 @@ class PartinerResource extends Resource
 
     protected static ?string $navigationIcon = 'partners';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 9;
 
 
     public static function getModelLabel(): string

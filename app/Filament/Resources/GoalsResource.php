@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use App\Models\Goal;
 use Filament\Tables;
 use Filament\Forms\Form;
@@ -15,7 +14,6 @@ use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\GoalsResource\Pages;
 
-//todo please import Forms\Components\TextInput
 
 class GoalsResource extends Resource
 {
@@ -23,10 +21,9 @@ class GoalsResource extends Resource
 
     protected static ?string $navigationIcon = 'Feature';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 10;
 
 
-    // }
     public static function getModelLabel(): string
     {
         return __('Goal');

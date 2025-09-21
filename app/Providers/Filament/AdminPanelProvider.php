@@ -30,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->maxContentWidth(MaxWidth::Full)
 
             ->path('admin')
-            
+
 
             ->login()
             ->colors([

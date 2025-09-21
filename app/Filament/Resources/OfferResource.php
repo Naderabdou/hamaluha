@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use Filament\Tables;
 use App\Models\Offer;
 use Filament\Forms\Form;
@@ -24,6 +23,7 @@ use App\Filament\Resources\OfferResource\Pages;
 use Filament\Forms\Components\Grid as FormGrid;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Forms\Components\Section as FormSection;
+
 
 class OfferResource extends Resource
 {

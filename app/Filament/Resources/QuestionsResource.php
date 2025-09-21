@@ -14,15 +14,14 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\QuestionsResource\Pages;
 
 
-//todo : translation for question and answer keys
-//todo : in question unique for both languages
+
 class QuestionsResource extends Resource
 {
     protected static ?string $model = Question::class;
 
     protected static ?string $navigationIcon = 'question1';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 10;
 
 
     // }
