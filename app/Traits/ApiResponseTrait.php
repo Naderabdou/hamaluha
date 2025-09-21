@@ -37,7 +37,7 @@ trait ApiResponseTrait
             201,
             202
         ];
-    } 
+    }
 
     public function notFoundResponse()
     {
