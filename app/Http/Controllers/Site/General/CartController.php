@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Site\User;
+namespace App\Http\Controllers\Site\General;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
