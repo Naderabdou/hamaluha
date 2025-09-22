@@ -1,6 +1,6 @@
 @include('site.auth.layouts.app')
 
-@section('content')
+@section('auth-content')
         <section class="auth login">
           <div class="logo">
             <img src="{{asset('site/user')}}/images/logo.png" alt="">

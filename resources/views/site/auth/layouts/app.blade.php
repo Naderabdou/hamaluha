@@ -5,7 +5,7 @@
         <div class="body_page d-flex flex-column justify-content-between">
             <main id="app">
                 <!-- BEGIN: Content-->
-                @yield('content')
+                @yield('auth-content')
                 <!-- END: Content-->
             </main>
         </div>

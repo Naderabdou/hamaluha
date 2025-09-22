@@ -30,12 +30,12 @@ class StatsOverview extends BaseWidget
 
             Stat::make(__('Total Orders User'), $data['progressOrderUserCount'] . ' ')->icon('icon-box')
                 ->progress($data['progressOrderUser'])
-                ->progressBarColor('warning')
-                ->chartColor('warning')
+                ->progressBarColor('primary')
+                ->chartColor('primary')
                 ->description(__('Total Orders User'))
                 ->descriptionIcon('heroicon-o-chevron-up', 'before')
-                ->descriptionColor('warning')
-                ->iconColor('warning')
+                ->descriptionColor('primary')
+                ->iconColor('primary')
                 ->iconPosition('start'),
 
             Stat::make(__('Total Providers'), $data['progressuProviderCount'] . ' ')->icon('icon-provider')

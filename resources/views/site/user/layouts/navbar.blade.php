@@ -1,4 +1,4 @@
-    <header>
+    <header class="@yield(section: 'header-attributes')">
         <div class="main-container">
 
             @yield(section: 'header-extra')

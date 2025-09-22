@@ -60,8 +60,17 @@ class OfferResource extends Resource
                                 ->required()
                                 ->reactive(),
 
-                            TextInput::make('desc_ar')->label(__('Description (Arabic)')),
-                            TextInput::make('desc_en')->label(__('Description (English)')),
+                            TextInput::make('desc_ar')
+                                ->label(__('Description (Arabic)'))
+                                ->required()
+                                ->minLength(5)
+                                ->regex('/^[\p{Arabic}\p{N}\s]+$/u'),
+
+                            TextInput::make('desc_en')
+                                ->label(__('Description (English)'))
+                                ->required()
+                                ->minLength(5)
+                                ->regex('/^[a-zA-Z0-9\s]+$/u'),
 
                             TextInput::make('discount')
                             ->label(__('Discount'))
@@ -127,8 +136,16 @@ class OfferResource extends Resource
                                 ->label(__('Active'))
                                 ->default(true),
 
-                            DateTimePicker::make('start_at')->label('تاريخ البداية')->before('end_at'),
-                            DateTimePicker::make('end_at')->label('تاريخ النهاية')->after('start_at'),
+                            DateTimePicker::make('start_at')
+                                ->label(__('Start Date'))
+                                ->before('end_at')
+                                ->afterOrEqual(now())
+                                ->required(),
+
+                            DateTimePicker::make('end_at')
+                                ->label(__('End Date'))
+                                ->after('start_at')
+                                ->required(),
                         ])->columns(1),
 
 
@@ -154,7 +171,7 @@ class OfferResource extends Resource
                 TextColumn::make('desc')->label(__('description'))->searchable(),
                 TextColumn::make('discount')->label(__('discount')),
                 TextColumn::make('provider.name')->label(__('Provider')),
-                TextColumn::make('created_at')->dateTime('d/m/Y')->label('تاريخ الإضافة'),
+                TextColumn::make('created_at')->dateTime('d/m/Y')->label(__('Created At')),
             ])
             ->filters([
                 //

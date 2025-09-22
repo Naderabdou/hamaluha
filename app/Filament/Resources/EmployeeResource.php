@@ -50,6 +50,7 @@ class EmployeeResource extends Resource
                         TextInput::make('name')
                             ->label(__('Name'))
                             ->required()
+                            ->minLength(3)
                             ->maxLength(255),
                         TextInput::make('email')
                             ->email()
@@ -62,6 +63,7 @@ class EmployeeResource extends Resource
                             ->label(__('Phone'))
                             ->tel()
                             ->maxLength(255)
+                            ->minLength(10)
                             ->unique(ignoreRecord: true),
                         TextInput::make('password')
                             ->label(__('Password'))

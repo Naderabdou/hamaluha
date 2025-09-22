@@ -48,20 +48,28 @@ class QuestionsResource extends Resource
                                 ->label(__('Question in Arabic'))
                                 ->required()
                                 ->unique()
-                                ->maxLength(255),
+                                ->minLength(3)
+                                ->maxLength(255)
+                                ->regex('/^[\p{Arabic}\p{N}\s]+$/u'),
                             Forms\Components\TextInput::make('question_en')
                                 ->label(__('Question in English'))
                                 ->required()
                                 ->unique()
-                                ->maxLength(255),
+                                ->minLength(3)
+                                ->maxLength(255)
+                                ->regex('/^[a-zA-Z0-9\s]+$/u'),
                             Forms\Components\Textarea::make('answer_ar')
                                 ->label(__('Answer in Arabic'))
                                 ->unique()
-                                ->required(),
+                                ->minLength(3)
+                                ->required()
+                                ->regex('/^[\p{Arabic}\p{N}\s]+$/u'),
                             Forms\Components\Textarea::make('answer_en')
                                 ->label(__('Answer in English'))
                                 ->unique()
-                                ->required(),
+                                ->minLength(3)
+                                ->required()
+                                ->regex('/^[a-zA-Z0-9\s]+$/u'),
                         ])
                 ])
             ]);

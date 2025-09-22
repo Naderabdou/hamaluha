@@ -68,7 +68,8 @@ class ProviderResource extends Resource
                             TextInput::make('name')
                                 ->label(__('Name'))
                                 ->required()
-                                ->maxLength(255),
+                                ->maxLength(255)
+                                ->minLength(3),
                             TextInput::make('email')
                                 ->email()
                                 ->required()
@@ -80,11 +81,13 @@ class ProviderResource extends Resource
                                 ->label(__('Phone'))
                                 ->tel()
                                 ->maxLength(255)
-                                ->unique(ignoreRecord: true),
+                                ->unique(ignoreRecord: true)
+                                ->minLength(10),
                             TextInput::make('desc')
                                 ->required()
                                 ->label(__('Description'))
-                                ->maxLength(255),
+                                ->maxLength(255)
+                                ->minLength(5),
                             TextInput::make('password')
                                 ->label(__('Password'))
                                 ->hidden(fn(Page $livewire): bool => $livewire instanceof EditRecord)

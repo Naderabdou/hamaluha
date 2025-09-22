@@ -1,5 +1,6 @@
 @extends('site.user.layouts.app')
 
+@section(section: 'header-attributes', content: 'pages')
 @section(section: 'content')
      <!-- end header -->
         <section class="about page">
