@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Http\Middleware\CheckType;
+use App\Http\Middleware\Lang;
+use App\Http\Middleware\CheckWebType;
 use App\Http\Middleware\Localization;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\LoginThrottle;
@@ -14,7 +15,6 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Exceptions\UnauthorizedException;
-use App\Http\Middleware\Lang;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -34,7 +34,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role_or_permission' => RoleOrPermissionMiddleware::class,
             'localization' => Localization::class,
             'login.throttle' => LoginThrottle::class,
-            'check.type' => CheckType::class,
+            'check.type' => CheckWebType::class,
             'lang' => Lang::class,
         ]);
     })
