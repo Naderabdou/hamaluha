@@ -389,6 +389,64 @@
 
      });
  </script>
+ <script>
+$(document).ready(function () {
+    $("#contactForm").validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 3,
+                string: true
+            },
+            email: {
+                required: true,
+                email: true,
+                domain: true
+            },
+            phone: {
+                required: true,
+                minlength: 10,
+                maxlength: 15,
+                phone_type: true,
+            },
+            message: {
+                required: true,
+                minlength: 5
+            }
+        },
+        messages: {
+            name: {
+                required: "الاسم مطلوب",
+                minlength: "الاسم يجب أن يكون 3 أحرف على الأقل",
+            },
+            email: {
+                required: "البريد الإلكتروني مطلوب",
+                email: "صيغة البريد غير صحيحة",
+            },
+            phone: {
+                required: "رقم الجوال مطلوب",
+                minlength: "يجب أن لا يقل عن 10 أرقام",
+                maxlength: "يجب أن لا يزيد عن 15 رقم",
+            },
+            message: {
+                required: "الرسالة مطلوبة",
+                minlength: "الرسالة يجب أن تكون 5 أحرف على الأقل",
+            }
+        },
+        errorElement: "small",
+        errorClass: "text-danger",
+        errorPlacement: function (error, element) {
+            element.closest('.mb-3').find('small.text-danger').html(error);
+        },
+        success: function (label, element) {
+            $(element).closest('.mb-3').find('small.text-danger').html('');
+        },
+        submitHandler: function (form) {
+            form.submit();
+        }
+    });
+});
+</script>
 
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
  <script>
