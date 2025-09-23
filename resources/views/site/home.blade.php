@@ -312,7 +312,7 @@
                                         {{ $product->favourited_by_count ?? 0 }}
                                     </div>
 
-                                    <img src="{{ $product->first_image->image_path }}" alt="{{ $product->name }}" />
+                                    <img src="{{ $product->first_image?->image_path ?? asset('site/images/bg-header.png') }}" alt="{{ $product->name }}" />
                                 </div>
                                 <div class="card-body">
                                     <span>{{ $product->provider->name ?? 'متجر' }}</span>

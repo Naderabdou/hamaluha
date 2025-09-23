@@ -5,6 +5,7 @@ namespace App\Models;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -48,5 +49,10 @@ class Store extends Model
     public function provider()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
     }
 }

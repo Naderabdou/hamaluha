@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string(column: 'slug')->unique(indexName: 'slug');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-            $table->foreignId('provider_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('store_id')->constrained()->onDelete('cascade');
             $table->string('name_ar');
             $table->string('name_en');
             $table->string('desc_ar')->nullable();

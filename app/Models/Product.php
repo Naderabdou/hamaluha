@@ -16,7 +16,7 @@ class Product extends Model
     protected $fillable = [
         'slug',
         'category_id',
-        'provider_id',
+        'store_id',
         'name_ar',
         'name_en',
         'desc_ar',
@@ -59,9 +59,9 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
-    public function provider(): BelongsTo
+    public function store(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'provider_id');
+        return $this->belongsTo(Store::class, 'store_id');
     }
 
     public function offers(): BelongsToMany

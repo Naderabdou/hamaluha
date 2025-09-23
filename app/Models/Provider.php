@@ -15,11 +15,6 @@ class Provider extends BaseUserType
         });
     }
 
-    public function products(): HasMany
-    {
-        return $this->hasMany(Product::class);
-    }
-
     public function offers(): HasMany
     {
         return $this->hasMany(Offer::class);
