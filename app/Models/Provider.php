@@ -47,4 +47,8 @@ class Provider extends BaseUserType
         return $this->orderItems()->sum('price');
     }
 
+    public function store(): HasOne
+    {
+        return $this->hasOne(Store::class, 'user_id');
+    }
 }

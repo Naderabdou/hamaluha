@@ -1,71 +1,107 @@
-@include('site.auth.layouts.app')
+@extends('site.auth.layouts.app')
 @section('content')
-        <section class="auth login">
-          <div class="logo">
-            <img src="{{asset('site/user')}}/images/logo.png" alt="">
-          </div>
-          <div class="vector">
-            <img src="{{asset('site/user')}}/images/future.svg" alt="">
-          </div>
-          <form action="">
+    <section class="auth login">
+        <div class="logo">
+            <img src="{{ asset('site') }}/images/logo.png" alt="">
+        </div>
+        <div class="vector">
+            <img src="{{ asset('site') }}/images/future.svg" alt="">
+        </div>
+        <form action="{{ route('site.register') }}" method="POST" id="registerForm">
+            @csrf
             <h1>انشئ حساب </h1>
 
 
-             <div class="form-control-container">
-
-              <input
-                type="text"
-                class="form-control"
-                id="exampleFormControlInput1"
-                placeholder="اسم المستخدم "
-              />
+            <div class="form-control-container">
+                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="اسم المستخدم "
+                    name="name" />
+                @error('name')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="form-control-container">
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="البريد الالكترونى"
+                    name="email" />
+                @error('email')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="form-control-container">
 
-              <input
-                type="email"
-                class="form-control"
-                id="exampleFormControlInput1"
-                placeholder="البريد الالكترونى"
-              />
-            </div>
-            <div class="form-control-container">
-
-              <input type="password" id="inputPassword5" placeholder="كلمة المرور" class="form-control" aria-describedby="passwordHelpBlock">
+                <input type="password" name="password" id="inputPassword5" placeholder="كلمة المرور" class="form-control"
+                    aria-describedby="passwordHelpBlock">
+                @error('password')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="form-control-container">
 
-              <input type="password" id="inputPassword5" placeholder="تأكيد كلمة المرور" class="form-control" aria-describedby="passwordHelpBlock">
+                <input type="password" name="password_confirmation" id="inputPassword5" placeholder="تأكيد كلمة المرور"
+                    class="form-control" aria-describedby="passwordHelpBlock">
+                @error('password_confirmation')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
-              <a href="" class="forget"> نسيت كلمة المرور؟ </a>
             <div class="middle">
-              <p>
-                أو قم بتسجيل الدخول بواسطة
-              </p>
+                <p>
+                    أو قم بالتسجيل  بواسطة
+                </p>
             </div>
 
             <div class="login-links">
-              <a href="">
-                <img src="{{asset('site/user')}}/images/icons_google.svg" alt="" />
-              </a>
-              <a href="">
-                <img src="{{asset('site/user')}}/images/logos_facebook.svg" alt="" />
-              </a>
-              <a href="">
-                <img src="{{asset('site/user')}}/images/logos_apple.svg" alt="" />
-              </a>
+                <a href="">
+                    <img src="{{ asset('site') }}/images/icons_google.svg" alt="" />
+                </a>
+                <a href="">
+                    <img src="{{ asset('site') }}/images/logos_facebook.svg" alt="" />
+                </a>
+                <a href="">
+                    <img src="{{ asset('site') }}/images/logos_apple.svg" alt="" />
+                </a>
             </div>
 
             <button type="submit" class="main_btn">
-              تسجيل الدخول
+                تسجيل
             </button>
             <p class="create-acount">
-              ليس لديك حساب؟
-              <a href="">
-                انشئ حساب
-              </a>
+                لديك حساب؟
+                <a href="{{ route('site.login-form') }}">
+                    تسجيل الدخول
+                </a>
             </p>
-          </form>
-        </section>
+        </form>
+    </section>
 @endsection
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $("#registerForm").validate({
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 3
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 8,
+                        confirmed: true
+                    }
+                },
+                errorElement: "p",
+                errorClass: "text-danger",
+                highlight: function(element) {
+                    $(element).addClass("is-invalid");
+                },
+                unhighlight: function(element) {
+                    $(element).removeClass("is-invalid");
+                }
+            });
+        });
+    </script>
+@endpush

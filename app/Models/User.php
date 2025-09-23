@@ -98,7 +98,7 @@ class User extends Authenticatable implements FilamentUser
 
     private function activationCode(): int
     {
-        return mt_rand(1111, 9999);
+        return mt_rand(11111, 99999);
     }
 
     public function sendEmailVerificationCode(): bool

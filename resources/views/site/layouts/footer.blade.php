@@ -167,7 +167,7 @@
                               <input type="فثءف" id="inputPassword5" placeholder="  رقم التواصل "
                                   class="form-control" aria-describedby="passwordHelpBlock" />
                           </div>
-                          <!--  -->
+                          {{-- <!--  -->
                           <div class="form-control-container">
                               <input type="password" id="inputPassword5" placeholder="   كلمة المرور "
                                   class="form-control" aria-describedby="passwordHelpBlock" />
@@ -177,7 +177,7 @@
                               <input type="password" id="inputPassword5" placeholder="  تأكيد كلمة المرور "
                                   class="form-control" aria-describedby="passwordHelpBlock" />
                           </div>
-                          <!--  -->
+                          <!--  --> --}}
                           <div class="form-control-container">
                               <textarea name="" id="" placeholder="نبذة عن المتجر"></textarea>
                           </div>
