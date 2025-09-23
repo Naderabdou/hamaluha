@@ -4,5 +4,4 @@
     <main id="app">
         @yield('content')
     </main>
-</div>
 @include('site.auth.layouts.script')

@@ -5,13 +5,13 @@
 @image(asset('storage/' . $settings->logo))
 @section('header-books')
     <div class="left-books">
-        <img src="./images/left-books.png" alt="" />
+        <img src="{{ asset('site/images/left-books.png') }}" alt="" />
     </div>
 
     <!-- left-books -->
 
     <div class="right-books">
-        <img src="./images/right-books.png" alt="" />
+        <img src="{{ asset('site/images/right-books.png') }}" alt="" />
     </div>
     <!-- right svg -->
     <div class="right-svg">
@@ -54,8 +54,7 @@
                 <span style="--i: 9">a</span>
             </h2>
             <p data-aos="fade-right" m data-aos-duration="1000">
-                موقع الكترونى احترافى متعدد البائعين يتيح للبائعين عرض
-                منتجاتهم وبيعها مباشرةً للمستخدمين
+                {{ $settings->{'hero_desc_' . app()->getLocale()} }}
             </p>
         </div>
 
@@ -65,10 +64,10 @@
                 <div class="bg two"></div>
                 <div class="bg three"></div>
             </div>
-            <img src="./images/hero-man.png" alt="" />
+            <img src="{{ asset('site/images/hero-man.png') }}" alt="" />
 
             <div class="dots">
-                <img src="./images/hero-dots.svg" alt="" />
+                <img src="{{ asset('site/images/hero-dots.svg') }}" alt="" />
             </div>
         </div>
     </div>
@@ -224,14 +223,11 @@
                     <div class="about-text">
                         <div class="text-header">
                             <h2 class="sub-title">عن حمّلها</h2>
-                            <p>حول شغفك إلى دخل</p>
+                            <p>{{ $settings->{'about_header_' . app()->getLocale()} }}</p>
                         </div>
                         <div class="text-body">
                             <p>
-                                منصة مبتكرة لبيع وشراء المنتجات الرقمية، تربط بين البائعين
-                                المبدعين والمشترين الباحثين عن محتوى ممي نوفر لك بيئة آمنة
-                                وسهلة الاستخدام، سواء كنت بائعًا تسعى لنشر إبداعك أو
-                                مشتريًا تبحث عن أدوات تسهّل عملك وتطورك.
+                                {{ $settings->{'about_desc_' . app()->getLocale()} }}
                             </p>
                             <div class="statistices">
                                 <div class="stats">
@@ -261,7 +257,7 @@
                 <!--  -->
                 <div class="col-lg-5 col-md-12" data-aos="fade-up-right" data-aos-duration="1500">
                     <div class="about-img">
-                        <img src="./images/about-img.png" alt="" />
+                        <img src="{{ asset('site/images/about-img.png') }}" alt="" />
                     </div>
                 </div>
                 <!--  -->
@@ -273,40 +269,21 @@
     <!-- out products -->
     <section class="our-products m-section">
         <div class="bg-img">
-            <img src="./images/product-bg.svg" alt="" />
+            <img src="{{ asset('site/images/product-bg.svg') }}" alt="" />
         </div>
         <div class="main-container">
             <h2 class="sub-title" data-aos="fade-up" data-aos-duration="1500">
                 منتجاتنا
             </h2>
             <div class="our-products-items">
-                <a href="./category.html" class="products-item">
-                    <div class="item-img">
-                        <img src="./images/our-product1.png" alt="" />
-                    </div>
-                    <p>التعليم والتدريب</p>
-                </a>
-                <!--  -->
-                <a href="./category1.html" class="products-item">
-                    <div class="item-img">
-                        <img src="./images/our-product2.png" alt="" />
-                    </div>
-                    <p>التصميم والابداع</p>
-                </a>
-                <!--  -->
-                <a href="./category3.html" class="products-item">
-                    <div class="item-img">
-                        <img src="./images/our-product3.png" alt="" />
-                    </div>
-                    <p>الكتب إلكترونية</p>
-                </a>
-                <!--  -->
-                <a href="./category2.html" class="products-item">
-                    <div class="item-img">
-                        <img src="./images/our-product4.png" alt="" />
-                    </div>
-                    <p>الصحة والرياضة</p>
-                </a>
+                @foreach ($categories as $category)
+                    <a href="{{ route('site.categories.show', $category->slug) }}" class="products-item">
+                        <div class="item-img">
+                            <img src="{{ $category->image_path }}" alt="{{ $category->name }}" />
+                        </div>
+                        <p>{{ $category->name }}</p>
+                    </a>
+                @endforeach
             </div>
         </div>
     </section>
@@ -320,159 +297,52 @@
             <!--  -->
             <div class="best-seller-owl-containrt">
                 <div class="best-seller-owl owl-carousel owl-theme">
-                    <div class="item">
-                        <div class="best-seller-card">
-                            <div class="card-img">
-                                <img src="./images/best-seller1.png" alt="" />
-                            </div>
-                            <div class="card-body">
-                                <span> Templify متجر</span>
-                                <h3>دليل المبتدئين فى تصميم الوايرفريم</h3>
-                                <p>
-                                    كتاب عملي يقدّم أساسيات ومفاهيم تصميم الجرافيك بشكل
-                                    مبسّط تعلّم أساسيات التصميم بخطوات سهلة...
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="price">
-                                    <img src="./images/ryal.svg" alt="" />
-                                    50
+                    @foreach ($mostOrdered as $product)
+                        <div class="item">
+                            <div class="best-seller-card">
+
+                                <div class="card-img">
+                                    <div class="rate">
+                                        <p>{{ number_format($product->average_rating ?? 0, 1) }}</p>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+
+                                    <div class="favourite-icon ">
+                                        <i class="bi bi-heart-fill"></i>
+                                        {{ $product->favourited_by_count ?? 0 }}
+                                    </div>
+
+                                    <img src="{{ $product->first_image->image_path }}" alt="{{ $product->name }}" />
                                 </div>
-                                <a href="" class="main_btn">
-                                    اضف الى السلة
-                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M11.3346 10.9997C11.6883 10.9997 12.0274 11.1402 12.2774 11.3902C12.5275 11.6402 12.668 11.9794 12.668 12.333C12.668 12.6866 12.5275 13.0258 12.2774 13.2758C12.0274 13.5259 11.6883 13.6663 11.3346 13.6663C10.981 13.6663 10.6419 13.5259 10.3918 13.2758C10.1418 13.0258 10.0013 12.6866 10.0013 12.333C10.0013 11.593 10.5946 10.9997 11.3346 10.9997ZM0.667969 0.333008H2.84797L3.47464 1.66634H13.3346C13.5114 1.66634 13.681 1.73658 13.806 1.8616C13.9311 1.98663 14.0013 2.1562 14.0013 2.33301C14.0013 2.44634 13.968 2.55967 13.9213 2.66634L11.5346 6.97967C11.308 7.38634 10.868 7.66634 10.368 7.66634H5.4013L4.8013 8.75301L4.7813 8.83301C4.7813 8.87721 4.79886 8.9196 4.83012 8.95086C4.86137 8.98212 4.90377 8.99967 4.94797 8.99967H12.668V10.333H4.66797C4.31435 10.333 3.97521 10.1925 3.72516 9.94248C3.47511 9.69244 3.33464 9.3533 3.33464 8.99967C3.33464 8.76634 3.39464 8.54634 3.49464 8.35967L4.4013 6.72634L2.0013 1.66634H0.667969V0.333008ZM4.66797 10.9997C5.02159 10.9997 5.36073 11.1402 5.61078 11.3902C5.86083 11.6402 6.0013 11.9794 6.0013 12.333C6.0013 12.6866 5.86083 13.0258 5.61078 13.2758C5.36073 13.5259 5.02159 13.6663 4.66797 13.6663C4.31435 13.6663 3.97521 13.5259 3.72516 13.2758C3.47511 13.0258 3.33464 12.6866 3.33464 12.333C3.33464 11.593 3.92797 10.9997 4.66797 10.9997ZM10.668 6.33301L12.5213 2.99967H4.09464L5.66797 6.33301H10.668Z"
-                                            fill="white" />
-                                    </svg>
-                                </a>
+                                <div class="card-body">
+                                    <span>{{ $product->provider->name ?? 'متجر' }}</span>
+                                    <h3>{{ $product->name }}</h3>
+                                    <p>
+                                    <p>{{ Str::limit($product->desc, 100) }}</p>
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="price">
+                                        <img src="{{ asset('site/images/ryal.svg') }}" alt="" />
+                                        {{ number_format($product->price, 0) }}
+
+
+                                    </div>
+                                    <a href="#" class="main_btn">
+                                        اضف الى السلة
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M11.3346 10.9997C11.6883 10.9997 12.0274 11.1402 12.2774 11.3902C12.5275 11.6402 12.668 11.9794 12.668 12.333C12.668 12.6866 12.5275 13.0258 12.2774 13.2758C12.0274 13.5259 11.6883 13.6663 11.3346 13.6663C10.981 13.6663 10.6419 13.5259 10.3918 13.2758C10.1418 13.0258 10.0013 12.6866 10.0013 12.333C10.0013 11.593 10.5946 10.9997 11.3346 10.9997ZM0.667969 0.333008H2.84797L3.47464 1.66634H13.3346C13.5114 1.66634 13.681 1.73658 13.806 1.8616C13.9311 1.98663 14.0013 2.1562 14.0013 2.33301C14.0013 2.44634 13.968 2.55967 13.9213 2.66634L11.5346 6.97967C11.308 7.38634 10.868 7.66634 10.368 7.66634H5.4013L4.8013 8.75301L4.7813 8.83301C4.7813 8.87721 4.79886 8.9196 4.83012 8.95086C4.86137 8.98212 4.90377 8.99967 4.94797 8.99967H12.668V10.333H4.66797C4.31435 10.333 3.97521 10.1925 3.72516 9.94248C3.47511 9.69244 3.33464 9.3533 3.33464 8.99967C3.33464 8.76634 3.39464 8.54634 3.49464 8.35967L4.4013 6.72634L2.0013 1.66634H0.667969V0.333008ZM4.66797 10.9997C5.02159 10.9997 5.36073 11.1402 5.61078 11.3902C5.86083 11.6402 6.0013 11.9794 6.0013 12.333C6.0013 12.6866 5.86083 13.0258 5.61078 13.2758C5.36073 13.5259 5.02159 13.6663 4.66797 13.6663C4.31435 13.6663 3.97521 13.5259 3.72516 13.2758C3.47511 13.0258 3.33464 12.6866 3.33464 12.333C3.33464 11.593 3.92797 10.9997 4.66797 10.9997ZM10.668 6.33301L12.5213 2.99967H4.09464L5.66797 6.33301H10.668Z"
+                                                fill="white" />
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!--  -->
-                    <div class="item">
-                        <div class="best-seller-card">
-                            <div class="card-img">
-                                <img src="./images/best-seller1.png" alt="" />
-                            </div>
-                            <div class="card-body">
-                                <span> Templify متجر</span>
-                                <h3>دليل المبتدئين فى تصميم الوايرفريم</h3>
-                                <p>
-                                    كتاب عملي يقدّم أساسيات ومفاهيم تصميم الجرافيك بشكل
-                                    مبسّط تعلّم أساسيات التصميم بخطوات سهلة...
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="price">
-                                    <img src="./images/ryal.svg" alt="" />
-                                    50
-                                </div>
-                                <a href="" class="main_btn">
-                                    اضف الى السلة
-                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M11.3346 10.9997C11.6883 10.9997 12.0274 11.1402 12.2774 11.3902C12.5275 11.6402 12.668 11.9794 12.668 12.333C12.668 12.6866 12.5275 13.0258 12.2774 13.2758C12.0274 13.5259 11.6883 13.6663 11.3346 13.6663C10.981 13.6663 10.6419 13.5259 10.3918 13.2758C10.1418 13.0258 10.0013 12.6866 10.0013 12.333C10.0013 11.593 10.5946 10.9997 11.3346 10.9997ZM0.667969 0.333008H2.84797L3.47464 1.66634H13.3346C13.5114 1.66634 13.681 1.73658 13.806 1.8616C13.9311 1.98663 14.0013 2.1562 14.0013 2.33301C14.0013 2.44634 13.968 2.55967 13.9213 2.66634L11.5346 6.97967C11.308 7.38634 10.868 7.66634 10.368 7.66634H5.4013L4.8013 8.75301L4.7813 8.83301C4.7813 8.87721 4.79886 8.9196 4.83012 8.95086C4.86137 8.98212 4.90377 8.99967 4.94797 8.99967H12.668V10.333H4.66797C4.31435 10.333 3.97521 10.1925 3.72516 9.94248C3.47511 9.69244 3.33464 9.3533 3.33464 8.99967C3.33464 8.76634 3.39464 8.54634 3.49464 8.35967L4.4013 6.72634L2.0013 1.66634H0.667969V0.333008ZM4.66797 10.9997C5.02159 10.9997 5.36073 11.1402 5.61078 11.3902C5.86083 11.6402 6.0013 11.9794 6.0013 12.333C6.0013 12.6866 5.86083 13.0258 5.61078 13.2758C5.36073 13.5259 5.02159 13.6663 4.66797 13.6663C4.31435 13.6663 3.97521 13.5259 3.72516 13.2758C3.47511 13.0258 3.33464 12.6866 3.33464 12.333C3.33464 11.593 3.92797 10.9997 4.66797 10.9997ZM10.668 6.33301L12.5213 2.99967H4.09464L5.66797 6.33301H10.668Z"
-                                            fill="white" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  -->
-                    <div class="item">
-                        <div class="best-seller-card">
-                            <div class="card-img">
-                                <img src="./images/best-seller1.png" alt="" />
-                            </div>
-                            <div class="card-body">
-                                <span> Templify متجر</span>
-                                <h3>دليل المبتدئين فى تصميم الوايرفريم</h3>
-                                <p>
-                                    كتاب عملي يقدّم أساسيات ومفاهيم تصميم الجرافيك بشكل
-                                    مبسّط تعلّم أساسيات التصميم بخطوات سهلة...
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="price">
-                                    <img src="./images/ryal.svg" alt="" />
-                                    50
-                                </div>
-                                <a href="" class="main_btn">
-                                    اضف الى السلة
-                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M11.3346 10.9997C11.6883 10.9997 12.0274 11.1402 12.2774 11.3902C12.5275 11.6402 12.668 11.9794 12.668 12.333C12.668 12.6866 12.5275 13.0258 12.2774 13.2758C12.0274 13.5259 11.6883 13.6663 11.3346 13.6663C10.981 13.6663 10.6419 13.5259 10.3918 13.2758C10.1418 13.0258 10.0013 12.6866 10.0013 12.333C10.0013 11.593 10.5946 10.9997 11.3346 10.9997ZM0.667969 0.333008H2.84797L3.47464 1.66634H13.3346C13.5114 1.66634 13.681 1.73658 13.806 1.8616C13.9311 1.98663 14.0013 2.1562 14.0013 2.33301C14.0013 2.44634 13.968 2.55967 13.9213 2.66634L11.5346 6.97967C11.308 7.38634 10.868 7.66634 10.368 7.66634H5.4013L4.8013 8.75301L4.7813 8.83301C4.7813 8.87721 4.79886 8.9196 4.83012 8.95086C4.86137 8.98212 4.90377 8.99967 4.94797 8.99967H12.668V10.333H4.66797C4.31435 10.333 3.97521 10.1925 3.72516 9.94248C3.47511 9.69244 3.33464 9.3533 3.33464 8.99967C3.33464 8.76634 3.39464 8.54634 3.49464 8.35967L4.4013 6.72634L2.0013 1.66634H0.667969V0.333008ZM4.66797 10.9997C5.02159 10.9997 5.36073 11.1402 5.61078 11.3902C5.86083 11.6402 6.0013 11.9794 6.0013 12.333C6.0013 12.6866 5.86083 13.0258 5.61078 13.2758C5.36073 13.5259 5.02159 13.6663 4.66797 13.6663C4.31435 13.6663 3.97521 13.5259 3.72516 13.2758C3.47511 13.0258 3.33464 12.6866 3.33464 12.333C3.33464 11.593 3.92797 10.9997 4.66797 10.9997ZM10.668 6.33301L12.5213 2.99967H4.09464L5.66797 6.33301H10.668Z"
-                                            fill="white" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  -->
-                    <div class="item">
-                        <div class="best-seller-card">
-                            <div class="card-img">
-                                <img src="./images/best-seller1.png" alt="" />
-                            </div>
-                            <div class="card-body">
-                                <span> Templify متجر</span>
-                                <h3>دليل المبتدئين فى تصميم الوايرفريم</h3>
-                                <p>
-                                    كتاب عملي يقدّم أساسيات ومفاهيم تصميم الجرافيك بشكل
-                                    مبسّط تعلّم أساسيات التصميم بخطوات سهلة...
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="price">
-                                    <img src="./images/ryal.svg" alt="" />
-                                    50
-                                </div>
-                                <a href="" class="main_btn">
-                                    اضف الى السلة
-                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M11.3346 10.9997C11.6883 10.9997 12.0274 11.1402 12.2774 11.3902C12.5275 11.6402 12.668 11.9794 12.668 12.333C12.668 12.6866 12.5275 13.0258 12.2774 13.2758C12.0274 13.5259 11.6883 13.6663 11.3346 13.6663C10.981 13.6663 10.6419 13.5259 10.3918 13.2758C10.1418 13.0258 10.0013 12.6866 10.0013 12.333C10.0013 11.593 10.5946 10.9997 11.3346 10.9997ZM0.667969 0.333008H2.84797L3.47464 1.66634H13.3346C13.5114 1.66634 13.681 1.73658 13.806 1.8616C13.9311 1.98663 14.0013 2.1562 14.0013 2.33301C14.0013 2.44634 13.968 2.55967 13.9213 2.66634L11.5346 6.97967C11.308 7.38634 10.868 7.66634 10.368 7.66634H5.4013L4.8013 8.75301L4.7813 8.83301C4.7813 8.87721 4.79886 8.9196 4.83012 8.95086C4.86137 8.98212 4.90377 8.99967 4.94797 8.99967H12.668V10.333H4.66797C4.31435 10.333 3.97521 10.1925 3.72516 9.94248C3.47511 9.69244 3.33464 9.3533 3.33464 8.99967C3.33464 8.76634 3.39464 8.54634 3.49464 8.35967L4.4013 6.72634L2.0013 1.66634H0.667969V0.333008ZM4.66797 10.9997C5.02159 10.9997 5.36073 11.1402 5.61078 11.3902C5.86083 11.6402 6.0013 11.9794 6.0013 12.333C6.0013 12.6866 5.86083 13.0258 5.61078 13.2758C5.36073 13.5259 5.02159 13.6663 4.66797 13.6663C4.31435 13.6663 3.97521 13.5259 3.72516 13.2758C3.47511 13.0258 3.33464 12.6866 3.33464 12.333C3.33464 11.593 3.92797 10.9997 4.66797 10.9997ZM10.668 6.33301L12.5213 2.99967H4.09464L5.66797 6.33301H10.668Z"
-                                            fill="white" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="best-seller-card">
-                            <div class="card-img">
-                                <img src="./images/best-seller1.png" alt="" />
-                            </div>
-                            <div class="card-body">
-                                <span> Templify متجر</span>
-                                <h3>دليل المبتدئين فى تصميم الوايرفريم</h3>
-                                <p>
-                                    كتاب عملي يقدّم أساسيات ومفاهيم تصميم الجرافيك بشكل
-                                    مبسّط تعلّم أساسيات التصميم بخطوات سهلة...
-                                </p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="price">
-                                    <img src="./images/ryal.svg" alt="" />
-                                    50
-                                </div>
-                                <a href="" class="main_btn">
-                                    اضف الى السلة
-                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M11.3346 10.9997C11.6883 10.9997 12.0274 11.1402 12.2774 11.3902C12.5275 11.6402 12.668 11.9794 12.668 12.333C12.668 12.6866 12.5275 13.0258 12.2774 13.2758C12.0274 13.5259 11.6883 13.6663 11.3346 13.6663C10.981 13.6663 10.6419 13.5259 10.3918 13.2758C10.1418 13.0258 10.0013 12.6866 10.0013 12.333C10.0013 11.593 10.5946 10.9997 11.3346 10.9997ZM0.667969 0.333008H2.84797L3.47464 1.66634H13.3346C13.5114 1.66634 13.681 1.73658 13.806 1.8616C13.9311 1.98663 14.0013 2.1562 14.0013 2.33301C14.0013 2.44634 13.968 2.55967 13.9213 2.66634L11.5346 6.97967C11.308 7.38634 10.868 7.66634 10.368 7.66634H5.4013L4.8013 8.75301L4.7813 8.83301C4.7813 8.87721 4.79886 8.9196 4.83012 8.95086C4.86137 8.98212 4.90377 8.99967 4.94797 8.99967H12.668V10.333H4.66797C4.31435 10.333 3.97521 10.1925 3.72516 9.94248C3.47511 9.69244 3.33464 9.3533 3.33464 8.99967C3.33464 8.76634 3.39464 8.54634 3.49464 8.35967L4.4013 6.72634L2.0013 1.66634H0.667969V0.333008ZM4.66797 10.9997C5.02159 10.9997 5.36073 11.1402 5.61078 11.3902C5.86083 11.6402 6.0013 11.9794 6.0013 12.333C6.0013 12.6866 5.86083 13.0258 5.61078 13.2758C5.36073 13.5259 5.02159 13.6663 4.66797 13.6663C4.31435 13.6663 3.97521 13.5259 3.72516 13.2758C3.47511 13.0258 3.33464 12.6866 3.33464 12.333C3.33464 11.593 3.92797 10.9997 4.66797 10.9997ZM10.668 6.33301L12.5213 2.99967H4.09464L5.66797 6.33301H10.668Z"
-                                            fill="white" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                        <!--  -->
+                    @endforeach
+
                 </div>
             </div>
         </div>
@@ -484,25 +354,25 @@
             <div class="join-panner">
                 <!--  -->
                 <div class="panner-text">
-                    <h3 class="sub-title">انضم الينا كبائع</h3>
-                    <p>حوّل أفكارك ومنتجاتك الرقمية إلى دخل حقيقي.</p>
+                    <h3 class="sub-title"> {{ $settings->{'join_us_title_' . app()->getLocale()} }}</h3>
+                    <p>{{ $settings->{'join_us_desc_' . app()->getLocale()} }}</p>
                     <a href="" class="main_btn" data-bs-toggle="modal" data-bs-target="#join">
                         انضم الان
                     </a>
                 </div>
                 <!--  -->
                 <div class="panner-slogen">
-                    <img src="./images/start selling.png" alt="" />
+                    <img src="{{ asset('site/images/start selling.png') }}" alt="" />
                 </div>
                 <!--  -->
                 <div class="panner-tree">
                     <div class="man-tree">
-                        <img src="./images/tree-man.png" alt="" />
+                        <img src="{{ asset('site/images/tree-man.png') }}" alt="" />
                         <div class="water">
-                            <img src="./images/water.svg" alt="" />
+                            <img src="{{ asset('site/images/water.svg') }}" alt="" />
                         </div>
                     </div>
-                    <img src="./images/tree-ground.svg" alt="" />
+                    <img src="{{ asset('site/images/tree-ground.svg') }}" alt="" />
                 </div>
             </div>
         </div>
@@ -528,13 +398,12 @@
                     <!--  -->
                     <div class="card-p">
                         <div class="pin">
-                            <img src="./images/pin.svg" alt="" />
+                            <img src="{{ asset('site/images/pin.svg') }}" alt="" />
                         </div>
 
-                        <h4>سجّل حساب بائع</h4>
+                        <h4> {{ $settings->{'journey_step1_title_' . app()->getLocale()} }}</h4>
                         <p>
-                            افتح حساب مجاني وفعّل ملفك الشخصي وتقدر تتابع منتجاتك
-                            الرقمية بكل سهولة
+                            {{ $settings->{'journey_step1_desc_' . app()->getLocale()} }}
                         </p>
                     </div>
                 </div>
@@ -550,31 +419,31 @@
                     <!--  -->
                     <div class="card-p">
                         <div class="pin">
-                            <img src="./images/pin.svg" alt="" />
+                            <img src="{{ asset('site/images/pin.svg') }}" alt="" />
                         </div>
 
-                        <h4>سجّل حساب بائع</h4>
+
+                        <h4> {{ $settings->{'journey_step2_title_' . app()->getLocale()} }}</h4>
                         <p>
-                            افتح حساب مجاني وفعّل ملفك الشخصي وتقدر تتابع منتجاتك
-                            الرقمية بكل سهولة
+                            {{ $settings->{'journey_step2_desc_' . app()->getLocale()} }}
                         </p>
                     </div>
                 </div>
                 <!--  -->
                 <div class="card-qq">
                     <div class="arrow-c">
-                        <img src="./images/arrow.svg" alt="" />
+                        <img src="{{ asset('site/images/arrow.svg') }}" alt="" />
                     </div>
                     <!--  -->
                     <div class="card-p">
                         <div class="pin">
-                            <img src="./images/pin.svg" alt="" />
+                            <img src="{{ asset('site/images/pin.svg') }}" alt="" />
                         </div>
 
-                        <h4>سجّل حساب بائع</h4>
+
+                        <h4> {{ $settings->{'journey_step3_title_' . app()->getLocale()} }}</h4>
                         <p>
-                            افتح حساب مجاني وفعّل ملفك الشخصي وتقدر تتابع منتجاتك
-                            الرقمية بكل سهولة
+                            {{ $settings->{'journey_step3_desc_' . app()->getLocale()} }}
                         </p>
                     </div>
                 </div>
@@ -589,68 +458,31 @@
                 شركاؤنا
             </h2>
             <p class="sub-paragraph" data-aos="fade-up" data-aos-duration="1500">
-                شركاؤنا هم جزء من نجاحنا، وبفضل تعاونهم بنقدر نوفر أفضل محتوى
-                وتجربة لكل مستخدم.
+                {{ $settings->{'partners_desc_' . app()->getLocale()} }}
             </p>
         </div>
+
         <!-- Swiper -->
         <div class="swiper mySwiper mySwiperPartner" data-aos="fade-up" data-aos-duration="1500">
             <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="./images/partner.png" alt="" />
-                </div>
+                @foreach ($partners as $partner)
+                    <div class="swiper-slide">
+                        <img src="{{ $partner->image_path }}" alt="{{ $partner->name }}" />
+                        <p>{{ $partner->name }}</p>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
+
+
 
     <!-- comman-questions -->
     <section class="comman-questions m-section">
         <div class="main-container">
             <div class="comman-header sec-header">
                 <h2 class="sub-title" data-aos="fade-up" data-aos-duration="1500">
-                    الاسئلة الشائعة
+                    {{ __('الاسئلة الشائعة') }}
                 </h2>
                 <p class="sub-paragraph" data-aos="fade-up" data-aos-duration="1500">
                     هنا هتلاقي إجابات على أكثر الأسئلة الشائعة بخصوص الشراء أو البيع
@@ -658,72 +490,35 @@
                     في أي وقت
                 </p>
             </div>
+
             <div class="row">
                 <div class="col-lg-6 col-md-12" data-aos="fade-up-left" data-aos-duration="1500">
-                    <div class="accordion">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    اليوم الأول - 28 أكتوبر 2025 , الأربعاء
-                                </button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show">
-                                <div class="accordion-body">
-                                    <div class="main-container">
-                                        <p>
-                                            بمجرد إتمام عملية الشراء والدفع بنجاح، هيظهرلك رابط
-                                            مباشر لتحميل المنتج على صفحة التأكيد. كمان هيوصلك
-                                            إيميل فيه رابط التحميل تقدر ترجعله في أي وقت.
-                                        </p>
+                    <div class="accordion" id="faqAccordion">
+                        @foreach ($questions as $index => $question)
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-{{ $index }}">
+                                    <button class="accordion-button {{ $index !== 0 ? 'collapsed' : '' }}" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapse-{{ $index }}"
+                                        aria-expanded="{{ $index === 0 ? 'true' : 'false' }}"
+                                        aria-controls="collapse-{{ $index }}">
+                                        {{ $question->question }}
+                                    </button>
+                                </h2>
+                                <div id="collapse-{{ $index }}"
+                                    class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}"
+                                    aria-labelledby="heading-{{ $index }}" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        <div class="main-container">
+                                            <p>{{ $question->answer }}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!--  -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    aria-expanded="true" data-bs-target="#collapseTwo" aria-controls="collapseTwo">
-                                    اليوم الأول - 28 أكتوبر 2025 , الأربعاء
-                                </button>
-                            </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse">
-                                <div class="accordion-body">
-                                    <div class="main-container">
-                                        <p>
-                                            بمجرد إتمام عملية الشراء والدفع بنجاح، هيظهرلك رابط
-                                            مباشر لتحميل المنتج على صفحة التأكيد. كمان هيوصلك
-                                            إيميل فيه رابط التحميل تقدر ترجعله في أي وقت.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--  -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapse-3" aria-expanded="true" aria-controls="collapse-3">
-                                    اليوم الأول - 28 أكتوبر 2025 , الأربعاء
-                                </button>
-                            </h2>
-                            <div id="collapse-3" class="accordion-collapse collapse">
-                                <div class="accordion-body">
-                                    <div class="main-container">
-                                        <p>
-                                            بمجرد إتمام عملية الشراء والدفع بنجاح، هيظهرلك رابط
-                                            مباشر لتحميل المنتج على صفحة التأكيد. كمان هيوصلك
-                                            إيميل فيه رابط التحميل تقدر ترجعله في أي وقت.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--  -->
+                        @endforeach
                     </div>
                 </div>
-                <!--  -->
+
+                <!-- الصورة الجانبية -->
                 <div class="col-lg-6 col-md-12" data-aos="fade-up-right" data-aos-duration="1500">
                     <div class="question-image">
                         <div class="bg-questions">
@@ -739,9 +534,9 @@
                         </div>
                         <div class="women-img">
                             <div class="sign">
-                                <img src="./images/questin-sign.png" alt="" />
+                                <img src="{{ asset('site/images/questin-sign.png') }}" alt="" />
                             </div>
-                            <img src="./images/women.png" alt="" />
+                            <img src="{{ asset('site/images/women.png') }}" alt="" />
                         </div>
                     </div>
                 </div>
@@ -749,35 +544,41 @@
         </div>
     </section>
 
+
     <!-- contact -->
     <section class="contact-us m-section" id="contact">
         <div class="main-container">
             <div class="row">
                 <div class="col-lg-6 col-md-12">
                     <div class="cotanct-text">
-                        <h2 class="sub-title">تواصل معنا</h2>
+                        <h2 class="sub-title"> {{ __('تواصل معنا') }}</h2>
                         <p class="sub-paragraph">
-                            لو عندك استفسار أو شكوى؟ فريقنا موجود عشان يساعدك في أي وقت.
-                            اختار الطريقة الأنسب ليك وتواصل معانا بسهولة
+                            {{ __('  لو عندك استفسار أو شكوى؟ فريقنا موجود عشان يساعدك في أي وقت.اختار الطريقة الأنسب ليك وتواصل معانا بسهولة') }}
+
                         </p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12">
                     <div class="contact-form">
-                        <form action="">
+                        <form action="{{ route('site.contact.submit') }}" method="POST" novalidate
+                            enctype="multipart/form-data" id="contact_form">
+                            @csrf
                             <div class="form-control">
-                                <input type="text" placeholder="الاسم" />
+                                <input type="text" name="name" placeholder="{{ __('الاسم') }}" id="name"
+                                    value="{{ old('name') }}">
                             </div>
                             <div class="form-control">
-                                <input type="email" placeholder="البريد الالكترونى" />
+                                <input type="email" name="email"name="email"
+                                    placeholder="{{ __(' بريدك الإلكتروني') }}" value="{{ old('email') }}">
                             </div>
                             <div class="form-control">
-                                <input type="text" placeholder="الجوال" />
+                                <input type="text" name="phone" id="phone"
+                                    placeholder="{{ __('رقم الجوال') }}" value="{{ old('phone') }}">
                             </div>
                             <div class="form-control">
-                                <textarea placeholder="الشكوى"></textarea>
+                                <textarea name="message" placeholder="{{ __('نص الرسالة') }}" id="message">{{ old('message') }}</textarea>
                             </div>
-                            <button type="submit" class="main_btn">إرسال</button>
+                            <button type="submit" name="message" class="main_btn">{{ __('إرسال') }}</button>
                         </form>
                     </div>
                 </div>

@@ -10,6 +10,7 @@
         </div>
         <form action="{{ route('site.login') }}" method="POST" id="loginForm">
             @csrf
+
             <h1>تسجيل الدخول</h1>
 
             <div class="form-control-container">

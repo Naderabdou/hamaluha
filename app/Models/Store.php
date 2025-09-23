@@ -19,7 +19,7 @@ class Store extends Model
 {
     use HasSlug;
     protected $fillable = [
-        'user_id',
+        'provider_id',
         'slug',
         'name',
         'email',

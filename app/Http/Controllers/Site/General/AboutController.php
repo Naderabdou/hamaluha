@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Site\General;
 
 use App\Http\Controllers\Controller;
+use App\Models\Goal;
 
 class AboutController extends Controller
 {
     public function index()
     {
-        return view('site.user.about');
+        $goals = Goal::all();
+
+        return view('site.about.index', compact('goals'));
     }
 }

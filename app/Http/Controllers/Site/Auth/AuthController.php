@@ -26,6 +26,7 @@ class AuthController extends Controller
         if (!$user) {
             return redirect()->back()->withErrors(['email' => 'The provided credentials are incorrect.']);
         }
+        auth()->login($user);
         return redirect()->route('site.home');
     }
 

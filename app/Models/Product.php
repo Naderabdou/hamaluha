@@ -25,7 +25,7 @@ class Product extends Model
         'file',
     ];
 
-    protected $appends = ['name'];
+    protected $appends = ['first_image'];
 
     public function getSlugOptions(): SlugOptions
     {
@@ -36,19 +36,18 @@ class Product extends Model
 
     public function getNameAttribute(): string
     {
-        return $this['name_' . app()->getLocale()];
+        return $this['name_'.app()->getLocale()];
     }
 
     public function getDescAttribute(): string
     {
-        return $this['desc_' . app()->getLocale()] ?? '';
+        return $this['desc_'.app()->getLocale()] ?? '';
     }
 
     public function getRouteKeyName(): string
     {
         return 'slug';
     }
-
 
     public function category(): BelongsTo
     {
@@ -94,5 +93,10 @@ class Product extends Model
     public function getAverageRatingAttribute()
     {
         return round($this->reviews()->avg('rating'), 1) ?? 0;
+    }
+
+    public function getFirstImageAttribute()
+    {
+        return $this->images()->first();
     }
 }

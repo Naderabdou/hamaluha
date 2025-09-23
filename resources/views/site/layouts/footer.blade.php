@@ -144,7 +144,8 @@
               <div class="modal-body">
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   <section class="auth login modal-profile">
-                      <form action="">
+                      <form action="{{ route('site.join-us') }}" method="POST" id="joinForm" enctype="multipart/form-data">
+                          @csrf
                           <h1>انضم كبائع</h1>
 
                           <p class="sub-paragraph">
@@ -154,32 +155,33 @@
                           </p>
 
                           <div class="form-control-container">
-                              <input type="text" placeholder=" اسم المتجر  " class="form-control"
+                              <input name="name" type="text" placeholder=" اسم المتجر  " class="form-control"
                                   aria-describedby="passwordHelpBlock" />
+                              @error('name')
+                                  <span class="text-danger">{{ $message }}</span>
+                              @enderror
                           </div>
                           <!--  -->
                           <div class="form-control-container">
-                              <input type="email" placeholder=" البريد الالكترونى  " class="form-control"
-                                  aria-describedby="passwordHelpBlock" />
+                              <input name="email" type="email" placeholder=" البريد الالكترونى  "
+                                  class="form-control" aria-describedby="passwordHelpBlock" />
+                              @error('email')
+                                  <span class="text-danger">{{ $message }}</span>
+                              @enderror
                           </div>
                           <!--  -->
                           <div class="form-control-container">
-                              <input type="فثءف" id="inputPassword5" placeholder="  رقم التواصل "
+                              <input name="phone" type="text" id="inputPassword5" placeholder="  رقم التواصل "
                                   class="form-control" aria-describedby="passwordHelpBlock" />
+                              @error('phone')
+                                  <span class="text-danger">{{ $message }}</span>
+                              @enderror
                           </div>
-                          {{-- <!--  -->
                           <div class="form-control-container">
-                              <input type="password" id="inputPassword5" placeholder="   كلمة المرور "
-                                  class="form-control" aria-describedby="passwordHelpBlock" />
-                          </div>
-                          <!--  -->
-                          <div class="form-control-container">
-                              <input type="password" id="inputPassword5" placeholder="  تأكيد كلمة المرور "
-                                  class="form-control" aria-describedby="passwordHelpBlock" />
-                          </div>
-                          <!--  --> --}}
-                          <div class="form-control-container">
-                              <textarea name="" id="" placeholder="نبذة عن المتجر"></textarea>
+                              <textarea name="desc" id="" placeholder="نبذة عن المتجر"></textarea>
+                              @error('desc')
+                                  <span class="text-danger">{{ $message }}</span>
+                              @enderror
                           </div>
                           <!--  -->
                           <div class="upload-box" onclick="document.getElementById('fileInput').click()">
@@ -187,9 +189,13 @@
                               <span id="uploadText">+ اضف صورة للمتجر</span>
                           </div>
 
-                          <input type="file" id="fileInput" accept="image/*" style="display: none" />
+                          <input name="image" type="file" id="fileInput" accept="image/*"
+                              style="display: none" />
+                          @error('image')
+                              <span class="text-danger">{{ $message }}</span>
+                          @enderror
 
-                          <button type="submit" class="main_btn">ارسال</button>
+                          <button type="submit" id="submitJoin" class="main_btn">ارسال</button>
                       </form>
                   </section>
               </div>
@@ -247,3 +253,45 @@
   </body>
 
   </html>
+
+  @push('js')
+      <script>
+          $(document).ready(function() {
+              $("#joinForm").validate({
+                      rules: {
+                          name: {
+                              required: true,
+                              minlength: 3
+                          },
+                          email: {
+                              required: true,
+                              email: true
+                          },
+                          phone: {
+                              required: true,
+                              minlength: 10,
+                              maxlength: 15,
+                          },
+                          desc: {
+                              required: true,
+                              minlength: 10
+                          },
+                          image: {
+                              required: true,
+                              accept: "image/png, image/jpeg, image/svg+xml",
+                              filesize: 1048576
+                          },
+                      }
+                  },
+                  errorElement: "span",
+                  errorClass: "text-danger",
+                  highlight: function(element) {
+                      $(element).addClass("is-invalid");
+                  },
+                  unhighlight: function(element) {
+                      $(element).removeClass("is-invalid");
+                  }
+              });
+          });
+      </script>
+  @endpush
