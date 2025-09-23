@@ -144,7 +144,8 @@
               <div class="modal-body">
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   <section class="auth login modal-profile">
-                      <form action="{{ route('site.join-us') }}" method="POST" id="joinForm" enctype="multipart/form-data">
+                      <form action="{{ route('site.join-us') }}" method="POST" id="joinForm"
+                          enctype="multipart/form-data">
                           @csrf
                           <h1>انضم كبائع</h1>
 
@@ -157,31 +158,23 @@
                           <div class="form-control-container">
                               <input name="name" type="text" placeholder=" اسم المتجر  " class="form-control"
                                   aria-describedby="passwordHelpBlock" />
-                              @error('name')
-                                  <span class="text-danger">{{ $message }}</span>
-                              @enderror
+
                           </div>
                           <!--  -->
                           <div class="form-control-container">
-                              <input name="email" type="email" placeholder=" البريد الالكترونى  "
+                              <input name="email" type="email" placeholder=" البريد الالكترونى "
                                   class="form-control" aria-describedby="passwordHelpBlock" />
-                              @error('email')
-                                  <span class="text-danger">{{ $message }}</span>
-                              @enderror
+
                           </div>
                           <!--  -->
                           <div class="form-control-container">
                               <input name="phone" type="text" id="inputPassword5" placeholder="  رقم التواصل "
                                   class="form-control" aria-describedby="passwordHelpBlock" />
-                              @error('phone')
-                                  <span class="text-danger">{{ $message }}</span>
-                              @enderror
+
                           </div>
                           <div class="form-control-container">
                               <textarea name="desc" id="" placeholder="نبذة عن المتجر"></textarea>
-                              @error('desc')
-                                  <span class="text-danger">{{ $message }}</span>
-                              @enderror
+
                           </div>
                           <!--  -->
                           <div class="upload-box" onclick="document.getElementById('fileInput').click()">
@@ -191,9 +184,7 @@
 
                           <input name="image" type="file" id="fileInput" accept="image/*"
                               style="display: none" />
-                          @error('image')
-                              <span class="text-danger">{{ $message }}</span>
-                          @enderror
+
 
                           <button type="submit" id="submitJoin" class="main_btn">ارسال</button>
                       </form>
@@ -253,45 +244,3 @@
   </body>
 
   </html>
-
-  @push('js')
-      <script>
-          $(document).ready(function() {
-              $("#joinForm").validate({
-                      rules: {
-                          name: {
-                              required: true,
-                              minlength: 3
-                          },
-                          email: {
-                              required: true,
-                              email: true
-                          },
-                          phone: {
-                              required: true,
-                              minlength: 10,
-                              maxlength: 15,
-                          },
-                          desc: {
-                              required: true,
-                              minlength: 10
-                          },
-                          image: {
-                              required: true,
-                              accept: "image/png, image/jpeg, image/svg+xml",
-                              filesize: 1048576
-                          },
-                      }
-                  },
-                  errorElement: "span",
-                  errorClass: "text-danger",
-                  highlight: function(element) {
-                      $(element).addClass("is-invalid");
-                  },
-                  unhighlight: function(element) {
-                      $(element).removeClass("is-invalid");
-                  }
-              });
-          });
-      </script>
-  @endpush

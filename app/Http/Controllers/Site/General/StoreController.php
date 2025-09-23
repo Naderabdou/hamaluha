@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Site\General;
 
 use App\Helpers\AppHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\joinUsRequest;
+use App\Http\Requests\JoinUsRequest;
 use App\Repositories\General\StoreRepository;
 
 class StoreController extends Controller

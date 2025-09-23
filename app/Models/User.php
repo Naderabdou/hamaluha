@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Filament\Panel;
 use Filament\Models\Contracts\FilamentUser;
 use Laravel\Sanctum\HasApiTokens;
@@ -98,7 +97,8 @@ class User extends Authenticatable implements FilamentUser
 
     private function activationCode(): int
     {
-        return mt_rand(11111, 99999);
+        // return mt_rand(11111, 99999);
+        return '12345';
     }
 
     public function sendEmailVerificationCode(): bool

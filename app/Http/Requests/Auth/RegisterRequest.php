@@ -34,7 +34,7 @@ class RegisterRequest extends FormRequest
                 'string',
                 'min:8',
                 'max:50',
-                'regex:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/u',
+                // 'regex:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/u',
                 'confirmed'
             ],
         ];

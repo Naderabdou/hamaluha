@@ -17,7 +17,7 @@
 
             <div class="form-control-container">
 
-                <input type="password" name="password" id="inputPassword5" placeholder="كلمة المرور" class="form-control"
+                <input type="password" name="password" id="password" placeholder="كلمة المرور" class="form-control"
                     aria-describedby="passwordHelpBlock">
 
                 @error('password')
@@ -27,8 +27,8 @@
 
             <div class="form-control-container">
 
-                <input type="password"  name="password_confirmation" id="inputPassword6" placeholder="تأكيد كلمة المرور"
-                    class="form-control" aria-describedby="passwordHelpBlock">
+                <input type="password" name="password_confirmation" id="password_confirmation"
+                    placeholder="تأكيد كلمة المرور" class="form-control" aria-describedby="passwordHelpBlock">
 
                 @error('password_confirmation')
                     <span class="text-danger">{{ $message }}</span>
@@ -53,6 +53,10 @@
                         required: true,
                         minlength: 8,
                         confirmed: true
+                    }
+                    password_confirmation: {
+                        required: true,
+                        equalTo: "#password"
                     }
                 },
                 errorElement: "p",

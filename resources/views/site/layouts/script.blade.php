@@ -451,6 +451,52 @@
      });
  </script>
 
+ <script>
+     $(document).ready(function() {
+         // إضافة ميثود للتحقق من حجم الملف
+         $.validator.addMethod('filesize', function(value, element, param) {
+             return this.optional(element) || (element.files[0].size <= param);
+         }, 'حجم الملف كبير جدًا (الحد الأقصى 1MB)');
+
+         // تفعيل الفاليديشن على الفورم
+         $("#joinForm").validate({
+             rules: {
+                 name: {
+                     required: true,
+                     minlength: 3
+                 },
+                 email: {
+                     required: true,
+                     email: true
+                 },
+                 phone: {
+                     required: true,
+                     minlength: 10,
+                     maxlength: 15
+                 },
+                 desc: {
+                     required: true,
+                     minlength: 10
+                 },
+                 image: {
+                     required: true,
+                     accept: "image/*",
+                     filesize: 1048576 // 1MB
+                 }
+             },
+             errorElement: "span",
+             errorClass: "text-danger",
+             highlight: function(element) {
+                 $(element).addClass("is-invalid");
+             },
+             unhighlight: function(element) {
+                 $(element).removeClass("is-invalid");
+             }
+         });
+     });
+ </script>
+
+
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
  <script>
      document.querySelectorAll('.card-donation').forEach(function(card) {
@@ -483,4 +529,4 @@
  </script>
 
 
-@stack('js')
+ @stack('js')

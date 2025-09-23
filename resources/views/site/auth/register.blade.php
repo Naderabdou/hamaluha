@@ -13,22 +13,20 @@
 
 
             <div class="form-control-container">
-                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="اسم المستخدم "
-                    name="name" />
+                <input type="text" class="form-control" id="name" placeholder="اسم المستخدم " name="name" />
                 @error('name')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
             <div class="form-control-container">
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="البريد الالكترونى"
-                    name="email" />
+                <input type="email" class="form-control" id="email" placeholder="البريد الالكترونى" name="email" />
                 @error('email')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
             <div class="form-control-container">
 
-                <input type="password" name="password" id="inputPassword5" placeholder="كلمة المرور" class="form-control"
+                <input type="password" name="password" id="password" placeholder="كلمة المرور" class="form-control"
                     aria-describedby="passwordHelpBlock">
                 @error('password')
                     <span class="text-danger">{{ $message }}</span>
@@ -37,15 +35,15 @@
 
             <div class="form-control-container">
 
-                <input type="password" name="password_confirmation" id="inputPassword5" placeholder="تأكيد كلمة المرور"
-                    class="form-control" aria-describedby="passwordHelpBlock">
+                <input type="password" name="password_confirmation" id="password_confirmation"
+                    placeholder="تأكيد كلمة المرور" class="form-control" aria-describedby="passwordHelpBlock">
                 @error('password_confirmation')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
             <div class="middle">
                 <p>
-                    أو قم بالتسجيل  بواسطة
+                    أو قم بالتسجيل بواسطة
                 </p>
             </div>
 
@@ -89,11 +87,14 @@
                     },
                     password: {
                         required: true,
-                        minlength: 8,
-                        confirmed: true
+                        minlength: 8
+                    },
+                    password_confirmation: {
+                        required: true,
+                        equalTo: "#password"
                     }
                 },
-                errorElement: "p",
+                errorElement: "error",
                 errorClass: "text-danger",
                 highlight: function(element) {
                     $(element).addClass("is-invalid");

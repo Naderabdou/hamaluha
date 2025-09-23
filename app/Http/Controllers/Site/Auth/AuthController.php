@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Site\Auth;
 
-use Illuminate\View\View;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Repositories\Auth\AuthRepository;
-use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\CheckCodeRequest;
-use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Requests\Auth\ForgetPasswordRequest;
-
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Repositories\Auth\AuthRepository;
+use Illuminate\View\View;
 
 class AuthController extends Controller
 {
     public function __construct(protected AuthRepository $authRepository) {}
+
     public function loginForm(): View
     {
         return view('site.auth.login');
@@ -23,10 +23,11 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         $user = $this->authRepository->login($request->validated());
-        if (!$user) {
+        if (! $user) {
             return redirect()->back()->withErrors(['email' => 'The provided credentials are incorrect.']);
         }
         auth()->login($user);
+
         return redirect()->route('site.home');
     }
 
@@ -38,11 +39,12 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         $user = $this->authRepository->register($request->validated());
-        if (!$user) {
+        if (! $user) {
             return redirect()->back()->withErrors(['email' => 'The provided data is incorrect.']);
         }
         auth()->login($user);
-        return redirect()->route('site.home');
+
+        return redirect()->route('site.home')->with('status', 'Registration successful');
     }
 
     public function forgetPasswordForm(): View
@@ -68,6 +70,7 @@ class AuthController extends Controller
     public function resendCode()
     {
         $this->authRepository->resendCode(session('reset_email'));
+
         return redirect()->route('site.verify-code-form');
 
     }
@@ -76,10 +79,11 @@ class AuthController extends Controller
     {
         $user = $this->authRepository->checkCode($request->validated());
 
-        if (!$user) {
+        if (! $user) {
             return redirect()->back()->withErrors(['code' => 'The provided code is incorrect or has expired.']);
         } else {
             session(['reset_token' => $user->token]);
+
             return redirect()->route('site.new-password-form');
         }
 
@@ -94,11 +98,11 @@ class AuthController extends Controller
     {
         $user = $this->authRepository->resetPassword($request->validated());
 
-
-        if (!$user) {
+        if (! $user) {
             return redirect()->back()->withErrors(['password' => 'Failed to reset password']);
         }
-            return redirect()->route('site.login-form')->with('status', 'Password reset successfully');
+
+        return redirect()->route('site.login-form')->with('status', 'Password reset successfully');
     }
 
     public function logout()
@@ -109,5 +113,4 @@ class AuthController extends Controller
         return redirect()->route('site.home');
 
     }
-
 }
