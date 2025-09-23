@@ -70,7 +70,7 @@
                                 <li>
                                     <img src="{{ asset('site/images/righ-sign.svg') }}" alt="">
 
-                                    <p>{{ $goal->{'goal_' . app()->getLocale()} }}</p>
+                                    <p>{{ $goal->goal }}</p>
 
                                 </li>
                             @endforeach

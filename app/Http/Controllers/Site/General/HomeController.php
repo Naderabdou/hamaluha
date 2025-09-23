@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Site\General;
 
-use App\Models\Contact;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Partiner;
 use App\Models\Question;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactRequest;
 
@@ -18,23 +16,16 @@ class HomeController extends Controller
 
         $partners = Partiner::all();
         $questions = Question::all();
-        // الكاتيجوري الرئيسية
         $categories = Category::whereNull('parent_id')->get();
-
-        // المنتجات الأكثر طلباً (مثلاً حسب عدد المبيعات)
         $mostOrdered = Product::withCount('orders')->orderByDesc('orders_count')->take(10)->get();
-
-
         $mostFavourited = Product::withCount('favouritedBy')
             ->orderByDesc('favourited_by_count')
             ->take(10)
             ->get();
-
         $topRated = Product::withAvg('reviews', 'rating')
             ->orderByDesc('reviews_avg_rating')
             ->take(10)
             ->get();
-
 
         return view('site.home', compact('categories', 'mostOrdered', 'mostFavourited', 'topRated', 'partners', 'questions'));
     }

@@ -279,9 +279,9 @@
                 @foreach ($categories as $category)
                     <a href="{{ route('site.categories.show', $category->slug) }}" class="products-item">
                         <div class="item-img">
-                            <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" />
+                            <img src="{{ $category->image_path }}" alt="{{ $category->name }}" />
                         </div>
-                        <p>{{ $category->{'name_' . app()->getLocale()} }}</p>
+                        <p>{{ $category->name }}</p>
                     </a>
                 @endforeach
             </div>
@@ -302,18 +302,17 @@
                             <div class="best-seller-card">
 
                                 <div class="card-img">
-                                       <div class="rate">
-                                      <p>{{ number_format($product->average_rating ?? 0, 1) }}</p>
-                                    <i class="bi bi-star-fill"></i>
-                                </div>
+                                    <div class="rate">
+                                        <p>{{ number_format($product->average_rating ?? 0, 1) }}</p>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
 
-                                 <div class="favourite-icon ">
-                              <i class="bi bi-heart-fill"></i>
-                                 {{ $product->favourited_by_count ?? 0 }}
-                            </div>
+                                    <div class="favourite-icon ">
+                                        <i class="bi bi-heart-fill"></i>
+                                        {{ $product->favourited_by_count ?? 0 }}
+                                    </div>
 
-                                    <img src="{{ $product->images->first()?->path ? asset('storage/' . $product->images->first()->path) : asset('site/images/default.png') }}"
-                                        alt="{{ $product->name }}" />
+                                    <img src="{{ $product->first_image->image_path }}" alt="{{ $product->name }}" />
                                 </div>
                                 <div class="card-body">
                                     <span>{{ $product->provider->name ?? 'متجر' }}</span>
@@ -459,8 +458,7 @@
                 شركاؤنا
             </h2>
             <p class="sub-paragraph" data-aos="fade-up" data-aos-duration="1500">
-                شركاؤنا هم جزء من نجاحنا، وبفضل تعاونهم بنقدر نوفر أفضل محتوى
-                وتجربة لكل مستخدم.
+                {{ $settings->{'partners_desc_' . app()->getLocale()} }}
             </p>
         </div>
 
@@ -469,8 +467,8 @@
             <div class="swiper-wrapper">
                 @foreach ($partners as $partner)
                     <div class="swiper-slide">
-                        <img src="{{ asset('storage/' . $partner->image) }}" alt="{{ $partner->name }}" />
-                        <p>{{ $partner->{'name_' . app()->getLocale()} }}</p>
+                        <img src="{{ $partner->image_path }}" alt="{{ $partner->name }}" />
+                        <p>{{ $partner->name }}</p>
                     </div>
                 @endforeach
             </div>
@@ -503,7 +501,7 @@
                                         data-bs-toggle="collapse" data-bs-target="#collapse-{{ $index }}"
                                         aria-expanded="{{ $index === 0 ? 'true' : 'false' }}"
                                         aria-controls="collapse-{{ $index }}">
-                                        {{ $question->question() }}
+                                        {{ $question->question }}
                                     </button>
                                 </h2>
                                 <div id="collapse-{{ $index }}"
@@ -511,7 +509,7 @@
                                     aria-labelledby="heading-{{ $index }}" data-bs-parent="#faqAccordion">
                                     <div class="accordion-body">
                                         <div class="main-container">
-                                            <p>{{ $question->answer() }}</p>
+                                            <p>{{ $question->answer }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -555,8 +553,7 @@
                     <div class="cotanct-text">
                         <h2 class="sub-title"> {{ __('تواصل معنا') }}</h2>
                         <p class="sub-paragraph">
-                            {{ __('  لو عندك استفسار أو شكوى؟ فريقنا موجود عشان يساعدك في أي وقت.
-                                                                                                                                            اختار الطريقة الأنسب ليك وتواصل معانا بسهولة') }}
+                            {{ __('  لو عندك استفسار أو شكوى؟ فريقنا موجود عشان يساعدك في أي وقت.اختار الطريقة الأنسب ليك وتواصل معانا بسهولة') }}
 
                         </p>
                     </div>
