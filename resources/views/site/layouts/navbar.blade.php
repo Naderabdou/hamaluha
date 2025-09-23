@@ -6,17 +6,17 @@
 
 
             <nav>
-                <a href="./index.html" class="logo">
-                    <img src="./images/logo.png" alt="" />
+                <a href="{{ route('site.home') }}" class="logo">
+                    <img src="{{ asset('storage/' . $settings->logo) }}" alt="" />
                 </a>
 
                 <div class="nav-elements">
                     <ul>
                         <li class="active">
-                            <a href="./index.html">الرئيسية</a>
+                            <a href="{{ route('site.home') }}">الرئيسية</a>
                         </li>
                         <li>
-                            <a href="./about.html">النبذة</a>
+                            <a href="{{ route('site.about')}}">النبذة</a>
                         </li>
                         <li>
                             <a href="./our-products.html">المنتجات</a>
@@ -33,14 +33,14 @@
                     </ul>
                 </div>
                 <div class="nav-actions">
-                    <a href="./cart.html" class="links-actions">
-                        <img src="./images/cart-nav.svg" alt="" />
+                    <a href="#" class="links-actions">
+                        <img src="{{ asset('site/images/cart-nav.svg')}}" alt="" />
                     </a>
-                    <a href="./favourite.html" class="links-actions">
-                        <img src="./images/fovourite.svg" alt="" />
+                    <a href="#" class="links-actions">
+                        <img src="{{ asset('site/images/fovourite.svg')}}" alt="" />
                     </a>
-                    <a href="./profile.html" class="avatar">
-                        <img src="./images/avatar.svg" alt="" />
+                    <a href="#" class="avatar">
+                        <img src="{{ asset('site/images/avatar.svg')}}" alt="" />
                     </a>
 
                     <a href="" class="main_btn" data-bs-toggle="modal" data-bs-target="#join"> انضم كبائع </a>
