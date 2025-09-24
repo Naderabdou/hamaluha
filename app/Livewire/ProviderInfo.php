@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Provider;
+use App\Models\Store;
 use Livewire\Component;
 use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
@@ -16,11 +16,11 @@ class ProviderInfo extends Component implements HasInfolists
 {
     use InteractsWithInfolists;
 
-    public Provider $provider;
+    public Store $provider;
 
     public function mount($providerId): void
     {
-        $this->provider = Provider::findOrFail($providerId);
+        $this->provider = Store::findOrFail($providerId);
     }
 
     public function providerInfo(Infolist $infolist): Infolist

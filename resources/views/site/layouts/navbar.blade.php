@@ -16,7 +16,7 @@
                             <a href="{{ route('site.home') }}">الرئيسية</a>
                         </li>
                         <li>
-                            <a href="{{ route('site.about')}}">النبذة</a>
+                            <a href="{{ route('site.about') }}">النبذة</a>
                         </li>
                         <li>
                             <a href="./our-products.html">المنتجات</a>
@@ -33,18 +33,29 @@
                     </ul>
                 </div>
                 <div class="nav-actions">
-                    <a href="#" class="links-actions">
-                        <img src="{{ asset('site/images/cart-nav.svg')}}" alt="" />
-                    </a>
-                    <a href="#" class="links-actions">
-                        <img src="{{ asset('site/images/fovourite.svg')}}" alt="" />
-                    </a>
-                    <a href="#" class="avatar">
-                        <img src="{{ asset('site/images/avatar.svg')}}" alt="" />
-                    </a>
+                    @auth()
+                        <a href="#" class="links-actions">
+                            <img src="{{ asset('site/images/cart-nav.svg') }}" alt="" />
+                        </a>
+                        <a href="#" class="links-actions">
+                            <img src="{{ asset('site/images/fovourite.svg') }}" alt="" />
+                        </a>
+                        <a href="#" class="avatar">
+                            <img src="{{ asset('site/images/avatar.svg') }}" alt="" />
+                        </a>
 
-                    <a href="" class="main_btn" data-bs-toggle="modal" data-bs-target="#join"> انضم كبائع </a>
+                        @if (!auth()->user()->hasStoreRequest())
+                            <a href="" class="main_btn" data-bs-toggle="modal" data-bs-target="#join"> انضم كبائع </a>
+                        @endif
+                    @endauth
+
+                    @guest()
+                        <a href="{{ route('site.login') }}" class="main_btn"> تسجيل الدخول</a>
+
+                        <a href="{{ route('site.register') }}" class="main_btn"> انشاء حساب</a>
+                    @endguest
                 </div>
+
 
                 <!-- responsive menu -->
                 <div class="show-menu">

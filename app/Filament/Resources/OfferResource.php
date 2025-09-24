@@ -2,28 +2,28 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Tables;
+use App\Filament\Resources\OfferResource\Pages;
 use App\Models\Offer;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Infolists\Infolist;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use Filament\Infolists\Components\Grid;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
-use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\Grid as FormGrid;
+use Filament\Forms\Components\Section as FormSection;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Infolists\Components\Grid;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Infolists\Components\ImageEntry;
-use App\Filament\Resources\OfferResource\Pages;
-use Filament\Forms\Components\Grid as FormGrid;
-use Filament\Infolists\Components\RepeatableEntry;
-use Filament\Forms\Components\Section as FormSection;
-
+use Filament\Infolists\Infolist;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class OfferResource extends Resource
 {
@@ -32,7 +32,6 @@ class OfferResource extends Resource
     protected static ?string $navigationIcon = 'offer';
 
     protected static ?int $navigationSort = 3;
-
 
     public static function getModelLabel(): string
     {
@@ -43,6 +42,7 @@ class OfferResource extends Resource
     {
         return __('Offers');
     }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -52,91 +52,106 @@ class OfferResource extends Resource
                         ->description(__('This is the main information about the category.'))
                         ->collapsible(true)
                         ->schema([
-                            Select::make('provider_id')
-                            ->label(__('Provider'))
-                                ->options(\App\Models\User::where('type', 'provider')
-                                ->pluck('name', 'id'))
+                            Select::make('store_id')
+                                ->label(__('Provider'))
+                                ->relationship('store', 'name')
                                 ->searchable()
+                                ->preload()
                                 ->required()
                                 ->reactive(),
 
-                            TextInput::make('desc_ar')->label(__('Description (Arabic)')),
-                            TextInput::make('desc_en')->label(__('Description (English)')),
+                            Select::make('type')
+                                ->label(__('Type of Offer'))
+                                ->options([
+                                    'discount' => __('discount on a single product'),
+                                    'offer' => __('offer on a group of products'),
+                                ])
+                                ->required()
+                                ->reactive(),
+
+                            Select::make('product_id')
+                                ->label('المنتج')
+                                ->relationship('products', 'name_'.app()->getLocale(), fn ($query, Get $get) => $query->where('store_id', $get('store_id')))
+                                ->multiple(fn (Get $get) => $get('type') === 'offer' ? true : false)
+                                ->searchable()
+                                ->preload()
+                                ->required(fn ($get) => $get('type') === 'discount')
+                                ->reactive(),
+
+                            TextInput::make('desc_ar')
+                                ->label(__('Description (Arabic)'))
+                                ->required()
+                                ->minLength(5)
+                                ->regex('/^[\p{Arabic}\p{N}\s]+$/u'),
+
+                            TextInput::make('desc_en')
+                                ->label(__('Description (English)'))
+                                ->required()
+                                ->minLength(5)
+                                ->regex('/^[a-zA-Z0-9\s]+$/u'),
 
                             TextInput::make('discount')
-                            ->label(__('Discount'))
+                                ->label(__('Discount'))
                                 ->numeric()
                                 ->minValue(0)
                                 ->maxValue(100)
                                 ->suffix('%'),
 
-                            Select::make('type')
-                            ->label(__('Type of Offer'))
-                                ->options([
-                                    'discount' => __('discount on a single product'),
-                                    'offer'    => __('offer on a group of products'),
-                                ])
-                                ->required()
-                                ->reactive(),
                             FileUpload::make('image')
-                            ->image()
-                            ->directory('offers')
-                            ->disk('public')
-                            ->visible(fn($get) => $get('type') === 'offer'),
+                                ->image()
+                                ->directory('offers')
+                                ->disk('public')
+                                ->visible(fn ($get) => $get('type') === 'offer'),
+                            // Select::make('products')
+                            //     ->label('المنتجات')
+                            //     ->multiple()
+                            //     ->relationship('products', 'id')
+                            //     ->options(function (callable $get) {
+                            //         $storeId = $get('store_id');
+                            //         if (! $storeId) {
+                            //             return [];
+                            //         }
 
-                            Select::make('product_id')
-                                ->label('المنتج')
-                                ->relationship('products', 'id')
-                                ->options(function (callable $get) {
-                                    $providerId = $get('provider_id');
-                                    if (!$providerId) {
-                                        return [];
-                                    }
-
-                                    return \App\Models\Product::where('provider_id', $providerId)
-                                        ->pluck(app()->getLocale() === 'ar' ? 'name_ar' : 'name_en', 'id');
-                                })
-                                ->getOptionLabelFromRecordUsing(fn($record) => app()->getLocale() === 'ar' ? $record->name_ar : $record->name_en)
-                                ->preload()
-                                ->visible(fn($get) => $get('type') === 'discount')
-                                ->searchable()
-                                ->required(fn($get) => $get('type') === 'discount')
-                                ->reactive(),
-
-                            Select::make('products')
-                                ->label('المنتجات')
-                                ->multiple()
-                                ->relationship('products', 'id')
-                                ->options(function (callable $get) {
-                                    $providerId = $get('provider_id');
-                                    if (!$providerId) {
-                                        return [];
-                                    }
-
-                                    return \App\Models\Product::where('provider_id', $providerId)
-                                        ->pluck(app()->getLocale() === 'ar' ? 'name_ar' : 'name_en', 'id');
-                                })
-                                ->getOptionLabelFromRecordUsing(fn($record) => app()->getLocale() === 'ar' ? $record->name_ar : $record->name_en)
-                                ->preload()
-                                ->visible(fn($get) => $get('type') === 'offer')
-                                ->searchable()
-                                ->required(fn($get) => $get('type') === 'offer')
-                                ->reactive(),
+                            //         return \App\Models\Product::where('store_id', $storeId)
+                            //             ->pluck(app()->getLocale() === 'ar' ? 'name_ar' : 'name_en', 'id');
+                            //     })
+                            //     ->getOptionLabelFromRecordUsing(fn ($record) => app()->getLocale() === 'ar' ? $record->name_ar : $record->name_en)
+                            //     ->preload()
+                            //     ->visible(fn ($get) => $get('type') === 'offer')
+                            //     ->searchable()
+                            //     ->required(fn ($get) => $get('type') === 'offer')
+                            //     ->reactive(),
 
                             Toggle::make('is_active')
                                 ->label(__('Active'))
                                 ->default(true),
 
-                            DateTimePicker::make('start_at')->label('تاريخ البداية')->before('end_at'),
-                            DateTimePicker::make('end_at')->label('تاريخ النهاية')->after('start_at'),
+                            DateTimePicker::make('start_at')
+                                ->label(__('Start Date'))
+                                ->before('end_at')
+                                ->afterOrEqual(now())
+                                ->required(),
+
+                            DateTimePicker::make('end_at')
+                                ->label(__('End Date'))
+                                ->after('start_at')
+                                ->required(),
                         ])->columns(1),
-
-
-
 
                 ]),
             ]);
     }
+
+    // protected function afterCreate(): void
+    // {
+    //     if ($this->data['type'] === 'offer' && isset($this->data['products'])) {
+    //         $this->record->products()->sync($this->data['products']);
+    //     }
+
+    //     if ($this->data['type'] === 'discount' && isset($this->data['product_id'])) {
+    //         $this->record->products()->sync([$this->data['product_id']]);
+    //     }
+    // }
 
     public static function table(Table $table): Table
     {
@@ -153,8 +168,8 @@ class OfferResource extends Resource
             ->columns([
                 TextColumn::make('desc')->label(__('description'))->searchable(),
                 TextColumn::make('discount')->label(__('discount')),
-                TextColumn::make('provider.name')->label(__('Provider')),
-                TextColumn::make('created_at')->dateTime('d/m/Y')->label('تاريخ الإضافة'),
+                TextColumn::make('store.name')->label(__('Provider')),
+                TextColumn::make('created_at')->dateTime('d/m/Y')->label(__('Created At')),
             ])
             ->filters([
                 //
@@ -187,7 +202,6 @@ class OfferResource extends Resource
         ];
     }
 
-
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist->schema([
@@ -196,26 +210,25 @@ class OfferResource extends Resource
 
                 Section::make(__('Offer Details'))
                     ->schema([
-                        TextEntry::make('provider.name')->label(__('Provider')),
+                        TextEntry::make('store.name')->label(__('Provider')),
                         TextEntry::make('desc')->label(__('Description')),
                         TextEntry::make('discount')->label(__('Discount')),
                         TextEntry::make('type')->label(__('Type'))
-                        ->formatStateUsing(fn ($state) => $state === 'discount' ? 'خصم على منتج واحد' : 'عرض على مجموعة منتجات'),
+                            ->formatStateUsing(fn ($state) => $state === 'discount' ? 'خصم على منتج واحد' : 'عرض على مجموعة منتجات'),
                         TextEntry::make('is_active')
                             ->label(__('Activation'))
                             ->formatStateUsing(fn ($state) => $state ? __('active') : __('No')),
                         TextEntry::make('start_at')->label(__('Start Date')),
                         TextEntry::make('end_at')->label(__('End Date')),
                         ImageEntry::make('image')->label(__('Image'))
-                        ->visible(fn ($record) => $record->type === 'offer')
-,
+                            ->visible(fn ($record) => $record->type === 'offer'),
                     ])
                     ->columns(2),
 
                 Section::make(__('Products in Offer'))
                     ->schema([
                         RepeatableEntry::make('products')
-                        ->label(__('Products'))
+                            ->label(__('Products'))
                             ->schema([
                                 TextEntry::make('name_'.app()->getLocale())
                                     ->label(__('Name')),
@@ -225,9 +238,7 @@ class OfferResource extends Resource
                             ->columns(3),
                     ]),
 
-            ])
-
-
+            ]),
 
         ]);
     }

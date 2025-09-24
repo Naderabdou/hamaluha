@@ -22,3 +22,5 @@ Route::get('/stores/{id}', [StoreController::class, 'show'])->name('stores.show'
 Route::get('/offers', [OfferController::class, 'index'])->name('offers');
 Route::post('contact', [ContactController::class, 'submitContactForm'])->name('contact.submit');
 Route::get('contact', [ContactController::class, 'index'])->name('contact');
+
+Route::post('join-us', [StoreController::class, 'joinUs'])->name('join-us')->middleware('auth');

@@ -84,6 +84,15 @@ class GeneralSettings extends Settings
     public string $address;
     public string|array $location;
 
+    public string $hero_man;
+    public string $about_img;
+    public string $goals_img;
+    public string $questions_img;
+    public string $join_us_img1;
+    public string $join_us_img2;
+    public string $about_stores_counter;
+    public string $about_products_counter;
+    public string $about_purchases_counter;
 
 
 

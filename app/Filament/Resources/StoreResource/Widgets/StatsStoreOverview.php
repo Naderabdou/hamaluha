@@ -1,27 +1,25 @@
 <?php
 
-namespace App\Filament\Resources\ProviderResource\Widgets;
+namespace App\Filament\Resources\StoreResource\Widgets;
 
-use App\Models\Provider;
-use Illuminate\Database\Eloquent\Model;
-use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget\Card;
-use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget\Stat;
 use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget as BaseWidget;
+use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget\Stat;
+use Illuminate\Database\Eloquent\Model;
 
-class StatsProviderOverview extends BaseWidget
+class StatsStoreOverview extends BaseWidget
 {
     public ?Model $record = null;
+
     protected function getStats(): array
     {
-        $provider = Provider::find($this->record->id);
+        $provider = $this->record->withCount(['offers', 'products'])->first();
 
-        $total_offers = $provider->offers()->count();
-        $products = $provider->products()->count();
+        $total_offers = $provider->offers_count;
+        $products = $provider->products_count;
         $total_revenue = $provider->total_revenue;
         $orders_count = $provider->orders_count;
-
         return [
-            Stat::make(__('Total Offers'), $total_offers . ' ')->icon('icon-box')
+            Stat::make(__('Total Offers'), $total_offers.' ')->icon('icon-box')
                 ->progress($total_offers)
                 ->progressBarColor('primary')
                 ->chartColor('primary')
@@ -31,7 +29,7 @@ class StatsProviderOverview extends BaseWidget
                 ->iconColor('primary')
                 ->iconPosition('start'),
 
-            Stat::make(__('Total Products'),  $products . '')->icon('products')
+            Stat::make(__('Total Products'), $products.'')->icon('products')
                 ->progress($products)
                 ->progressBarColor('warning')
                 ->chartColor('warning')
@@ -41,7 +39,7 @@ class StatsProviderOverview extends BaseWidget
                 ->iconPosition('start')
                 ->iconColor('warning'),
 
-            Stat::make(__('Orders Count'),  $orders_count . '')->icon('orders')
+            Stat::make(__('Orders Count'), $orders_count.'')->icon('orders')
                 ->progress($orders_count)
                 ->progressBarColor('primary')
                 ->chartColor('primary')
@@ -51,7 +49,7 @@ class StatsProviderOverview extends BaseWidget
                 ->iconPosition('start')
                 ->iconColor('primary'),
 
-            Stat::make(__('Total Revenue'),  $total_revenue . '')->icon('icon-coin')
+            Stat::make(__('Total Revenue'), $total_revenue.'')->icon('icon-coin')
                 ->progress($total_revenue)
                 ->progressBarColor('warning')
                 ->chartColor('warning')
@@ -61,8 +59,6 @@ class StatsProviderOverview extends BaseWidget
                 ->iconColor('warning')
                 ->iconPosition('start'),
 
-
         ];
     }
-
 }

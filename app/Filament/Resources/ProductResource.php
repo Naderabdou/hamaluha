@@ -57,26 +57,42 @@ class ProductResource extends Resource
                         ->schema([
                             TextInput::make('name_ar')
                                 ->label(__('name_ar'))
-                                ->required(),
+                                ->required()
+                                ->minLength(3)
+                                ->maxLength(255)
+                                ->regex('/^[\p{Arabic}\p{N}\s]+$/u'),
 
                             TextInput::make('name_en')
                                 ->label(__('name_en'))
-                                ->required(),
+                                ->required()
+                                ->maxLength(255)
+                                ->minLength(3)
+                                ->regex('/^[a-zA-Z0-9\s]+$/u'),
+
 
                             Textarea::make('desc_ar')
-                                ->label(__('desc_ar')),
+                                ->label(__('desc_ar'))
+                                ->required()
+                                ->minLength(5)
+                                ->regex('/^[\p{Arabic}\p{N}\s]+$/u'),
 
                             Textarea::make('desc_en')
-                                ->label(__('desc_en')),
+                                ->label(__('desc_en'))
+                                ->required()
+                                ->minLength(5)
+                                ->regex('/^[a-zA-Z0-9\s]+$/u'),
 
                             TextInput::make('price')
                                 ->numeric()
                                 ->required()
-                                ->label('السعر'),
+                                ->label(__('Price'))
+                                ->minValue(1),
 
                             FileUpload::make('file')
                                 ->label(__('ملف المنتج'))
-                                ->directory('products/files'),
+                                ->directory('products/files')
+                                ->required()
+                                ->maxSize(size: 20000),
 
                             Select::make('parent_category_id')
                                 ->label(__('Main Category'))
@@ -85,7 +101,8 @@ class ProductResource extends Resource
                                     titleAttribute: 'name_' . app()->getLocale(),
                                     modifyQueryUsing: fn($query) => $query->whereNull('parent_id')
                                 )
-                                ->reactive(),
+                                ->reactive()
+                                ->required(),
 
                             Select::make('category_id')
                                 ->label(__('Sub Category'))
@@ -101,9 +118,9 @@ class ProductResource extends Resource
                                 ->disabled(fn(Get $get) => !$get('parent_category_id')),
 
 
-                            Forms\Components\Select::make('provider_id')
-                                ->label(__('Provider'))
-                                ->relationship('provider', 'name')
+                            Forms\Components\Select::make('store_id')
+                                ->label(__('Store'))
+                                ->relationship('store', 'name')
                                 ->searchable()
                                 ->required(),
 
@@ -144,7 +161,7 @@ class ProductResource extends Resource
                                 ->imageEditorViewportHeight('1080')
                                 ->maxFiles(20)
                                 ->minFiles(3)
-                                ->hint(new HtmlString(__('<strong>يجب ان تكون الصور بجودة عالية وواضحة للمنتج و اقصي عدد 20 صور</strong>')))
+                                ->hint(new HtmlString(__('يجب ان تكون الصور بجودة عالية وواضحة للمنتج و اقصي عدد 20 صور')))
                                 ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/svg+xml', 'image/webp'])
                                 ->afterStateHydrated(function ($set, $state, $record) {
                                     if ($record && $record->images) {
@@ -175,7 +192,7 @@ class ProductResource extends Resource
                 TextColumn::make('name_' . app()->getLocale())->label(__('name'))->searchable(),
                 TextColumn::make('price')->label(__('price')),
                 TextColumn::make('category.name')->label(__('Category')),
-                TextColumn::make('provider.name')->label(__('Provider')),
+                TextColumn::make('store.name')->label(__('Store')),
                 TextColumn::make('created_at')->dateTime('d/m/Y')->label(__('Created At')),
             ])
             ->filters([
@@ -223,8 +240,8 @@ class ProductResource extends Resource
                             ->label(__('Name')),
                         TextEntry::make('category.name')
                             ->label(__('Category')),
-                        TextEntry::make('provider.name')
-                            ->label(__('Provider')),
+                        TextEntry::make('store.name')
+                            ->label(__('Store')),
                         TextEntry::make('price')
                             ->label(__('Price'))
                             ->money('SAR'),

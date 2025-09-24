@@ -37,6 +37,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'check.type' => CheckWebType::class,
             'lang' => Lang::class,
         ]);
+        $middleware->redirectGuestsTo(fn (Request $request) => route('site.login'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (UnauthorizedException $e, Request $request) {

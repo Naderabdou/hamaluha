@@ -16,7 +16,7 @@ class Product extends Model
     protected $fillable = [
         'slug',
         'category_id',
-        'provider_id',
+        'store_id',
         'name_ar',
         'name_en',
         'desc_ar',
@@ -25,7 +25,7 @@ class Product extends Model
         'file',
     ];
 
-    protected $appends = ['name'];
+    protected $appends = ['first_image'];
 
     public function getSlugOptions(): SlugOptions
     {
@@ -36,19 +36,18 @@ class Product extends Model
 
     public function getNameAttribute(): string
     {
-        return $this['name_' . app()->getLocale()];
+        return $this['name_'.app()->getLocale()];
     }
 
     public function getDescAttribute(): string
     {
-        return $this['desc_' . app()->getLocale()] ?? '';
+        return $this['desc_'.app()->getLocale()] ?? '';
     }
 
     public function getRouteKeyName(): string
     {
         return 'slug';
     }
-
 
     public function category(): BelongsTo
     {
@@ -60,9 +59,9 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
-    public function provider(): BelongsTo
+    public function store(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'provider_id');
+        return $this->belongsTo(Store::class, 'store_id');
     }
 
     public function offers(): BelongsToMany
@@ -94,5 +93,10 @@ class Product extends Model
     public function getAverageRatingAttribute()
     {
         return round($this->reviews()->avg('rating'), 1) ?? 0;
+    }
+
+    public function getFirstImageAttribute()
+    {
+        return $this->images()->first();
     }
 }

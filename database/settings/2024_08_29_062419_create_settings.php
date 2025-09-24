@@ -94,6 +94,17 @@ return new class extends SettingsMigration
         $this->migrator->add('general.address', 'Riyadh, Saudi Arabia');
         $this->migrator->add('general.location', ' This is my location');
 
+
+        $this->migrator->add('general.hero_man', '');
+        $this->migrator->add('general.about_img', '');
+        $this->migrator->add('general.goals_img', '');
+        $this->migrator->add('general.questions_img', '');
+        $this->migrator->add('general.join_us_img1', '');
+        $this->migrator->add('general.join_us_img2', '');
+        $this->migrator->add('general.about_stores_counter', '150');
+        $this->migrator->add('general.about_products_counter', '1200');
+        $this->migrator->add('general.about_purchases_counter', '5000');
+
         $this->migrator->add('general.policy_desc_ar', 'سياسة الخصوصية وشروط الاستخدام');
         $this->migrator->add('general.policy_desc_en', ' Privacy Policy and Terms of Use');
     }

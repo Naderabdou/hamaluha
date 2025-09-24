@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
+use Filament\Panel;
 use App\Helpers\AppHelper;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Filament\Panel;
 use Filament\Models\Contracts\FilamentUser;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int $id
@@ -98,7 +98,8 @@ class User extends Authenticatable implements FilamentUser
 
     private function activationCode(): int
     {
-        return mt_rand(1111, 9999);
+        // return mt_rand(11111, 99999);
+        return '12345';
     }
 
     public function sendEmailVerificationCode(): bool
@@ -127,5 +128,42 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return in_array($this->type, ['employee', 'admin']);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class, 'user_id');
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'user_id');
+    }
+
+    public function favourites(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'favourites', 'user_id', 'product_id');
+    }
+
+    public function getTotalPurchasesAttribute()
+    {
+        return $this->orders()->sum('total');
+    }
+
+    public function storeRequest()
+    {
+        return $this->hasOne(Store::class, 'provider_id', 'id');
+    }
+
+    public function hasStoreRequest(): bool
+    {
+        return $this->storeRequest()->where('status', 'pending')->exists();
+    }
+
+    public function scopeHasStoreRequest($query)
+    {
+        return $query->whereHas('storeRequest', function ($q) {
+            $q->where('status', 'pending');
+        });
     }
 }

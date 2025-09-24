@@ -7,10 +7,10 @@ use App\Models\Goal;
 
 class AboutController extends Controller
 {
-   public function index()
-{
-    $goals = Goal::all();
-    return view('site.user.about', compact('goals'));
-}
+    public function index()
+    {
+        $goals = Goal::all();
 
+        return view('site.about.index', compact('goals'));
+    }
 }

@@ -47,11 +47,15 @@ class GoalsResource extends Resource
                             TextInput::make('goal_ar')
                                 ->label(__('Goal in Arabic'))
                                 ->required()
-                                ->maxLength(255),
+                                ->maxLength(255)
+                                ->minLength(3)
+                                ->regex('/^[\p{Arabic}\p{N}\s]+$/u'),
                             TextInput::make('goal_en')
                                 ->label(__('Goal in English'))
                                 ->required()
-                                ->maxLength(255),
+                                ->maxLength(255)
+                                ->minLength(3)
+                                ->regex('/^[a-zA-Z0-9\s]+$/u'),
                         ])
                 ])
             ]);

@@ -15,36 +15,19 @@ class Provider extends BaseUserType
         });
     }
 
-    public function products(): HasMany
-    {
-        return $this->hasMany(Product::class);
-    }
 
-    public function offers(): HasMany
-    {
-        return $this->hasMany(Offer::class);
-    }
 
-    public function reviews() : HasMany
+    public function reviews(): HasMany
     {
         return $this->hasMany(Review::class, 'user_id');
     }
 
-    public function orderItems(): HasMany
+    public function store(): HasOne
     {
-        return $this->hasMany(OrderItem::class, 'provider_id');
+        return $this->hasOne(Store::class, 'provider_id');
     }
-
-    public function getOrdersCountAttribute()
+    public function scopeHasStore($query)
     {
-        return $this->orderItems()
-            ->distinct('order_id')
-            ->count('order_id');
+        return $query->whereHas('store');
     }
-
-    public function getTotalRevenueAttribute()
-    {
-        return $this->orderItems()->sum('price');
-    }
-
 }

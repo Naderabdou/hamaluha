@@ -21,6 +21,9 @@
  <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
  <script src="{{ asset('site/js/custom.js') }}"></script>
+
+ <script src="{{ asset('jquery.validate.min.js') }}"></script>
+
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/additional-methods.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -390,63 +393,109 @@
      });
  </script>
  <script>
-$(document).ready(function () {
-    $("#contactForm").validate({
-        rules: {
-            name: {
-                required: true,
-                minlength: 3,
-                string: true
-            },
-            email: {
-                required: true,
-                email: true,
-                domain: true
-            },
-            phone: {
-                required: true,
-                minlength: 10,
-                maxlength: 15,
-                phone_type: true,
-            },
-            message: {
-                required: true,
-                minlength: 5
-            }
-        },
-        messages: {
-            name: {
-                required: "الاسم مطلوب",
-                minlength: "الاسم يجب أن يكون 3 أحرف على الأقل",
-            },
-            email: {
-                required: "البريد الإلكتروني مطلوب",
-                email: "صيغة البريد غير صحيحة",
-            },
-            phone: {
-                required: "رقم الجوال مطلوب",
-                minlength: "يجب أن لا يقل عن 10 أرقام",
-                maxlength: "يجب أن لا يزيد عن 15 رقم",
-            },
-            message: {
-                required: "الرسالة مطلوبة",
-                minlength: "الرسالة يجب أن تكون 5 أحرف على الأقل",
-            }
-        },
-        errorElement: "small",
-        errorClass: "text-danger",
-        errorPlacement: function (error, element) {
-            element.closest('.mb-3').find('small.text-danger').html(error);
-        },
-        success: function (label, element) {
-            $(element).closest('.mb-3').find('small.text-danger').html('');
-        },
-        submitHandler: function (form) {
-            form.submit();
-        }
-    });
-});
-</script>
+     $(document).ready(function() {
+         $("#contactForm").validate({
+             rules: {
+                 name: {
+                     required: true,
+                     minlength: 3,
+                     string: true
+                 },
+                 email: {
+                     required: true,
+                     email: true,
+                     domain: true
+                 },
+                 phone: {
+                     required: true,
+                     minlength: 10,
+                     maxlength: 15,
+                     phone_type: true,
+                 },
+                 message: {
+                     required: true,
+                     minlength: 5
+                 }
+             },
+             messages: {
+                 name: {
+                     required: "الاسم مطلوب",
+                     minlength: "الاسم يجب أن يكون 3 أحرف على الأقل",
+                 },
+                 email: {
+                     required: "البريد الإلكتروني مطلوب",
+                     email: "صيغة البريد غير صحيحة",
+                 },
+                 phone: {
+                     required: "رقم الجوال مطلوب",
+                     minlength: "يجب أن لا يقل عن 10 أرقام",
+                     maxlength: "يجب أن لا يزيد عن 15 رقم",
+                 },
+                 message: {
+                     required: "الرسالة مطلوبة",
+                     minlength: "الرسالة يجب أن تكون 5 أحرف على الأقل",
+                 }
+             },
+             errorElement: "small",
+             errorClass: "text-danger",
+             errorPlacement: function(error, element) {
+                 element.closest('.mb-3').find('small.text-danger').html(error);
+             },
+             success: function(label, element) {
+                 $(element).closest('.mb-3').find('small.text-danger').html('');
+             },
+             submitHandler: function(form) {
+                 form.submit();
+             }
+         });
+     });
+ </script>
+
+ <script>
+     $(document).ready(function() {
+         // إضافة ميثود للتحقق من حجم الملف
+         $.validator.addMethod('filesize', function(value, element, param) {
+             return this.optional(element) || (element.files[0].size <= param);
+         }, 'حجم الملف كبير جدًا (الحد الأقصى 1MB)');
+
+         // تفعيل الفاليديشن على الفورم
+         $("#joinForm").validate({
+             rules: {
+                 name: {
+                     required: true,
+                     minlength: 3
+                 },
+                 email: {
+                     required: true,
+                     email: true
+                 },
+                 phone: {
+                     required: true,
+                     minlength: 10,
+                     maxlength: 15
+                 },
+                 desc: {
+                     required: true,
+                     minlength: 10
+                 },
+                 image: {
+                     required: true,
+                     accept: "image/*",
+                     filesize: 1048576 // 1MB
+                 }
+             },
+             errorElement: "span",
+             errorClass: "text-danger",
+             highlight: function(element) {
+                 $(element).addClass("is-invalid");
+             },
+             unhighlight: function(element) {
+                 $(element).removeClass("is-invalid");
+             }
+         });
+     });
+ </script>
+
 
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
  <script>
@@ -478,4 +527,6 @@ $(document).ready(function () {
          });
      });
  </script>
+
+
  @stack('js')

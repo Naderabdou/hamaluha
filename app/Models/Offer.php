@@ -13,7 +13,7 @@ class Offer extends Model
 {
     // use HasSlug;
     protected $fillable = [
-        'provider_id',
+        'store_id',
         'desc_ar',
         'desc_en',
         'discount',
@@ -48,14 +48,16 @@ class Offer extends Model
     //     return 'slug';
     // }
 
-    public function provider():BelongsTo
+    public function store():BelongsTo
     {
-        return $this->belongsTo(User::class, 'provider_id');
+        return $this->belongsTo(Store::class, 'store_id');
     }
 
     public function products():BelongsToMany
     {
-        return $this->belongsToMany(Product::class,'offer_products','product_id','offer_id');
+        return $this->belongsToMany(Product::class,'offer_products','offer_id','product_id');
     }
+   
+
 
 }

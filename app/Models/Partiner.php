@@ -11,4 +11,16 @@ class Partiner extends Model
         'name_ar',
         'name_en',
     ];
+
+    protected $appends = ['image_path'];
+
+    public function getImagePathAttribute(): string
+    {
+        return asset('storage/'.$this->image);
+    }
+
+    public function getNameAttribute(): string
+    {
+        return $this['name_'.app()->getLocale()];
+    }
 }
