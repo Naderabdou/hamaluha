@@ -2,33 +2,27 @@
 
 namespace App\Filament\Resources;
 
-use App\Models\Store;
 use Filament\Tables;
-use App\Enums\UserType;
-use Filament\Forms\Get;
+use App\Models\Store;
+use App\Models\Customer;
 use Filament\Forms\Form;
-use Filament\Pages\Page;
 use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use Illuminate\Support\Facades\Hash;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Infolists\Components\Grid;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Resources\Pages\EditRecord;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Validation\Rules\Password;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\Livewire;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ImageEntry;
-use Filament\Forms\Components\Grid as FormGrid;
 use App\Filament\Resources\StoreResource\Pages;
+use Filament\Forms\Components\Grid as FormGrid;
 use Filament\Forms\Components\Section as FormSection;
-use Filament\Tables\Columns\ToggleColumn;
 
 class StoreResource extends Resource
 {
@@ -60,8 +54,7 @@ class StoreResource extends Resource
                         ->schema([
                             Select::make('provider_id')
                                 ->label(__('Provider'))
-                                ->options(\App\Models\Provider::hasStore()
-                                    ->pluck('name', 'id'))
+                                ->options(Customer::all()->pluck('name', 'id'))
                                 ->searchable()
                                 ->required()
                                 ->reactive(),

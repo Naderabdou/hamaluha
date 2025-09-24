@@ -2,10 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\BaseUserType;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Customer extends BaseUserType
 {

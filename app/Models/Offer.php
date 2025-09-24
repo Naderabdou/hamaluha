@@ -55,7 +55,9 @@ class Offer extends Model
 
     public function products():BelongsToMany
     {
-        return $this->belongsToMany(Product::class,'offer_products','product_id','offer_id');
+        return $this->belongsToMany(Product::class,'offer_products','offer_id','product_id');
     }
+   
+
 
 }

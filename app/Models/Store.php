@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Provider;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
@@ -14,6 +16,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $phone
  * @property string $image
  * @property string $desc
+ * @property string $slug
+ * @property int $provider_id
+ * @property bool $status
  *
  */
 class Store extends Model
@@ -31,6 +36,7 @@ class Store extends Model
         'is_active',
     ];
 
+    protected $appends = ['image_path', 'orders_count', 'total_revenue'];
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
@@ -48,9 +54,9 @@ class Store extends Model
         return asset('storage/' . $this->image);
     }
 
-    public function provider()
+    public function provider(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'provider_id');
     }
 
     public function products(): HasMany
