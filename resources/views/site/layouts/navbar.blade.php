@@ -22,7 +22,7 @@
                             <a href="./our-products.html">المنتجات</a>
                         </li>
                         <li>
-                            <a href="./stores.html">المتاجر</a>
+                            <a href="{{ route('site.stores.index') }}">المتاجر</a>
                         </li>
                         <li>
                             <a href="./offers.html">العروض</a>
