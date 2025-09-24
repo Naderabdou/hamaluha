@@ -20,7 +20,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Infolists\Components\ImageEntry;
 use App\Filament\Resources\OfferResource\Pages;
-use App\Models\Provider;
+use App\Models\Store;
 use App\Models\User;
 use Filament\Forms\Components\Grid as FormGrid;
 use Filament\Infolists\Components\RepeatableEntry;
@@ -55,9 +55,9 @@ class OfferResource extends Resource
                         ->collapsible(true)
                         ->schema([
                             Select::make('store_id')
-                            ->label(__('Provider'))
-                                ->options(Provider::all()
-                                ->pluck('name', 'id'))
+                                ->label(__('Provider'))
+                                ->options(Store::all()
+                                    ->pluck('name', 'id'))
                                 ->searchable()
                                 ->required()
                                 ->reactive(),
@@ -75,14 +75,14 @@ class OfferResource extends Resource
                                 ->regex('/^[a-zA-Z0-9\s]+$/u'),
 
                             TextInput::make('discount')
-                            ->label(__('Discount'))
+                                ->label(__('Discount'))
                                 ->numeric()
                                 ->minValue(0)
                                 ->maxValue(100)
                                 ->suffix('%'),
 
                             Select::make('type')
-                            ->label(__('Type of Offer'))
+                                ->label(__('Type of Offer'))
                                 ->options([
                                     'discount' => __('discount on a single product'),
                                     'offer'    => __('offer on a group of products'),
@@ -90,10 +90,10 @@ class OfferResource extends Resource
                                 ->required()
                                 ->reactive(),
                             FileUpload::make('image')
-                            ->image()
-                            ->directory('offers')
-                            ->disk('public')
-                            ->visible(fn($get) => $get('type') === 'offer'),
+                                ->image()
+                                ->directory('offers')
+                                ->disk('public')
+                                ->visible(fn($get) => $get('type') === 'offer'),
 
                             Select::make('product_id')
                                 ->label('المنتج')
@@ -157,6 +157,18 @@ class OfferResource extends Resource
             ]);
     }
 
+    protected function afterCreate(): void
+    {
+        if ($this->data['type'] === 'offer' && isset($this->data['products'])) {
+            $this->record->products()->sync($this->data['products']);
+        }
+
+        if ($this->data['type'] === 'discount' && isset($this->data['product_id'])) {
+            $this->record->products()->sync([$this->data['product_id']]);
+        }
+    }
+
+
     public static function table(Table $table): Table
     {
         return $table
@@ -219,24 +231,23 @@ class OfferResource extends Resource
                         TextEntry::make('desc')->label(__('Description')),
                         TextEntry::make('discount')->label(__('Discount')),
                         TextEntry::make('type')->label(__('Type'))
-                        ->formatStateUsing(fn ($state) => $state === 'discount' ? 'خصم على منتج واحد' : 'عرض على مجموعة منتجات'),
+                            ->formatStateUsing(fn($state) => $state === 'discount' ? 'خصم على منتج واحد' : 'عرض على مجموعة منتجات'),
                         TextEntry::make('is_active')
                             ->label(__('Activation'))
-                            ->formatStateUsing(fn ($state) => $state ? __('active') : __('No')),
+                            ->formatStateUsing(fn($state) => $state ? __('active') : __('No')),
                         TextEntry::make('start_at')->label(__('Start Date')),
                         TextEntry::make('end_at')->label(__('End Date')),
                         ImageEntry::make('image')->label(__('Image'))
-                        ->visible(fn ($record) => $record->type === 'offer')
-,
+                            ->visible(fn($record) => $record->type === 'offer'),
                     ])
                     ->columns(2),
 
                 Section::make(__('Products in Offer'))
                     ->schema([
                         RepeatableEntry::make('products')
-                        ->label(__('Products'))
+                            ->label(__('Products'))
                             ->schema([
-                                TextEntry::make('name_'.app()->getLocale())
+                                TextEntry::make('name_' . app()->getLocale())
                                     ->label(__('Name')),
                                 TextEntry::make('price')
                                     ->label(__('Price')),
