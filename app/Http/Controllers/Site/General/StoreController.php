@@ -10,7 +10,7 @@ class StoreController extends Controller
     {
         return view('site.user.stores.index');
     }
-
+    
     public function show($id)
     {
         return view('site.user.stores.show', compact('id'));
