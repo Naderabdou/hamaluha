@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('desc')->nullable();
             $table->string('image')->nullable();
             $table->boolean('is_active')->default(false);
+            $table->enum('status', ['accepted', 'pending'])->default('pending');
             $table->timestamps();
         });
     }

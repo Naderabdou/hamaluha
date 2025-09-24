@@ -9,15 +9,15 @@ class OrderItem extends Model
 {
     protected $fillable = [
         'order_id',
-        'product_id',
+        'store_id',
         'provider_id',
         'name',
         'image',
         'price',
     ];
 
-    public function provider():BelongsTo
+    public function store():BelongsTo
     {
-        return $this->belongsTo(User::class, 'provider_id');
+        return $this->belongsTo(Store::class, 'store_id');
     }
 }

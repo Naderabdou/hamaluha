@@ -45,7 +45,7 @@ class UserResource extends Resource
             ->heading(__('Users'))
             ->description(__('This is the list of all users'))
             ->modifyQueryUsing(function (Builder $query) {
-                return $query->latest('created_at')->where('type',  UserType::USER);
+                return $query->latest('created_at')->whereIn('type',  ['user', 'provider']);
             })
             ->columns([
                 TextColumn::make('name')
@@ -65,14 +65,20 @@ class UserResource extends Resource
                     ->label(__('Phone'))
                     ->sortable(),
 
+                TextColumn::make('type')
+                    ->label(__('Type'))
+                    ->searchable()
+                    ->sortable()
+                    ->formatStateUsing(fn(string $state): string => match ($state) {
+                        'user' => __('User'),
+                        'provider' => __('Provider'),
+                        default => $state,
+                    }),
+
                 ToggleColumn::make('is_notify')
                     ->label(__('Is Notify'))
                     ->disabled()
                     ->sortable(),
-
-
-
-
 
             ])
             ->filters([
@@ -126,7 +132,15 @@ class UserResource extends Resource
 
                         TextEntry::make('email')
                             ->label(__('Email')),
-                    ]),
+
+                        TextEntry::make('type')
+                            ->label(__('Type'))
+                            ->formatStateUsing(fn(string $state): string => match ($state) {
+                                'user' => __('User'),
+                                'provider' => __('Provider'),
+                                default => $state,
+                            }),
+                    ])->columns(3),
 
             ])
 

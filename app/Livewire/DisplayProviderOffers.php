@@ -5,7 +5,7 @@ namespace App\Livewire;
 use App\Models\Offer;
 use App\Models\Product;
 use Livewire\Component;
-use App\Models\Provider;
+use App\Models\Store;
 use App\Models\ProviderPackage;
 use Filament\Tables\Table;
 use Filament\Forms\Contracts\HasForms;
@@ -25,7 +25,7 @@ class DisplayProviderOffers extends Component  implements HasForms, HasTable
 
     public function mount($record)
     {
-        $this->record = Provider::find($record->id);
+        $this->record = Store::find($record->id);
     }
     public function table(Table $table): Table
     {
@@ -35,7 +35,7 @@ class DisplayProviderOffers extends Component  implements HasForms, HasTable
             ->heading(__('Provider Offers'))
             ->description(__('List of offers of this provider'))
             ->striped()
-            ->query(Offer::query()->where('provider_id', $this->record->id))
+            ->query(Offer::query()->where('store_id', $this->record->id))
             ->columns([
                 TextColumn::make('desc')
                     ->searchable()

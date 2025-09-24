@@ -27,6 +27,8 @@ class Store extends Model
         'phone',
         'desc',
         'image',
+        'status',
+        'is_active',
     ];
 
     public function getSlugOptions(): SlugOptions
@@ -55,4 +57,27 @@ class Store extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function offers(): HasMany
+    {
+        return $this->hasMany(Offer::class);
+    }
+
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class, 'store_id');
+    }
+
+    public function getOrdersCountAttribute()
+    {
+        return $this->orderItems()
+            ->distinct('order_id')
+            ->count('order_id');
+    }
+
+    public function getTotalRevenueAttribute()
+    {
+        return $this->orderItems()->sum('price');
+    }
+
 }

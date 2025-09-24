@@ -20,6 +20,8 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Infolists\Components\ImageEntry;
 use App\Filament\Resources\OfferResource\Pages;
+use App\Models\Provider;
+use App\Models\User;
 use Filament\Forms\Components\Grid as FormGrid;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Forms\Components\Section as FormSection;
@@ -52,9 +54,9 @@ class OfferResource extends Resource
                         ->description(__('This is the main information about the category.'))
                         ->collapsible(true)
                         ->schema([
-                            Select::make('provider_id')
+                            Select::make('store_id')
                             ->label(__('Provider'))
-                                ->options(\App\Models\User::where('type', 'provider')
+                                ->options(Provider::all()
                                 ->pluck('name', 'id'))
                                 ->searchable()
                                 ->required()
@@ -97,12 +99,12 @@ class OfferResource extends Resource
                                 ->label('المنتج')
                                 ->relationship('products', 'id')
                                 ->options(function (callable $get) {
-                                    $providerId = $get('provider_id');
-                                    if (!$providerId) {
+                                    $storeId = $get('store_id');
+                                    if (!$storeId) {
                                         return [];
                                     }
 
-                                    return \App\Models\Product::where('provider_id', $providerId)
+                                    return \App\Models\Product::where('store_id', $storeId)
                                         ->pluck(app()->getLocale() === 'ar' ? 'name_ar' : 'name_en', 'id');
                                 })
                                 ->getOptionLabelFromRecordUsing(fn($record) => app()->getLocale() === 'ar' ? $record->name_ar : $record->name_en)
@@ -117,12 +119,12 @@ class OfferResource extends Resource
                                 ->multiple()
                                 ->relationship('products', 'id')
                                 ->options(function (callable $get) {
-                                    $providerId = $get('provider_id');
-                                    if (!$providerId) {
+                                    $storeId = $get('store_id');
+                                    if (!$storeId) {
                                         return [];
                                     }
 
-                                    return \App\Models\Product::where('provider_id', $providerId)
+                                    return \App\Models\Product::where('store_id', $storeId)
                                         ->pluck(app()->getLocale() === 'ar' ? 'name_ar' : 'name_en', 'id');
                                 })
                                 ->getOptionLabelFromRecordUsing(fn($record) => app()->getLocale() === 'ar' ? $record->name_ar : $record->name_en)
@@ -170,7 +172,7 @@ class OfferResource extends Resource
             ->columns([
                 TextColumn::make('desc')->label(__('description'))->searchable(),
                 TextColumn::make('discount')->label(__('discount')),
-                TextColumn::make('provider.name')->label(__('Provider')),
+                TextColumn::make('store.name')->label(__('Provider')),
                 TextColumn::make('created_at')->dateTime('d/m/Y')->label(__('Created At')),
             ])
             ->filters([
@@ -213,7 +215,7 @@ class OfferResource extends Resource
 
                 Section::make(__('Offer Details'))
                     ->schema([
-                        TextEntry::make('provider.name')->label(__('Provider')),
+                        TextEntry::make('store.name')->label(__('Provider')),
                         TextEntry::make('desc')->label(__('Description')),
                         TextEntry::make('discount')->label(__('Discount')),
                         TextEntry::make('type')->label(__('Type'))

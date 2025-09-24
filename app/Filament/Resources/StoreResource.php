@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Models\User;
+use App\Models\Store;
 use Filament\Tables;
 use App\Enums\UserType;
 use Filament\Forms\Get;
@@ -13,6 +13,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
 use Filament\Infolists\Components\Grid;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
@@ -25,24 +26,25 @@ use Filament\Infolists\Components\Livewire;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Forms\Components\Grid as FormGrid;
-use App\Filament\Resources\ProviderResource\Pages;
+use App\Filament\Resources\StoreResource\Pages;
 use Filament\Forms\Components\Section as FormSection;
+use Filament\Tables\Columns\ToggleColumn;
 
-class ProviderResource extends Resource
+class StoreResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = Store::class;
 
     protected static ?string $navigationIcon = 'icon-provider';
     protected static ?int $navigationSort = 4;
 
     public static function getModelLabel(): string
     {
-        return __('Provider');
+        return __('Store');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('Providers');
+        return __('Stores');
     }
 
 
@@ -53,9 +55,16 @@ class ProviderResource extends Resource
             ->schema([
                 FormGrid::make()->schema([
                     FormSection::make(__('Main Information'))
-                        ->description(__('This is the main information about the provider.'))
+                        ->description(__('This is the main information about the store.'))
                         ->collapsible(true)
                         ->schema([
+                            Select::make('provider_id')
+                                ->label(__('Provider'))
+                                ->options(\App\Models\Provider::hasStore()
+                                    ->pluck('name', 'id'))
+                                ->searchable()
+                                ->required()
+                                ->reactive(),
                             FileUpload::make('image')
                                 ->required()
                                 ->label(__('Image'))
@@ -88,28 +97,29 @@ class ProviderResource extends Resource
                                 ->label(__('Description'))
                                 ->maxLength(255)
                                 ->minLength(5),
-                            TextInput::make('password')
-                                ->label(__('Password'))
-                                ->hidden(fn(Page $livewire): bool => $livewire instanceof EditRecord)
-                                ->password()
-                                ->required()
-                                ->revealable(filament()->arePasswordsRevealable())
-                                ->rule(Password::default())
-                                ->autocomplete('new-password')
-                                ->dehydrated(fn($state): bool => filled($state))
-                                ->dehydrateStateUsing(fn($state): string => Hash::make($state))
-                                ->live(debounce: 500)
-                                ->same('passwordConfirmation'),
-                            TextInput::make('passwordConfirmation')
-                                ->label(__('Password Confirmation'))
-                                ->password()
-                                ->revealable(filament()->arePasswordsRevealable())
-                                ->required()
-                                ->visible(fn(Get $get): bool => filled($get('password')))
-                                ->dehydrated(false),
 
-                            Hidden::make('type')
-                                ->default(UserType::PROVIDER)
+                            // TextInput::make('password')
+                            //     ->label(__('Password'))
+                            //     ->hidden(fn(Page $livewire): bool => $livewire instanceof EditRecord)
+                            //     ->password()
+                            //     ->required()
+                            //     ->revealable(filament()->arePasswordsRevealable())
+                            //     ->rule(Password::default())
+                            //     ->autocomplete('new-password')
+                            //     ->dehydrated(fn($state): bool => filled($state))
+                            //     ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+                            //     ->live(debounce: 500)
+                            //     ->same('passwordConfirmation'),
+                            // TextInput::make('passwordConfirmation')
+                            //     ->label(__('Password Confirmation'))
+                            //     ->password()
+                            //     ->revealable(filament()->arePasswordsRevealable())
+                            //     ->required()
+                            //     ->visible(fn(Get $get): bool => filled($get('password')))
+                            //     ->dehydrated(false),
+
+                            // Hidden::make('type')
+                            //     ->default(UserType::PROVIDER)
                         ]),
                 ]),
 
@@ -120,14 +130,14 @@ class ProviderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->emptyStateHeading(__('No Providers Found'))
-            ->emptyStateDescription(__('Try creating a new provider.'))
+            ->emptyStateHeading(__('No Stores Found'))
+            ->emptyStateDescription(__('Try creating a new store.'))
             ->emptyStateIcon('icon-provider')
             ->striped()
             ->heading(__('Providers'))
-            ->description(__('This table lists all providers. You can manage their information here.'))
+            ->description(__('This table lists all stores. You can manage their information here.'))
             ->modifyQueryUsing(function (Builder $query) {
-                return $query->latest('created_at')->where('type', UserType::PROVIDER);
+                return $query->latest('created_at')->where('status', 'accepted');
             })
             ->columns([
                 TextColumn::make('name')
@@ -146,6 +156,8 @@ class ProviderResource extends Resource
                     ->default('N/A')
                     ->label(__('Phone'))
                     ->sortable(),
+                    ToggleColumn::make('is_active')
+                    ->label(__('Active'))
 
             ])
             ->filters([

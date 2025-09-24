@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\ProviderResource\Pages;
+namespace App\Filament\Resources\StoreResource\Pages;
 
-use App\Filament\Resources\ProviderResource;
+use App\Filament\Resources\StoreResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateProvider extends CreateRecord
 {
-    protected static string $resource = ProviderResource::class;
+    protected static string $resource = StoreResource::class;
 
     protected function getRedirectUrl(): string
     {

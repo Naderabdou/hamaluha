@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\UserResource\Widgets;
 
-use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget\Card;
 use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget\Stat;
@@ -13,7 +13,7 @@ class StatsUserOverview extends BaseWidget
     public ?Model $record = null;
     protected function getStats(): array
     {
-        $customer = Customer::find($this->record->id);
+        $customer = User::find($this->record->id);
 
         $total_purchases = $customer->total_purchases;
         $orders_count = $customer->orders()->count();

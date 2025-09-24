@@ -118,9 +118,9 @@ class ProductResource extends Resource
                                 ->disabled(fn(Get $get) => !$get('parent_category_id')),
 
 
-                            Forms\Components\Select::make('provider_id')
-                                ->label(__('Provider'))
-                                ->relationship('provider', 'name')
+                            Forms\Components\Select::make('store_id')
+                                ->label(__('Store'))
+                                ->relationship('store', 'name')
                                 ->searchable()
                                 ->required(),
 
@@ -192,7 +192,7 @@ class ProductResource extends Resource
                 TextColumn::make('name_' . app()->getLocale())->label(__('name'))->searchable(),
                 TextColumn::make('price')->label(__('price')),
                 TextColumn::make('category.name')->label(__('Category')),
-                TextColumn::make('provider.name')->label(__('Provider')),
+                TextColumn::make('store.name')->label(__('Store')),
                 TextColumn::make('created_at')->dateTime('d/m/Y')->label(__('Created At')),
             ])
             ->filters([
@@ -240,8 +240,8 @@ class ProductResource extends Resource
                             ->label(__('Name')),
                         TextEntry::make('category.name')
                             ->label(__('Category')),
-                        TextEntry::make('provider.name')
-                            ->label(__('Provider')),
+                        TextEntry::make('store.name')
+                            ->label(__('Store')),
                         TextEntry::make('price')
                             ->label(__('Price'))
                             ->money('SAR'),

@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Filament\Resources\ProviderResource\Widgets;
+namespace App\Filament\Resources\StoreResource\Widgets;
 
-use App\Models\Provider;
+use App\Models\Store;
 use Illuminate\Database\Eloquent\Model;
 use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget\Card;
 use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget\Stat;
 use EightyNine\FilamentAdvancedWidget\AdvancedStatsOverviewWidget as BaseWidget;
 
-class StatsProviderOverview extends BaseWidget
+class StatsStoreOverview extends BaseWidget
 {
     public ?Model $record = null;
     protected function getStats(): array
     {
-        $provider = Provider::find($this->record->id);
+        $provider = Store::find($this->record->id);
 
         $total_offers = $provider->offers()->count();
         $products = $provider->products()->count();

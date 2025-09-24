@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('provider_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('store_id')->constrained()->onDelete('cascade');
             $table->string('desc_ar')->nullable();
             $table->string('desc_en')->nullable();
             $table->decimal('discount')->nullable();

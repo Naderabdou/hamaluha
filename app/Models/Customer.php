@@ -16,24 +16,24 @@ class Customer extends BaseUserType
         });
     }
 
-    public function reviews() : HasMany
-    {
-        return $this->hasMany(Review::class, 'user_id');
-    }
+    // public function reviews() : HasMany
+    // {
+    //     return $this->hasMany(Review::class, 'user_id');
+    // }
 
-    public function orders() : HasMany
-    {
-        return $this->hasMany(Order::class, 'user_id');
-    }
+    // public function orders() : HasMany
+    // {
+    //     return $this->hasMany(Order::class, 'user_id');
+    // }
 
-    public function favourites():BelongsToMany
-    {
-        return $this->belongsToMany(Product::class, 'favourites', 'user_id', 'product_id');
-    }
+    // public function favourites():BelongsToMany
+    // {
+    //     return $this->belongsToMany(Product::class, 'favourites', 'user_id', 'product_id');
+    // }
 
-    public function getTotalPurchasesAttribute()
-    {
-        return $this->orders()->sum('total');
-    }
+    // public function getTotalPurchasesAttribute()
+    // {
+    //     return $this->orders()->sum('total');
+    // }
 
 }
