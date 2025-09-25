@@ -127,7 +127,10 @@
                                     <p>{{ Str::limit($prod->desc, 60) }}</p>
                                 </div>
                                 <div class="card-footer">
-                                    <a href="#" class="main_btn">اضف الى السلة</a>
+                                    <a href="{{ route('site.cart.add', $prod->id) }}" class="main_btn">
+                                        اضف الى السلة
+                                    </a>
+
                                     <div class="price">
                                         <img src="{{ asset('site/images/ryal.svg') }}" alt="">
                                         {{ $prod->price }}

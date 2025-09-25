@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
     protected $fillable = [
+        'order_number',
         'user_id',
         'total',
         'type',
@@ -19,16 +21,18 @@ class Order extends Model
         'payment_status',
     ];
 
-    public function user():BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function products():BelongsToMany
+    // public function products(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(Product::class, 'order_items', 'product_id', 'order_id')
+    //         ->withPivot('provider_id', 'name', 'image', 'price')->withTimestamps();
+    // }
+     public function orderItems(): HasMany
     {
-        return $this->belongsToMany(Product::class,'order_items','product_id','order_id')
-                    ->withPivot('provider_id','name','image','price')->withTimestamps();
+        return $this->hasMany(OrderItem::class, 'order_id');
     }
-
-
 }

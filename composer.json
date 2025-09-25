@@ -48,11 +48,15 @@
             "Database\\Seeders\\": "database/seeders/"
         }
     },
-    "autoload-dev": {
+   "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
+        },
+        "files": [
+            "app/Classes/Helper.php"
+        ]
     },
+
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
