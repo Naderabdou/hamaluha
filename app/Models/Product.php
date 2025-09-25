@@ -36,12 +36,12 @@ class Product extends Model
 
     public function getNameAttribute(): string
     {
-        return $this['name_'.app()->getLocale()];
+        return $this['name_' . app()->getLocale()];
     }
 
     public function getDescAttribute(): string
     {
-        return $this['desc_'.app()->getLocale()] ?? '';
+        return $this['desc_' . app()->getLocale()] ?? '';
     }
 
     public function getRouteKeyName(): string
@@ -71,8 +71,9 @@ class Product extends Model
 
     public function orders(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class, 'order_items', 'order_id', 'product_id')
-            ->withPivot('provider_id', 'name', 'image', 'price')->withTimestamps();
+        return $this->belongsToMany(Order::class, 'order_items', 'product_id', 'order_id')
+            ->withPivot('provider_id', 'name', 'image', 'price')
+            ->withTimestamps();
     }
 
     public function favouritedBy(): BelongsToMany
@@ -99,4 +100,48 @@ class Product extends Model
     {
         return $this->images()->first();
     }
+
+
+    public function scopeFilter($query, array $filters)
+    {
+        return $query
+            ->when($filters['search'] ?? null, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name_ar', 'like', "%{$search}%")
+                        ->orWhere('name_en', 'like', "%{$search}%");
+                });
+            })
+            ->when($filters['categories'] ?? null, function ($query, $categories) {
+                $query->whereHas('category', function ($q) use ($categories) {
+                    $q->whereIn('slug', (array)$categories);
+                });
+            })
+            ->when(($filters['min_price'] ?? null) && ($filters['max_price'] ?? null), function ($query) use ($filters) {
+                $query->whereBetween('price', [$filters['min_price'], $filters['max_price']]);
+            })
+            ->when($filters['rating'] ?? null, function ($query, $rating) {
+                $query->where('average_rating', '>=', $rating);
+            });
+    }
+
+    public function scopeBestSellers($query, $limit = 10)
+    {
+        return $query->withCount('orders')
+            ->orderByDesc('orders_count')
+            ->take($limit);
+    }
+
+    public function getDiscountedPriceAttribute()
+    {
+        $offer = $this->offers()->where('type', 'discount')->first();
+
+        if ($offer) {
+            $discount = ($this->price * $offer->discount) / 100;
+            return $this->price - $discount;
+        }
+
+        return null;
+    }
+
+    
 }

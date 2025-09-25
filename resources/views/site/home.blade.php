@@ -277,14 +277,14 @@
             </h2>
             <div class="our-products-items">
                 @foreach ($categories as $category)
-                    <a href="{{ route('site.categories.show', $category->slug) }}" class="products-item">
+                    <a href="{{ route('site.category.products', $category->slug) }}" class="products-item">
                         <div class="item-img">
                             <img src="{{ $category->image_path }}" alt="{{ $category->name }}" />
                         </div>
                         <p>{{ $category->name }}</p>
                     </a>
                 @endforeach
-            </div>
+            </div>category.products
         </div>
     </section>
 
