@@ -11,7 +11,7 @@
         <form action="{{ route('site.login') }}" method="POST" id="loginForm">
             @csrf
 
-            <h1>تسجيل الدخول</h1>
+            <h1>{{__('تسجيل دخول')}}</h1>
 
             <div class="form-control-container">
 

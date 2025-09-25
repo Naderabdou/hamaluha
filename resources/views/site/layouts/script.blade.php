@@ -528,5 +528,58 @@
      });
  </script>
 
+ <script>
+     $(document).ready(function() {
+         function fetchProducts() {
+             let search = $('input[type="search"]').val();
+             let categories = [];
+             $('.category-filter:checked').each(function() {
+                 categories.push($(this).val());
+             });
+             let min_price = $('.price-inputs input').eq(0).val();
+             let max_price = $('.price-inputs input').eq(1).val();
+             let range = $('.filter-section input[type="range"]').val();
+             let discount = $('.filter-section input[type="checkbox"]:checked').filter(function() {
+                 return $(this).next().text().trim() === 'المنتجات المخفضة';
+             }).length ? 1 : 0;
+
+             $.ajax({
+                 url: window.location.href,
+                 type: 'GET',
+                 data: {
+                     search: search,
+                     categories: categories,
+                     min_price: min_price,
+                     max_price: max_price,
+                     discount: discount,
+                     range: range
+                 },
+                 beforeSend: function() {
+                     $('.products-list').html('<p>جاري التحميل...</p>');
+                 },
+                 success: function(data) {
+                     $('.products-list').html(data);
+                 }
+             });
+         }
+
+         $('input[type="search"]').on('keyup', function() {
+             fetchProducts();
+         });
+
+         $('.price-inputs input').on('change', function() {
+             fetchProducts();
+         });
+
+         $('.filter-section input[type="checkbox"]').on('change', function() {
+             fetchProducts();
+         });
+
+         $('.filter-section input[type="range"]').on('change', function() {
+             fetchProducts();
+         });
+
+     });
+ </script>
 
  @stack('js')

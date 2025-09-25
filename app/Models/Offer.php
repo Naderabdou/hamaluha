@@ -26,7 +26,7 @@ class Offer extends Model
 
     protected $appends = ['image_path'];
 
-    public function getSlugOptions() : SlugOptions
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom('name_en')
@@ -48,16 +48,21 @@ class Offer extends Model
     //     return 'slug';
     // }
 
-    public function store():BelongsTo
+    public function store(): BelongsTo
     {
         return $this->belongsTo(Store::class, 'store_id');
     }
 
-    public function products():BelongsToMany
+    public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class,'offer_products','offer_id','product_id');
+        return $this->belongsToMany(Product::class, 'offer_products', 'offer_id', 'product_id');
     }
-   
 
+    public function getFinalPriceAttribute()
+    {
+        $total = $this->products->sum('price');
 
+        $discount = ($total * $this->discount) / 100;
+        return $total - $discount;
+    }
 }
