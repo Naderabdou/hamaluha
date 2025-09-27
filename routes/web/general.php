@@ -7,7 +7,6 @@ use App\Http\Controllers\Site\General\OfferController;
 use App\Http\Controllers\Site\General\StoreController;
 use App\Http\Controllers\Site\General\ContactController;
 use App\Http\Controllers\Site\General\ProductController;
-
 use App\Http\Controllers\Site\General\CategoryController;
 use App\Http\Controllers\Site\General\FavoriteController;
 
