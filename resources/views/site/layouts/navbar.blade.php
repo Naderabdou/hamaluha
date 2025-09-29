@@ -19,7 +19,7 @@
                             <a href="{{ route('site.about') }}" class="{{ isActiveRoute('site.about') }}">النبذة</a>
                         </li>
                         <li>
-                            <a href="./our-products.html" ">المنتجات</a>
+                            <a href="./our-products.html">المنتجات</a>
                         </li>
                         <li>
                             <a href="{{ route('site.stores.index') }}" class="{{ isActiveRoute('site.stores.index') }}">المتاجر</a>

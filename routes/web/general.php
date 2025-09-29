@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Site\General\CartController;
 use App\Http\Controllers\Site\General\HomeController;
+use App\Http\Controllers\Site\User\ProfileController;
 use App\Http\Controllers\Site\General\AboutController;
 use App\Http\Controllers\Site\General\OfferController;
 use App\Http\Controllers\Site\General\StoreController;
@@ -44,3 +45,10 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('/profile/change-info', [ProfileController::class, 'changeInfo'])->name('profile.change-info');
+    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
+    Route::post('/profile/delete-account', [ProfileController::class, 'deleteAccount'])->name('profile.delete-account');
+});

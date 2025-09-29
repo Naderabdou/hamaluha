@@ -31,7 +31,7 @@ class Order extends Model
     //     return $this->belongsToMany(Product::class, 'order_items', 'product_id', 'order_id')
     //         ->withPivot('provider_id', 'name', 'image', 'price')->withTimestamps();
     // }
-     public function orderItems(): HasMany
+    public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class, 'order_id');
     }

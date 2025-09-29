@@ -166,4 +166,20 @@ class User extends Authenticatable implements FilamentUser
             $q->where('status', 'pending');
         });
     }
+
+    public function purchasedProducts()
+    {
+        return $this->hasManyThrough(
+            Product::class,
+            OrderItem::class,    // الموديل الوسيط
+            'order_id',          // FK في order_items اللي بيربط بالأوردر
+            'id',                // PK في جدول products
+            'id',                // PK في جدول users
+            'product_id'         // FK في order_items اللي بيربط بالـ products
+        )->whereHas('orders', function ($q) {
+            $q->where('user_id', $this->id)
+                ->where('status', 'completed')
+                ->where('payment_status', 'paid');
+        });
+    }
 }

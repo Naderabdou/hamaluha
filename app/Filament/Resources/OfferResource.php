@@ -72,7 +72,7 @@ class OfferResource extends Resource
                             Select::make('product_id')
                                 ->label('المنتج')
                                 ->relationship('products', 'name_'.app()->getLocale(), fn ($query, Get $get) => $query->where('store_id', $get('store_id')))
-                                ->multiple(fn (Get $get) => $get('type') === 'offer' ? true : false)
+                                ->multiple(fn (Get $get) => $get('type') == 'offer' ? true : false)
                                 ->searchable()
                                 ->preload()
                                 ->required(fn ($get) => $get('type') === 'discount')

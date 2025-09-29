@@ -33,7 +33,7 @@ Route::name('site.')->middleware('lang')->group(function () {
         ->group(base_path('routes/web/user.php'));
 
     Route::prefix(UserType::PROVIDER->value)
-        ->middleware(['check.type:'.UserType::PROVIDER->value])
+        // ->middleware(['check.type:'.UserType::PROVIDER->value])
         ->group(base_path('routes/web/provider.php'));
 
 });

@@ -637,7 +637,7 @@
 }
 
 .our-products .our-products-items .products-item:hover {
-
+  
   transform: translateY(-10px);
 }
 .our-products .our-products-items .products-item .item-img {
@@ -850,7 +850,7 @@
 
 .man-tree img{
   height: 80%;
-
+  
 }
 .panner-text {
   display: flex;
@@ -988,7 +988,7 @@
   top: 0;
   background-image: url(../images/arrow.svg);
   background-repeat: no-repeat;
-
+  
 }
    */
 
@@ -1149,7 +1149,7 @@
   left:50%;
   transform: translate(-50% , -50%);
   z-index: -1;
-
+  
 
 
 }
@@ -1305,14 +1305,14 @@
   gap: 20px;
   padding: 30px;
   border-radius: 20px;
-
+  
   width: 100%;
 }
 .cotanct-text,
 .contact-form{
   position: relative;
   z-index: 1;
-
+  
 }
 
 .cotanct-text p{
@@ -1348,7 +1348,7 @@
   color: #505050;
   border: none;
   text-align: start;
-
+  
 }
 
 
@@ -1366,7 +1366,7 @@
 .contact-form button{
   width: fit-content;
   padding: 10px 30px;
-
+  
 }
 
 
@@ -1394,17 +1394,17 @@
   top: 0;
   right: 0;
   box-shadow: 0 4px 16px 20px rgba(10, 186, 181, 0.07);
-
-
+  
+  
 }
 .our-goals-body ul{
 
-  columns: 2;
+  columns: 2;     
   -webkit-columns: 2;
   -moz-columns: 2;
   column-gap:20px;
     margin-top: 40px;
-
+  
 
 
 
@@ -1414,13 +1414,13 @@
   display: flex;
   gap: 15px;
   margin-bottom: 20px;
-
+  
 }
 
 .our-goals-body ul  p{
   font-size: 22px;
   color: #555555;
-
+  
 }
 
 .our-future{
@@ -1503,13 +1503,13 @@
   margin: 50px 0;
 }
 .filter-product {
-
+  
   position: relative;
 }
 
 
 .filters {
-
+  
   position: absolute;
   direction: rtl;
   width: 250px;
@@ -1647,7 +1647,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     row-gap: 5px;
-
+   
 }
 
 .details-info{
@@ -1682,12 +1682,12 @@
     height: 100%;
   }
 
-
+  
   .slider-nav img, .slider-for img {
     width: 100%;
     height: auto;
   }
-
+  
   .slick-list.draggable,
   .slick-track,
   .slider-for img{
@@ -1697,14 +1697,14 @@
     margin-bottom: 10px;
     cursor: pointer;
   }
-
+  
 
 
   /* خلي العناصر داخلها position relative عشان نتحكم في مكان السهم */
 .slider-container {
     position: relative;
   }
-
+  
   /* السهمين فوق يمين */
   .slick-prev, .slick-next {
     position: absolute;
@@ -1723,17 +1723,17 @@
     display: flex;
     justify-content: center;align-items: center;
   }
-
+  
   /* السهم السابق */
   .slick-prev {
     left: 30px; /* بعيد عن السهم التالي */
   }
-
+  
   /* السهم التالي */
   .slick-next {
     right: 30px;
   }
-
+  
   /* شكل الأسهم */
   .slick-prev::before, .slick-next::before {
     content: '';
@@ -1743,18 +1743,18 @@
     background-size: contain;
     background-repeat: no-repeat;
   }
-
-
+  
+  
   /* سهم لليسار */
   .slick-prev::before {
     background-image: url('../images/left-arrow.svg');
   }
-
+  
   /* سهم لليمين */
   .slick-next::before {
     background-image: url('../images/right-arrpw.svg');
   }
-
+  
 
   .prject-details-header{
 
@@ -1837,7 +1837,7 @@
   }
 
   .opening-time .time-details span{
-
+    
       background-color: black;
       color: white;
       font-size: 16px;
@@ -1849,8 +1849,8 @@
       display: block;
       align-content: center;
       text-align: center;
-
-
+      
+  
   }
 
   .opening-time .days,
@@ -1863,7 +1863,7 @@
 
   .progect-details-description{
     color: white;
-
+    
     display: flex;
     flex-direction: column;
   }
@@ -1873,7 +1873,7 @@
   .summary-details{
     display: flex;
     gap: 15px;
-
+   
   }
 
 
@@ -1989,7 +1989,7 @@
 
 
   .header-row .main_btn{
-
+    
     width: fit-content;
     padding: 10px 20px;
     gap: 10px;
@@ -2036,7 +2036,7 @@
   flex-direction: column;
   gap: 20px;
   padding-bottom: 15px;
-
+  
 }
 
 .comment-card {
@@ -2085,7 +2085,7 @@
 
 .accordion-button:not(.collapsed)::after{
     background-image: url('../images/top-arrow.svg');
-
+ 
 }
 
 
@@ -2323,12 +2323,12 @@
 
 .favourite-icon i{
   color: #A4A4A4;
-
+  
 }
 
 .favourite-icon.active i{
   color: red;
-
+  
 }
 
 .favourite-icon:hover i{
@@ -2402,13 +2402,13 @@
 
 
 .opinions-comment .comment-card .card-img{
-
+  
   justify-content: center;
   align-items: center;
 }
 
 .opinions-comment .comment-card .card-header{
-
+  
   gap: 50px;
 }
 
@@ -2420,7 +2420,7 @@
   color: var(--color-black);
 }
 .opinions-comment .comment-card .card-header .card-img-container{
-
+  
   color: #555555;
 }
 
@@ -2519,7 +2519,7 @@
   height: 100%;
   width: 100%;
   object-fit: contain;
-
+  
 }
 
 .offer-panner .panner-text{
@@ -2529,7 +2529,7 @@
 
 
 .offer-panner .expire-offer p{
-
+ 
   color: #fff;
   font-size: 22px;
 }
@@ -2583,7 +2583,7 @@
 .profile-info .avatar img{
   width: 100%;
   height: 100%;
-
+  
 }
 
 .profile-info h3{
@@ -2778,7 +2778,7 @@
   align-items: center;
   padding: 40px 0;
   position: relative;
-
+   
 
 }
 
@@ -2906,14 +2906,14 @@
     z-index: 20;
     display: flex;
     justify-content: center;
-
+    
 }
 .auth .middle p{
   background-color: #fff;
   width: fit-content;
   text-align: center;
   padding: 12px;
-
+  
 }
 .auth .middle::after{
 
@@ -2972,7 +2972,7 @@
             text-align: center;
             border-radius: 8px;
             border: 1px solid #BEBEBE;
-
+            
         }
 
         .input-check-code input:focus{
@@ -3144,7 +3144,7 @@
     height: 100%;
     object-fit: cover;
         border-radius: 18px;
-
+      
 
   }
 
@@ -3190,15 +3190,15 @@
       display: flex;
       justify-content: space-between;
     }
-
+    
     .chat-header-logo{
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 15px;
     }
-
-
+    
+    
 
     .chat-header img {
       height: 50px;
@@ -3264,15 +3264,3 @@
       font-size: 20px;
       color: #555;
     }
-
-    .cart-count {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: red;
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 50%;
-    padding: 2px 6px;
-}
