@@ -34,6 +34,7 @@ Route::name('site.')->middleware('lang')->group(function () {
 
     Route::prefix(UserType::PROVIDER->value)
         // ->middleware(['check.type:'.UserType::PROVIDER->value])
+        ->name('provider.')
         ->group(base_path('routes/web/provider.php'));
 
 });

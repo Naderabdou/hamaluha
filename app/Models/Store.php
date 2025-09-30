@@ -86,4 +86,15 @@ class Store extends Model
         return $this->orderItems()->sum('price');
     }
 
+    public function reviews()
+    {
+        return $this->hasManyThrough(
+            Review::class,
+            Product::class,
+            'store_id',
+            'product_id',
+            'id',
+            'id'
+        );
+    }
 }

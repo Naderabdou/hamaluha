@@ -65,4 +65,15 @@ class Offer extends Model
         $discount = ($total * $this->discount) / 100;
         return $total - $discount;
     }
+
+
+    public function getSalesCountAttribute()
+    {
+        return $this->products
+            ->flatMap(function ($product) {
+                return $product->orders->pluck('id');
+            })
+            ->unique() 
+            ->count();
+    }
 }
