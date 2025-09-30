@@ -25,7 +25,7 @@ class Product extends Model
         'file',
     ];
 
-    protected $appends = ['first_image'];
+    protected $appends = ['first_image', 'orders_number'];
 
     public function getSlugOptions(): SlugOptions
     {
@@ -72,7 +72,7 @@ class Product extends Model
     public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class, 'order_items', 'product_id', 'order_id')
-            ->withPivot('provider_id', 'name', 'image', 'price')
+            ->withPivot('store_id', 'name', 'image', 'price')
             ->withTimestamps();
     }
 
@@ -143,5 +143,22 @@ class Product extends Model
         return null;
     }
 
-    
+    public function getOrdersNumberAttribute()
+    {
+        return $this->orders()->count();
+    }
+
+    public function getTotalSalesAttribute()
+    {
+        return $this->orders()
+            ->get()
+            ->sum(function ($order) {
+                return $order->pivot->price;
+            });
+    }
+
+    public function questions(): HasMany
+    {
+        return $this->hasMany(ProductQuestion::class);
+    }
 }
