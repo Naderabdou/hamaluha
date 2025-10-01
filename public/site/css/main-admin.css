@@ -1725,3 +1725,9 @@ input[type="file"] {
       width: 20px;
       height: 20px;
     }
+
+    .discountInputAdd:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+    opacity: 0.7;
+}

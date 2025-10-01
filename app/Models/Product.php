@@ -25,7 +25,11 @@ class Product extends Model
         'file',
     ];
 
-    protected $appends = ['first_image', 'orders_number'];
+    protected $appends = ['first_image', 'orders_number', 'file_path'];
+
+    protected $casts = [
+        'price' => 'decimal:2',
+    ];
 
     public function getSlugOptions(): SlugOptions
     {
@@ -49,6 +53,11 @@ class Product extends Model
         return 'slug';
     }
 
+    public function getFilePathAttribute()
+    {
+        return $this->file ? asset('storage/' . $this->file) : '';;
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -66,8 +75,9 @@ class Product extends Model
 
     public function offers(): BelongsToMany
     {
-        return $this->belongsToMany(Offer::class, 'offer_products', 'offer_id', 'product_id');
+        return $this->belongsToMany(Offer::class, 'offer_products', 'product_id', 'offer_id');
     }
+
 
     public function orders(): BelongsToMany
     {
@@ -133,7 +143,11 @@ class Product extends Model
 
     public function getDiscountedPriceAttribute()
     {
-        $offer = $this->offers()->where('type', 'discount')->first();
+        $offer = $this->offers()
+            // ->where('start_at', '<=', value: now())
+            ->where('end_at', '>=', now())
+            ->where('type', 'discount')
+            ->first();
 
         if ($offer) {
             $discount = ($this->price * $offer->discount) / 100;
@@ -142,6 +156,7 @@ class Product extends Model
 
         return null;
     }
+
 
     public function getOrdersNumberAttribute()
     {

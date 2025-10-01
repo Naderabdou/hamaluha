@@ -48,4 +48,19 @@ class ProductController extends Controller
 
         return back()->with('success', 'تم إضافة تعليقك بنجاح');
     }
+
+    public function download($slug)
+    {
+        $product = Product::whereSlug($slug)->firstOrFail();
+
+        $filePath = storage_path('app/public/' . $product->file);
+
+        $fileName = $product->name . '.' . pathinfo($filePath, PATHINFO_EXTENSION);
+
+        if (!file_exists($filePath)) {
+            abort(404, 'الملف غير موجود');
+        }
+
+        return response()->download($filePath, $fileName);
+    }
 }

@@ -50,16 +50,17 @@
                                                             <div class="order-text">
                                                                 <div class="order-text-header">
                                                                     <h2>{{ $product->name }}</h2>
-                                                                    <a href="" class="download">
+                                                                    <a href="{{ route('site.products.download', $product->slug) }}"
+                                                                        class="download">
                                                                         <img src="{{ asset('site') }}/images/quill_download.svg"
                                                                             alt="" />
                                                                         <span>{{ __('تحميل') }}</span>
                                                                     </a>
                                                                 </div>
-                                                                <p>{{ $product->store }}</p>
+                                                                <p>{{ $product->store->name }}</p>
                                                             </div>
                                                             <div class="order-end">
-                                                                <span> {{ $product->store->name }}</span>
+                                                                <span> {{ $product->category->name }}</span>
                                                                 <div class="price">
                                                                     <p>{{ $product->price }}</p>
                                                                     <img src="{{ asset('site') }}/images/ryal.svg"
@@ -83,6 +84,15 @@
 
                 <!--  -->
                 <div class="profile-actions">
+                    @if (auth()->user()->type == 'provider')
+                        <a href="{{ route('site.provider.home') }}">
+                            <div class="profile-item-img">
+                                    <img src="{{ asset('site/images/avatar.svg') }}" alt="" />
+                            </div>
+                            {{ __('متجري') }}
+                        </a>
+                    @endif
+
                     <a href="" data-bs-toggle="modal" data-bs-target="#changePassword">
 
                         <div class="profile-item-img">

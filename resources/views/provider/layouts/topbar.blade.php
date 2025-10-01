@@ -9,7 +9,7 @@
      <!--  -->
      <div class="logo">
          <a href="">
-             <img src="{{asset('site')}}/images/logo.png" alt="logo" />
+             <img src="{{ asset('site') }}/images/logo.png" alt="logo" />
          </a>
      </div>
      <!--  -->
@@ -26,28 +26,31 @@
 
  <div class="top-bar main-bar">
      <div class="search-page">
-         <form action="">
+         {{-- <form action="">
              <input type="text" placeholder=" ابحث فالداش بورد " class="form-control" />
-         </form>
+         </form> --}}
+         <li>
+             <a href="{{ route('site.provider.products.create') }}" class="main_btn"> اضافة منتج </a>
+         </li>
      </div>
 
      <div class="top-content">
          <ul>
-             <li>
-                 <a href="" class="main_btn"> اضافة منتج </a>
-             </li>
+             {{-- <li>
+                 <a href="{{ route('site.provider.products.create') }}" class="main_btn"> اضافة منتج </a>
+             </li> --}}
              <li>
                  <a href=""> en </a>
              </li>
              <li>
                  <a href="" class="notification">
-                     <img src="{{asset('site')}}/images/mingcute_notification-line.svg" alt="" />
+                     <img src="{{ asset('site') }}/images/mingcute_notification-line.svg" alt="" />
                  </a>
              </li>
 
              <li class="avatar">
                  <a href="./login.html">
-                     <img src="{{asset('site')}}/images/stores2.png" alt="" />
+                     <img src="{{ asset('site') }}/images/stores2.png" alt="" />
                  </a>
              </li>
          </ul>

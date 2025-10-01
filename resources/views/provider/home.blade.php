@@ -42,20 +42,23 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <img src="{{ asset('site') }}/images/cancel.svg" alt="" />
-                                        <span>عرض المنتج </span>
+                                        <a href="{{ route('site.provider.products.show', $bestSeller) }}">
+                                            <img src="{{ asset('site') }}/images/pencil-edit-02.svg" alt="" />
+                                            <span>عرض المنتج </span>
+                                        </a>
                                     </li>
                                     <li>
-                                        <img src="{{ asset('site') }}/images/pencil-edit-02.svg" alt="" />
-                                        <span>عرض التعليقات</span>
-                                    </li>
-                                    <li>
-                                        <img src="{{ asset('site') }}/images/pencil-edit-02.svg" alt="" />
-                                        <span>اضافة خصم</span>
+                                        <a href="{{ route('site.provider.products.edit', $bestSeller) }}">
+                                            <img src="{{ asset('site') }}/images/pencil-edit-02.svg" alt="" />
+                                            <span>تعديل المنتج </span>
+                                        </a>
                                     </li>
                                     <li class="delete">
-                                        <img src="{{ asset('site') }}/images/delete-card.svg" alt="" />
-                                        <span>حذف</span>
+                                        <a href="{{ route('site.provider.products.destroy', $bestSeller) }}">
+
+                                            <img src="{{ asset('site') }}/images/delete-card.svg" alt="" />
+                                            <span>حذف</span>
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
@@ -65,7 +68,9 @@
                                     <span> {{ $bestSeller->category->name }} / {{ $bestSeller->category->parent->name }}
                                     </span>
                                 </div>
-                                <label for=""> 20%</label>
+                                @if ($bestSeller->offers()->first())
+                                    <label for=""> {{ $bestSeller->offers()->first()->discount }}%</label>
+                                @endif
                                 <img src="{{ asset('site') }}/images/requested.png" alt="" />
                             </div>
                             <div class="requested-body">
@@ -265,15 +270,6 @@
                                     <p>
                                         {{ $review->created_at_human }}
                                     </p>
-                                </div>
-                            </div>
-                            <div class="comment-body">
-                                <div class="img-container">
-                                    <img src="{{ auth()->user()->store }}" alt="">
-                                </div>
-                                <div class="comment-input">
-                                    <input type="text">
-                                    <img src="{{ asset('site') }}/images/send.svg" alt="">
                                 </div>
                             </div>
                         </div>

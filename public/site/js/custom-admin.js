@@ -28,13 +28,13 @@ window.addEventListener("resize", () => {
 });
 
 
-// 
+//
 let navMinBtn = document.querySelector(".nav-toggle-dots");
 let mainNav = document.querySelector(".content-app");
 
 if(navMinBtn){
 
-  
+
 navMinBtn.addEventListener("click", () => {
   if (window.innerWidth < 992) {
     // للشاشات الصغيرة
@@ -50,7 +50,7 @@ navMinBtn.addEventListener("click", () => {
 }
 
 
-// 
+//
 
 
 
@@ -101,7 +101,7 @@ const toggleBtn = document.getElementById("toggleFilter");
 
 
 
- 
+
     // details slider
 
 
@@ -154,7 +154,7 @@ $(window).on('resize', function () {
 
 
 
-// 
+//
 
    function initDeleteButtons() {
     document.querySelectorAll(".delete-btn").forEach((btn) => {
@@ -229,56 +229,102 @@ $(window).on('resize', function () {
 
 
 
-  // 
+  //
 
-  
+
   const imageInput = document.getElementById("imageInput");
-  const addImageBtn = document.getElementById("addImageBtn");
-  const imagesWrapper = document.getElementById("imagesWrapper");
+const addImageBtn = document.getElementById("addImageBtn");
+const imagesWrapper = document.getElementById("imagesWrapper");
 
-  
- 
-    
-      // حذف صورة
-  document.addEventListener("click", function (e) {
-    if (e.target.classList.contains("delete-btn")) {
-      e.target.closest(".image-box").remove();
+// عند الضغط على + نفتح اختيار الملفات
+addImageBtn.addEventListener("click", () => imageInput.click());
+
+// عند اختيار صور جديدة
+imageInput.addEventListener("change", function () {
+  const files = Array.from(this.files);
+  files.forEach((file) => {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const newImage = `
+        <div class="image-box new-image">
+          <img src="${e.target.result}" alt="Product">
+          <button type="button" class="delete-btn">&times;</button>
+        </div>
+      `;
+      addImageBtn.insertAdjacentHTML("beforebegin", newImage);
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+// حذف صورة
+document.addEventListener("click", function (e) {
+  if (e.target.classList.contains("delete-btn")) {
+    const imageBox = e.target.closest(".image-box");
+
+    // لو الصورة قديمة (من DB) نضيف hidden input عشان السيرفر يعرف يحذفها
+    if (!imageBox.classList.contains("new-image")) {
+      const imageId = e.target.getAttribute("data-id");
+      const hiddenInput = document.createElement("input");
+      hiddenInput.type = "hidden";
+      hiddenInput.name = "deleted_images[]";
+      hiddenInput.value = imageId;
+      imagesWrapper.appendChild(hiddenInput);
     }
-  });
+
+    // نشيل الصورة من الـ DOM
+    imageBox.remove();
+  }
+});
 
 
-   if(addImageBtn){
 
 
-  // عند الضغط على + نفتح اختيار الملفات
-  addImageBtn.addEventListener("click", function () {
-    imageInput.click();
-  });
+  const productImagesInput = document.getElementById('product-images');
+const previewContainer = document.getElementById('preview-container');
 
-  // لما المستخدم يختار صورة
-  imageInput.addEventListener("change", function () {
-    const file = this.files[0];
-    if (file) {
+// نستخدم DataTransfer عشان نتحكم في الصور اللي هتتبعت
+let dt = new DataTransfer();
+
+if (productImagesInput) {
+  productImagesInput.addEventListener('change', function () {
+    Array.from(this.files).forEach(file => {
+      dt.items.add(file); // نضيف الملف للمجموعة
+
       const reader = new FileReader();
       reader.onload = function (e) {
-        const newImage = `
-          <div class="image-box">
-            <img src="${e.target.result}" alt="Product">
-            <button type="button" class="delete-btn">&times;</button>
-          </div>
+        const previewItem = document.createElement('div');
+        previewItem.classList.add('preview-item');
+        previewItem.innerHTML = `
+          <img src="${e.target.result}" alt="صورة المنتج">
+          <button type="button" class="remove-btn">&times;</button>
         `;
-        addImageBtn.insertAdjacentHTML("beforebegin", newImage);
-      };
+        previewContainer.appendChild(previewItem);
+
+        // زرار الحذف
+        previewItem.querySelector('.remove-btn').addEventListener('click', function () {
+          // نشيل الصورة من DataTransfer
+          for (let i = 0; i < dt.items.length; i++) {
+            if (dt.items[i].getAsFile() === file) {
+              dt.items.remove(i);
+              break;
+            }
+          }
+          productImagesInput.files = dt.files; // نحدث input
+          previewItem.remove(); // نشيل من العرض
+        });
+      }
       reader.readAsDataURL(file);
-    }
-    this.value = ""; // علشان لو اختار نفس الصورة تاني يشتغل
+    });
+
+    // نحدّث قيمة الـ input
+    productImagesInput.files = dt.files;
   });
+}
 
 
 
-  }
-
-  // 
+    //
 
 
 
@@ -287,7 +333,7 @@ $(window).on('resize', function () {
     const productFileText = document.getElementById('product-file-text');
 
     console.log("dsgfedsgfe");
-    
+
 
     if(productFileInput){
 
@@ -301,49 +347,7 @@ $(window).on('resize', function () {
 
 
     }
-
-
-
-
-
-    // عرض الصور المرفوعة + زرار حذف
-    const productImagesInput = document.getElementById('product-images');
-    const previewContainer = document.getElementById('preview-container');
-
-
-
-    if(productImagesInput){
-
-      productImagesInput.addEventListener('change', function () {
-        Array.from(this.files).forEach(file => {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            const previewItem = document.createElement('div');
-            previewItem.classList.add('preview-item');
-            previewItem.innerHTML = `
-              <img src="${e.target.result}" alt="صورة المنتج">
-              <button class="remove-btn">&times;</button>
-            `;
-            previewContainer.appendChild(previewItem);
-  
-            // زرار الحذف
-            previewItem.querySelector('.remove-btn').addEventListener('click', function () {
-              previewItem.remove();
-            });
-          }
-          reader.readAsDataURL(file);
-        });
-  
-        // مسح القيمة عشان تقدر ترفع نفس الصورة تاني لو حبيت
-        this.value = "";
-      });
-
-
-    }
-
-
-
-    // 
+    //
 
 
 
@@ -370,15 +374,15 @@ $(window).on('resize', function () {
 
 
 
-    // 
+    //
 
     const multiSelect = document.getElementById("multi-select");
 
     if(multiSelect){
 
       $(document).ready(function() {
- 
- 
+
+
        $('#multi-select').select2({
          placeholder: "ابحث واختر المنتجات",
          allowClear: true
@@ -389,7 +393,7 @@ $(window).on('resize', function () {
 
 
 
-    // 
+    //
 
 
      const fileInput = document.getElementById('fileInput2');
@@ -415,14 +419,17 @@ $(window).on('resize', function () {
 
 
 
-    // 
+    //
 
 
-    
-      
+
+
   const checkbox = document.getElementById("disableDiscountAdd");
-    const discountInput = document.getElementById("discountInputAdd");
+    const discountInput = document.querySelectorAll(".discountInputAdd");
 
     checkbox.addEventListener("change", function () {
-      discountInput.disabled = !this.checked;
+        discountInput.forEach(input => {
+            input.disabled = !this.checked;
+        console.log(this.checked);
+        });
     });

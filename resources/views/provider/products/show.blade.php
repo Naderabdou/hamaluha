@@ -97,30 +97,36 @@
 
                 <div class="accordion" id="accordionExample">
                     <!-- عنصر موجود -->
-                    <div class="accordion-item mb-3 position-relative">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                إزاي أحصل على المنتج بعد الدفع؟
-                            </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show">
-                            <div class="accordion-body">
-                                <div class="main-container">
-                                    <p>
-                                        بمجرد إتمام عملية الشراء والدفع بنجاح، هيظهرلك رابط مباشر لتحميل
-                                        المنتج على صفحة التأكيد. كمان هيوصلك إيميل فيه رابط التحميل تقدر
-                                        ترجعله في أي وقت.
-                                    </p>
+                    @forelse ($product->questions as $question)
+                        <div class="accordion-item mb-3 position-relative">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    {{ $question->question }}
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show">
+                                <div class="accordion-body">
+                                    <div class="main-container">
+                                        <p>
+                                            {{ $question->answer }}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
+                            <form action="{{ route('site.provider.questions.destroy', $question->id) }}" method="POST"
+                                class="d-inline delete-form">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="btn btn-link text-danger delete-btn position-absolute top-50  translate-middle-y"
+                                    style="font-size: 1.4rem;">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
                         </div>
-                        <button type="button"
-                            class="btn btn-link text-danger delete-btn position-absolute top-50  translate-middle-y"
-                            style="font-size: 1.4rem;">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
+                    @empty
+                    @endforelse
                 </div>
 
                 <!-- زرار الإضافة -->
@@ -152,28 +158,19 @@
                                 </div>
                                 <div class="comment-writer">
                                     <div class="writer-info">
-                                        <img src="{{$review->user->avatar}}" alt="">
+                                        <img src="{{ $review->user->avatar }}" alt="">
                                         <p>
-                                            {{$review->user->name}}
+                                            {{ $review->user->name }}
                                         </p>
                                     </div>
                                     <p>
-                                        {{$review->comment}}
+                                        {{ $review->comment }}
                                     </p>
                                 </div>
                                 <div class="date">
                                     <p>
-                                        {{$review->created_at_human}}
+                                        {{ $review->created_at_human }}
                                     </p>
-                                </div>
-                            </div>
-                            <div class="comment-body">
-                                <div class="img-container">
-                                    <img src="{{ asset('site') }}/images/stores2.png" alt="">
-                                </div>
-                                <div class="comment-input">
-                                    <input type="text">
-                                    <button type="submit"><img src="{{ asset('site') }}/images/send.svg" alt=""></button>
                                 </div>
                             </div>
                         </div>
@@ -185,4 +182,48 @@
     </div>
 
 
+@endsection
+
+
+@section('additional_modals')
+    <div class="modal fade" id="addAccordionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('site.provider.questions.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title">إضافة سؤال جديد</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <div class="mb-3">
+                            <label class="form-label">السؤال بالعربية</label>
+                            <input type="text" name="question_ar" id="questionAr" class="form-control"
+                                placeholder="اكتب السؤال بالعربية هنا" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">السؤال بالانجليزية</label>
+                            <input type="text" name="question_en" id="questionEn" class="form-control"
+                                placeholder="اكتب السؤال بالانجليزية هنا" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الاجابة بالعربية</label>
+                            <textarea name="answer_ar" id="answerAr" class="form-control" rows="2"
+                                placeholder="اكتب الاجابة بالعربية هنا" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الاجابة بالانجليزية</label>
+                            <textarea name="answer_en" id="answerEn" class="form-control" rows="2"
+                                placeholder="اكتب الاجابة بالانجليزية هنا" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                        <button type="submit" class="btn btn-primary">إضافة</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection

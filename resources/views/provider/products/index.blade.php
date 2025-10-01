@@ -73,29 +73,24 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{{route('site.provider.products.show', $product->slug)}}">
+                                        <a href="{{ route('site.provider.products.show', $product) }}">
                                             <img src="{{ asset('site') }}/images/pencil-edit-02.svg" alt="" />
                                             <span>عرض المنتج </span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="">
-                                            <img src="{{ asset('site') }}/images/star.svg" alt="" />
-                                            <span>عرض التعليقات</span>
+                                        <a href="{{ route('site.provider.products.edit', $product) }}">
+                                            <img src="{{ asset('site') }}/images/pencil-edit-02.svg" alt="" />
+                                            <span>تعديل المنتج </span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="">
-                                            <img src="{{ asset('site') }}/images/discount.svg" alt="" />
-                                            <span>اضافة خصم</span>
-                                        </a>
-                                    </li>
-                                    <a href="">
-                                        <li class="delete">
+                                    <li class="delete">
+                                        <a href="{{ route('site.provider.products.destroy', $product) }}">
+
                                             <img src="{{ asset('site') }}/images/delete-card.svg" alt="" />
                                             <span>حذف</span>
-                                        </li>
-                                    </a>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="img-container">w
@@ -104,8 +99,10 @@
                                     <span> {{ $product->category->name }} / {{ $product->category->parent->name }}
                                     </span>
                                 </div>
-                                <label for=""> 20%</label>
-                                <img src="{{ asset('site') }}/images/requested.png" alt="" />
+                                @if ($product->offers()->first())
+                                    <label for=""> {{ $product->offers()->first()->discount }}%</label>
+                                @endif
+                                <img src="{{ $product->first_image->image_path }}" alt="" />
                             </div>
                             <div class="requested-body">
                                 <div class="body-item">

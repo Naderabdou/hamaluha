@@ -15,12 +15,12 @@ class ProductQuestion extends Model
         'answer_en',
     ];
 
-    public function question(): string
+    public function GetQuestionAttribute(): string
     {
         return $this['question_' . app()->getLocale()];
     }
 
-    public function answer(): string
+    public function GetAnswerAttribute(): string
     {
         return $this['answer_' . app()->getLocale()];
     }

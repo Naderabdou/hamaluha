@@ -13,67 +13,92 @@
                     <h2 class="sub-header">اضف منتج</h2>
                 </div>
 
-                <form action="" class="admin-form">
+                <form action="{{ route('site.provider.products.store') }}" id="createProductForm" method="POST" enctype="multipart/form-data"
+                    class="admin-form">
+                    @csrf
                     <!-- input file مخفي -->
-                    <input type="file" id="imageInput" accept="image/*" hidden />
+                    {{-- <input type="file" id="imageInput" accept="image/*"  /> --}}
 
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="mb-3">
                                 <label class="form-label"> اسم المنتج بالعربى</label>
-                                <input type="text" class="form-control" placeholder="اسم المنتج" />
+                                <input type="text" name="name_ar" class="form-control" placeholder="اسم المنتج" />
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="mb-3">
                                 <label class="form-label">اسم المنتج بالانجليزى
                                 </label>
-                                <input type="text" class="form-control" placeholder="   اسم المنتج بالانجليزى " />
+                                <input type="text" name="name_en" class="form-control"
+                                    placeholder="   اسم المنتج بالانجليزى " />
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="mb-3">
                                 <label class="form-label"> سعر المنتج </label>
-                                <input type="text" class="form-control" placeholder="سعر المنتج " />
+                                <input type="text" name="price" class="form-control" placeholder="سعر المنتج " />
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="mb-3">
+                        <div class="col-lg-6 col-md-12 row">
+                            <div class="mb-3 col-4">
                                 <label class="form-label checkboxLabel">
-                                    <input type="checkbox" id="disableDiscountAdd" class="ms-2" />
+                                    <input type="checkbox" name="hasDiscount" id="disableDiscountAdd" class="ms-2" />
                                     نسبة الخصم
 
                                 </label>
-                                <input disabled id="discountInputAdd" type="text" class="form-control"
+                                <input disabled class="discountInputAdd" name="discount" type="text" class="form-control"
+                                    placeholder="نسبة الخصم" />
+                            </div>
+                            <div class="mb-3 col-4">
+                                <label class="form-label checkboxLabel">
+                                    تاريخ البداية
+
+                                </label>
+                                <input disabled class="discountInputAdd" name="start_at" type="datetime-local" class="form-control"
+                                    placeholder="نسبة الخصم" />
+                            </div>
+                            <div class="mb-3 col-4">
+                                <label class="form-label checkboxLabel">
+                                    تاريخ النهاية
+
+                                </label>
+                                <input disabled class="discountInputAdd" name="end_at" type="datetime-local" class="form-control"
                                     placeholder="نسبة الخصم" />
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="my-3">
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>اختار التصنيف الرئيسى</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                <select id="mainCategory" class="form-select">
+                                    <option selected disabled>اختار التصنيف الرئيسى</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}" data-children='@json($category->children)'>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
 
                         <div class="col-lg-6 col-md-12">
                             <div class="my-3">
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>اختار التصنيف الفرعى</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                <select id="subCategory" name="category" class="form-select">
+                                    <option selected disabled>اختار التصنيف الفرعى</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="col-12">
+
+                        <div class="col-6">
                             <div class="mb-3">
-                                <label class="form-label"> نبذة عن المنتج </label>
-                                <textarea class="form-control" rows="4" placeholder="اكتب نبذة عن المنتج"></textarea>
+                                <label class="form-label">وصف المنتج بالعربىة</label>
+                                <textarea class="form-control" name="desc_ar" rows="4" placeholder="اكتب نبذة عن المنتج"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label">وصف المنتج بالانجليزىة</label>
+                                <textarea class="form-control" name="desc_en" rows="4" placeholder="اكتب نبذة عن المنتج"></textarea>
                             </div>
                         </div>
 
@@ -81,7 +106,7 @@
                             <label class="upload-box" id="product-upload-box">
                                 <i class="fa-solid fa-upload"></i>
                                 <p id="product-file-text">قم برفع المنتج</p>
-                                <input type="file" name="product_file" id="product-file" />
+                                <input type="file" name="file" id="product-file" />
                             </label>
                         </div>
 
@@ -96,7 +121,7 @@
                         </div>
 
                         <div class="col-12 btn-product">
-                            <button type="submit" class="main_btn">إرسال</button>
+                            <button type="submit" class="main_btn">اضافة</button>
                         </div>
                     </div>
                 </form>
@@ -104,3 +129,82 @@
         </section>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        document.getElementById('mainCategory').addEventListener('change', function() {
+            let selectedOption = this.options[this.selectedIndex];
+            let children = JSON.parse(selectedOption.getAttribute('data-children'));
+            let subCategory = document.getElementById('subCategory');
+
+            // فضّي اللي موجود
+            subCategory.innerHTML = '<option selected disabled>اختار التصنيف الفرعى</option>';
+
+            if (children.length > 0) {
+                children.forEach(function(child) {
+                    let option = document.createElement('option');
+                    option.value = child.id;
+                    option.textContent = child.name;
+                    subCategory.appendChild(option);
+                });
+            } else {
+                let option = document.createElement('option');
+                option.textContent = 'لا يوجد تصنيفات فرعية';
+                option.disabled = true;
+                subCategory.appendChild(option);
+            }
+        });
+    </script>
+     <script>
+        $(document).ready(function() {
+            $("#createProductForm").validate({
+                rules: {
+                    name_ar: {
+                        required: true,
+                        minlength: 3
+                    },
+                    name_en: {
+                        required: true,
+                        minlength: 3
+                    },
+                    price: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    discount: {
+                        number: true,
+                        min: 0,
+                        max: 100
+                    },
+                    category: {
+                        required: true
+                    },
+                    desc_ar: {
+                        required: true,
+                        minlength: 5
+                    },
+                    desc_en: {
+                        required: true,
+                        minlength: 5
+                    },
+                    file: {
+                        required: true,
+                        extension: "jpg|jpeg|png|webp|pdf"
+                    },
+                    "product_images[]": {
+                        extension: "jpg|jpeg|png|webp"
+                    }
+                },
+                errorElement: "span",
+                errorClass: "text-danger",
+                highlight: function(element) {
+                    $(element).addClass("is-invalid");
+                },
+                unhighlight: function(element) {
+                    $(element).removeClass("is-invalid");
+                }
+            });
+        });
+    </script>
+@endpush

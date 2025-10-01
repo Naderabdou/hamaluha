@@ -19,13 +19,13 @@
                             <a href="{{ route('site.about') }}" class="{{ isActiveRoute('site.about') }}">النبذة</a>
                         </li>
                         <li>
-                            <a href="./our-products.html">المنتجات</a>
+                            <a href="{{ route('site.products.index') }}">المنتجات</a>
                         </li>
                         <li>
                             <a href="{{ route('site.stores.index') }}" class="{{ isActiveRoute('site.stores.index') }}">المتاجر</a>
                         </li>
                         <li>
-                            <a href="./offers.html">العروض</a>
+                            <a href="{{ route('site.offers.index') }}">العروض</a>
                         </li>
                         <li>
                             <a href="./index.html#contact">تواصل معنا</a>
@@ -42,7 +42,7 @@
                     $count = array_sum(array_column($cart, 'quantity')); // مجموع الكمية
                 @endphp
 
-                   @if ($count > 0)
+                    @if ($count > 0)
                                     <span class="cart-count">{{ $count }}</span>
                                     @endif
                                 </a>
@@ -51,7 +51,7 @@
                                     class="links-actions {{ isActiveRoute('site.favourites.index') }}">
                                     <img src="{{ asset('site/images/fovourite.svg') }}" alt="" />
                                 </a>
-                                <a href="#" class="avatar">
+                                <a href="{{ route('site.profile') }}" class="avatar">
                                     <img src="{{ asset('site/images/avatar.svg') }}" alt="" />
                                 </a>
 

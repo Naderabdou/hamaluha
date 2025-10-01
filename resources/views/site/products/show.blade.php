@@ -139,8 +139,55 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--  -->
 
+
+                                <!--  -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button  collapsed" type="button" data-bs-toggle="collapse"
+                                            aria-expanded="true" data-bs-target="#collapseThree" aria-controls="collapseThree">
+                                            {{ __('الاسئلة الشائعة') }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThree" class="accordion-collapse collapse ">
+                                        <div class="accordion-body">
+                                            <div class="main-container">
+
+
+                                                    <div data-aos="fade-up-left"
+                                                        data-aos-duration="1500">
+                                                        <div class="accordion" id="faqAccordion">
+                                                            @foreach ($product->questions as $index => $question)
+                                                                <div class="accordion-item">
+                                                                    <h2 class="accordion-header"
+                                                                        id="heading-{{ $index }}">
+                                                                        <button
+                                                                            class="accordion-button {{ $index !== 0 ? 'collapsed' : '' }}"
+                                                                            type="button" data-bs-toggle="collapse"
+                                                                            data-bs-target="#collapse-{{ $index }}"
+                                                                            aria-expanded="{{ $index === 0 ? 'true' : 'false' }}"
+                                                                            aria-controls="collapse-{{ $index }}">
+                                                                            {{ $question->question }}
+                                                                        </button>
+                                                                    </h2>
+                                                                    <div id="collapse-{{ $index }}"
+                                                                        class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}"
+                                                                        aria-labelledby="heading-{{ $index }}"
+                                                                        data-bs-parent="#faqAccordion">
+                                                                        <div class="accordion-body">
+                                                                            <div class="main-container">
+                                                                                <p>{{ $question->answer }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
 
@@ -177,9 +224,8 @@
 
                 </section>
 
-
-
             </div>
+
             <!-- other products -->
             <section class="other-products">
                 <form action="">
@@ -232,7 +278,7 @@
                             {{ __('اضف الى السلة') }} </button>
                         <div class="total-price">
                             <p>
-                                {{__('السعر الكلى :')}}
+                                {{ __('السعر الكلى :') }}
                             </p>
                             <div class="price">
                                 0

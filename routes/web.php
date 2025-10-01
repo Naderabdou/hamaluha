@@ -29,11 +29,11 @@ Route::name('site.')->middleware('lang')->group(function () {
     require base_path('routes/web/general.php');
 
     Route::prefix(UserType::USER->value)
-        ->middleware(['check.type:'.UserType::USER->value])
+        ->middleware(['check.type:'.UserType::USER->value, 'auth'])
         ->group(base_path('routes/web/user.php'));
 
     Route::prefix(UserType::PROVIDER->value)
-        // ->middleware(['check.type:'.UserType::PROVIDER->value])
+        ->middleware(['check.type:'.UserType::PROVIDER->value, 'auth'])
         ->name('provider.')
         ->group(base_path('routes/web/provider.php'));
 

@@ -52,3 +52,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
     Route::post('/profile/delete-account', [ProfileController::class, 'deleteAccount'])->name('profile.delete-account');
 });
+
+Route::get('/categories/{id}/subcategories', [CategoryController::class, 'getSubcategories']);

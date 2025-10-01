@@ -26,6 +26,12 @@ class Offer extends Model
 
     protected $appends = ['image_path'];
 
+    protected $casts = [
+        'start_at' => 'datetime',
+        'end_at' => 'datetime',
+        'is_active' => 'boolean',
+        'discount' => 'integer',
+    ];
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
@@ -73,7 +79,7 @@ class Offer extends Model
             ->flatMap(function ($product) {
                 return $product->orders->pluck('id');
             })
-            ->unique() 
+            ->unique()
             ->count();
     }
 }

@@ -157,7 +157,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function hasStoreRequest(): bool
     {
-        return $this->storeRequest()->where('status', 'pending')->exists();
+        return $this->storeRequest()->exists();
     }
 
     public function scopeHasStoreRequest($query)
@@ -167,19 +167,32 @@ class User extends Authenticatable implements FilamentUser
         });
     }
 
+    // public function purchasedProducts()
+    // {
+    //     return $this->hasManyThrough(
+    //         Product::class,
+    //         OrderItem::class,    // الموديل الوسيط
+    //         'order_id',          // FK في order_items اللي بيربط بالأوردر
+    //         'id',                // PK في جدول products
+    //         'id',                // PK في جدول users
+    //         'product_id'         // FK في order_items اللي بيربط بالـ products
+    //     )->whereHas('orders', function ($q) {
+    //         $q->where('user_id', $this->id)
+    //             ->where('status', 'completed')
+    //             ->where('payment_status', 'paid');
+    //     });
+    // }
+
     public function purchasedProducts()
     {
-        return $this->hasManyThrough(
-            Product::class,
-            OrderItem::class,    // الموديل الوسيط
-            'order_id',          // FK في order_items اللي بيربط بالأوردر
-            'id',                // PK في جدول products
-            'id',                // PK في جدول users
-            'product_id'         // FK في order_items اللي بيربط بالـ products
-        )->whereHas('orders', function ($q) {
-            $q->where('user_id', $this->id)
-                ->where('status', 'completed')
-                ->where('payment_status', 'paid');
-        });
+        return $this->orders()
+            ->where('status', 'completed')
+            ->where('payment_status', 'paid')
+            ->with('orderItems.product',)
+            ->get()
+            ->pluck('orderItems.*.product')
+            ->flatten()
+            ->unique('id')
+            ->values();
     }
 }

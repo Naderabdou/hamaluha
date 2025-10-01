@@ -11,7 +11,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $products = auth()->user()->purchasedProducts()->distinct()->get();
+        $products = auth()->user()->purchasedProducts();
         return view('site.user.profile', compact('products'));
     }
 

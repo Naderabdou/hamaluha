@@ -8,7 +8,7 @@
      </div>
      <div class="bar-header">
          <div class="logo">
-             <a href="">
+             <a href="{{route('site.home')}}">
                  <img src="{{asset('site')}}/images/logo-admin.png" alt="logo" />
              </a>
          </div>
@@ -17,13 +17,13 @@
      <div class="lisks-side-bar">
          <ul>
              <li>
-                 <a href="index.html" class="">
+                 <a href="{{route('site.provider.home')}}" class="">
                      <img src="{{asset('site')}}/images/home-outline.svg" alt=li">
                      <span>الرئيسية</span>
                  </a>
              </li>
              <li>
-                 <a href="./Shelters.html">
+                 <a href="{{ route('site.provider.products.index') }}" class="">
                      <img src="{{asset('site')}}/images/lets-icons_order.svg" alt=li">
                      <span>المنتجات</span>
                  </a>
