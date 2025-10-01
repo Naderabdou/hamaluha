@@ -9,7 +9,7 @@
      <!--  -->
      <div class="logo">
          <a href="">
-             <img src="{{asset('site')}}/images/logo.png" alt="logo" />
+             <img src="{{ asset('site') }}/images/logo.png" alt="logo" />
          </a>
      </div>
      <!--  -->
@@ -41,15 +41,17 @@
              </li>
              <li>
                  <a href="" class="notification">
-                     <img src="{{asset('site')}}/images/mingcute_notification-line.svg" alt="" />
+                     <img src="{{ asset('site') }}/images/mingcute_notification-line.svg" alt="" />
                  </a>
              </li>
 
              <li class="avatar">
-                 <a href="./login.html">
-                     <img src="{{asset('site')}}/images/stores2.png" alt="" />
+                 <a href="{{ route('site.provider.profile.index') }}">
+                     <img src="{{ $store && $store->image ? asset('storage/' . $store->image) : asset('site/images/stores2.png') }}"
+                         alt="صورة البروفايل" />
                  </a>
              </li>
+
          </ul>
      </div>
  </div>

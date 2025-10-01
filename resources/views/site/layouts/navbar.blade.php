@@ -51,7 +51,7 @@
                                     class="links-actions {{ isActiveRoute('site.favourites.index') }}">
                                     <img src="{{ asset('site/images/fovourite.svg') }}" alt="" />
                                 </a>
-                                <a href="#" class="avatar">
+                                <a href="{{ route('site.profile') }}" class="avatar">
                                     <img src="{{ asset('site/images/avatar.svg') }}" alt="" />
                                 </a>
 
