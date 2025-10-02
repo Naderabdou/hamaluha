@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Store extends Model
 {
-    use HasSlug;
+    // use HasSlug;
     protected $fillable = [
         'provider_id',
         'slug',
@@ -37,17 +37,17 @@ class Store extends Model
     ];
 
     protected $appends = ['image_path', 'orders_count', 'total_revenue'];
-    public function getSlugOptions(): SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug');
-    }
+    // public function getSlugOptions(): SlugOptions
+    // {
+    //     return SlugOptions::create()
+    //         ->generateSlugsFrom('name')
+    //         ->saveSlugsTo('slug');
+    // }
 
-    public function getRouteKeyName(): string
-    {
-        return 'slug';
-    }
+    // public function getRouteKeyName(): string
+    // {
+    //     return 'slug';
+    // }
 
     public function getImagePathAttribute(): string
     {

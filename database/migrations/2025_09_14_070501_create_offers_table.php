@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('store_id')->constrained()->onDelete('cascade');
-            $table->string('desc_ar')->nullable();
-            $table->string('desc_en')->nullable();
+            $table->text('desc_ar')->nullable();
+            $table->text('desc_en')->nullable();
             $table->decimal('discount')->nullable();
             $table->string(('image'))->nullable();
             $table->enum('type', ['offer', 'discount'])->default('discount');

@@ -1,5 +1,4 @@
 @extends('site.layouts.app')
-
 @section('title', $store->name)
 
 @section('header-class', 'pages')

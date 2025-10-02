@@ -89,13 +89,13 @@ class OfferResource extends Resource
                                 ->label(__('Description (Arabic)'))
                                 ->required()
                                 ->minLength(5)
-                                ->regex('/^[\p{Arabic}\p{N}\s]+$/u'),
+                                ->regex('/^[\p{Arabic}a-zA-Z0-9\s\p{P}]+$/u'),
 
                             TextInput::make('desc_en')
                                 ->label(__('Description (English)'))
                                 ->required()
                                 ->minLength(5)
-                                ->regex('/^[a-zA-Z0-9\s]+$/u'),
+                                ->regex('/^[a-zA-Z0-9\s\p{P}\p{S}]+$/u'),
 
                             TextInput::make('discount')
                                 ->label(__('Discount'))

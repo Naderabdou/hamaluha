@@ -51,7 +51,7 @@ class CategoryResource extends Resource
                             TextInput::make('name_ar')
                                 ->label(__('name_ar'))
                                 ->minLength(3)
-                                ->regex('/^[\p{Arabic}\p{N}\s.,]+$/u')
+                                ->regex('/^[\p{Arabic}a-zA-Z0-9\s\p{P}]+$/u')
                                 ->maxLength(255)
                                 ->unique(ignoreRecord: true)
                                 ->autofocus()
@@ -61,7 +61,7 @@ class CategoryResource extends Resource
                                 ->label(__('name_en'))
                                 ->minLength(3)
                                 ->maxLength(255)
-                                ->regex('/^[a-zA-Z0-9\s.,]+$/u')
+                                ->regex('/^[a-zA-Z0-9\s\p{P}\p{S}]+$/u')
                                 ->unique(ignoreRecord: true)
                                 ->autofocus()
                                 ->required(),
@@ -80,7 +80,7 @@ class CategoryResource extends Resource
                             Textarea::make('desc_ar')
                                 ->label(__('desc_ar'))
                                 ->minLength(3)
-                                ->regex('/^[\p{Arabic}\p{N}\s]+$/u')
+                                ->regex('/^[\p{Arabic}a-zA-Z0-9\s\p{P}]+$/u')
                                 ->maxLength(255)
                                 ->unique(ignoreRecord: true)
                                 ->autofocus()
@@ -90,7 +90,7 @@ class CategoryResource extends Resource
                                 ->label(__('desc_en'))
                                 ->minLength(3)
                                 ->maxLength(255)
-                                ->regex('/^[a-zA-Z0-9\s]+$/u')
+                                ->regex('/^[a-zA-Z0-9\s\p{P}\p{S}]+$/u')
                                 ->unique(ignoreRecord: true)
                                 ->autofocus()
                                 ->required(),
@@ -116,14 +116,14 @@ class CategoryResource extends Resource
                                         ->label(__('name_ar'))
                                         ->minLength(3)
                                         ->unique(ignoreRecord: true)
-                                        ->regex('/^[\p{Arabic}\p{N}\s]+$/u')
+                                        ->regex('/^[\p{Arabic}a-zA-Z0-9\s\p{P}]+$/u')
                                         ->maxLength(255)
                                         ->required(),
                                     TextInput::make('name_en')
                                         ->label(__('name_en'))
                                         ->minLength(3)
                                         ->unique(ignoreRecord: true)
-                                        ->regex('/^[a-zA-Z0-9\s]+$/u')
+                                        ->regex('/^[a-zA-Z0-9\s\p{P}\p{S}]+$/u')
                                         ->maxLength(255)
                                         ->required(),
 
@@ -173,9 +173,7 @@ class CategoryResource extends Resource
 
 
             ])
-            ->filters([
-
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\ActionGroup::make([
 

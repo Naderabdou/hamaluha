@@ -24,27 +24,28 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // إعدادات اللغة
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
-            $switch
-                ->locales(['ar', 'en']); // also accepts a closure
+            $switch->locales(['ar', 'en']); // يدعم لغتين
         });
+
+        // مشاركة إعدادات الموقع مع كل الـ views
         $settings = app(GeneralSettings::class);
-
-        $ViewWithSettings = function ($view) use ($settings) {
+        View::composer('*', function ($view) use ($settings) {
             $view->with('settings', $settings);
-        };
+        });
 
-        view()->composer('site.*', $ViewWithSettings);
-          View::composer('*', function ($view) {
+        // مشاركة المتجر المرتبط بالمستخدم مع كل الـ views
+        View::composer('*', function ($view) {
             $user = Auth::user();
-            $store = null;
+            $userStore = null;
+
             if ($user) {
-                // حاول أولًا العلاقة (user->store) لو معرفه، وإلا جِب من الجدول
-                $store = $user->store ?? Store::where('provider_id', $user->id)->first();
+                // جِيب store من العلاقة لو موجودة، أو من جدول stores
+                $userStore = $user->store ?? Store::where('provider_id', $user->id)->first();
             }
-            $view->with('store', $store);
+
+            $view->with('userStore', $userStore);
         });
     }
-
-
 }

@@ -20,7 +20,7 @@ Route::get('/category/{slug}/products', [ProductController::class, 'byCategory']
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 
 Route::get('/stores', [StoreController::class, 'index'])->name('stores.index');
-Route::get('/stores/{id}', [StoreController::class, 'show'])->name('stores.show');
+Route::get('/stores/show/{id}', [StoreController::class, 'show'])->name('stores.show');
 
 Route::get('/offers', [OfferController::class, 'index'])->name('offers.index');
 Route::post('contact', [ContactController::class, 'submitContactForm'])->name('contact.submit');

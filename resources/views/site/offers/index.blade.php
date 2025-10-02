@@ -69,7 +69,7 @@
             <!--  -->
             <div class="all-products">
                 <div class="all-products-header">
-                    <div class="search-product">
+                    {{-- <div class="search-product">
                         <img src="{{ asset('site') }}/images/search-icon.svg" alt="">
                         <input type="search" placeholder="ابحث فالمتجر">
                     </div>
@@ -93,7 +93,7 @@
                         </div>
 
 
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="row">
                     @forelse ($offers as $offer)
@@ -133,6 +133,9 @@
                                     <div class="price">
                                         <img src="{{ asset('site') }}/images/ryal.svg" alt="" />
                                         {{ $offer->final_price }}
+                                        <p class="old-price" style="text-decoration: line-through; color: grey;">
+                                            {{ $offer->products->sum('price') }}
+                                        </p>
                                     </div>
 
                                 </div>

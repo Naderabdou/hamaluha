@@ -27,9 +27,9 @@
                         <li>
                             <a href="{{ route('site.offers.index') }}">العروض</a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="./index.html#contact">تواصل معنا</a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
                 <div class="nav-actions">

@@ -92,6 +92,7 @@ class StoreController extends Controller
             })
             ->paginate(12);
 
+
         return view('site.stores.show', compact('store', 'products', 'categories','favorites'));
     }
 
