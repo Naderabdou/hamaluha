@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('store_id')->constrained()->onDelete('cascade');
             $table->string('name_ar');
             $table->string('name_en');
-            $table->string('desc_ar')->nullable();
-            $table->string('desc_en')->nullable();
+            $table->text('desc_ar')->nullable();
+            $table->text('desc_en')->nullable();
             $table->decimal('price')->nullable();
             $table->string('file')->nullable();
             $table->timestamps();

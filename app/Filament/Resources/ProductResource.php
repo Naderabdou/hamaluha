@@ -60,27 +60,27 @@ class ProductResource extends Resource
                                 ->required()
                                 ->minLength(3)
                                 ->maxLength(255)
-                                ->regex('/^[\p{Arabic}\p{N}\s]+$/u'),
+                                ->regex('/^[\p{Arabic}a-zA-Z0-9\s\p{P}]+$/u'),
 
                             TextInput::make('name_en')
                                 ->label(__('name_en'))
                                 ->required()
                                 ->maxLength(255)
                                 ->minLength(3)
-                                ->regex('/^[a-zA-Z0-9\s]+$/u'),
+                                ->regex('/^[a-zA-Z0-9\s\p{P}\p{S}]+$/u'),
 
 
                             Textarea::make('desc_ar')
                                 ->label(__('desc_ar'))
                                 ->required()
                                 ->minLength(5)
-                                ->regex('/^[\p{Arabic}\p{N}\s]+$/u'),
+                                ->regex('/^[\p{Arabic}a-zA-Z0-9\s\p{P}]+$/u'),
 
                             Textarea::make('desc_en')
                                 ->label(__('desc_en'))
                                 ->required()
                                 ->minLength(5)
-                                ->regex('/^[a-zA-Z0-9\s]+$/u'),
+                                ->regex('/^[a-zA-Z0-9\s\p{P}\p{S}]+$/u'),
 
                             TextInput::make('price')
                                 ->numeric()
@@ -90,9 +90,10 @@ class ProductResource extends Resource
 
                             FileUpload::make('file')
                                 ->label(__('ملف المنتج'))
+                                ->disk('public')
                                 ->directory('products/files')
                                 ->required()
-                                ->maxSize(size: 20000),
+                               ,
 
                             Select::make('parent_category_id')
                                 ->label(__('Main Category'))
@@ -124,25 +125,6 @@ class ProductResource extends Resource
                                 ->searchable()
                                 ->required(),
 
-                            // Forms\Components\FileUpload::make('images')
-                            //     ->label((__('Product Images')))
-                            //     ->multiple()
-                            //     ->disk('public')
-                            //     ->directory('products')
-                            //     ->reorderable()
-                            //     ->image()
-                            //     ->maxFiles(10)
-                            //     ->helperText(__('You can upload up to 10 images.'))
-                            //     ->afterStateUpdated(function ($state, $record) {
-                            //         if ($record) {
-                            //             $record->images()->delete();
-                            //             foreach ($state as $file) {
-                            //                 $record->images()->create([
-                            //                     'image' => $file,
-                            //                 ]);
-                            //             }
-                            //         }
-                            //     })
 
 
                             FileUpload::make('images')
@@ -152,7 +134,6 @@ class ProductResource extends Resource
                                 ->preserveFilenames()
                                 ->required()
                                 ->image()
-                                ->maxSize(4096)
                                 ->multiple()
                                 ->imageResizeMode('cover')
                                 ->imageCropAspectRatio('16:9')

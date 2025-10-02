@@ -156,14 +156,14 @@ $(window).on('resize', function () {
 
 //
 
-   function initDeleteButtons() {
-    document.querySelectorAll(".delete-btn").forEach((btn) => {
-      btn.onclick = function () {
-        this.closest(".accordion-item").remove();
-      };
-    });
-  }
-  initDeleteButtons();
+//    function initDeleteButtons() {
+//     document.querySelectorAll(".delete-btn").forEach((btn) => {
+//       btn.onclick = function () {
+//         this.closest(".accordion-item").remove();
+//       };
+//     });
+//   }
+//   initDeleteButtons();
 
   // كود الإضافة
   let itemCount = 1; // عداد للعناصر

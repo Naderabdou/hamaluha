@@ -189,7 +189,7 @@
     <div class="modal fade" id="addAccordionModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('site.provider.questions.store') }}" method="POST">
+                <form action="{{ route('site.provider.questions.store') }}" method="POST" id="questionForm">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title">إضافة سؤال جديد</h5>
@@ -200,22 +200,22 @@
                         <div class="mb-3">
                             <label class="form-label">السؤال بالعربية</label>
                             <input type="text" name="question_ar" id="questionAr" class="form-control"
-                                placeholder="اكتب السؤال بالعربية هنا" required>
+                                placeholder="اكتب السؤال بالعربية هنا">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">السؤال بالانجليزية</label>
                             <input type="text" name="question_en" id="questionEn" class="form-control"
-                                placeholder="اكتب السؤال بالانجليزية هنا" required>
+                                placeholder="اكتب السؤال بالانجليزية هنا">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">الاجابة بالعربية</label>
                             <textarea name="answer_ar" id="answerAr" class="form-control" rows="2"
-                                placeholder="اكتب الاجابة بالعربية هنا" required></textarea>
+                                placeholder="اكتب الاجابة بالعربية هنا"></textarea>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">الاجابة بالانجليزية</label>
                             <textarea name="answer_en" id="answerEn" class="form-control" rows="2"
-                                placeholder="اكتب الاجابة بالانجليزية هنا" required></textarea>
+                                placeholder="اكتب الاجابة بالانجليزية هنا"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -227,3 +227,42 @@
         </div>
     </div>
 @endsection
+
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $("#questionForm").validate({
+                rules: {
+                    question_ar: {
+                        required: true,
+                        minlength: 3
+                    },
+                    question_en: {
+                        required: true,
+                        minlength: 3
+                    },
+                    answer_ar: {
+                        required: true,
+                        minlength: 5
+                    },
+                    answer_en: {
+                        required: true,
+                        minlength: 5
+                    }
+                },
+                errorElement: "p",
+                errorClass: "text-danger",
+                errorPlacement: function(error, element) {
+                    error.insertAfter(element);
+                },
+                highlight: function(element) {
+                    $(element).addClass("is-invalid");
+                },
+                unhighlight: function(element) {
+                    $(element).removeClass("is-invalid");
+                }
+            });
+        });
+    </script>
+@endpush

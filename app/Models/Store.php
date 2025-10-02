@@ -97,4 +97,10 @@ class Store extends Model
             'id'
         );
     }
+
+    public function getRatingAttribute()
+{
+    return round($this->reviews()->avg('rating') ?? 0, 1);
+}
+
 }

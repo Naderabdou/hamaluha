@@ -9,11 +9,13 @@
                   <span> كن أول من يحصل على أحدث العقارات والعروض الحصرية! </span>
               </div>
               <div class="footer-top-send">
-                  <form action="">
+                  <form action="{{ route('site.subscribe.store') }}" id="subscribeForm" method="POST">
+                      @csrf
                       <i class="bi bi-envelope"></i>
-                      <input type="email" placeholder="الايميل" />
+                      <input type="email" name="email" placeholder="الايميل" />
                       <button class="main_btn" type="submit">اشترك الأن</button>
                   </form>
+                  <div id="subscribeError"></div>
               </div>
           </div>
           <!--  -->
@@ -244,3 +246,28 @@
   </body>
 
   </html>
+
+  <script>
+      $(document).ready(function() {
+          $("#subscribeForm").validate({
+              rules: {
+                  email: {
+                      required: true,
+                      email: true
+                  },
+              },
+              errorElement: "p",
+              errorClass: "text-danger",
+              errorPlacement: function(error, element) {
+                  // هنخلي أي خطأ يظهر برا الفورم في #subscribeError
+                  $("#subscribeError").html(error);
+              },
+              highlight: function(element) {
+                  $(element).addClass("is-invalid");
+              },
+              unhighlight: function(element) {
+                  $(element).removeClass("is-invalid");
+              }
+          });
+      });
+  </script>

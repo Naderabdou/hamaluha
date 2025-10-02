@@ -82,10 +82,16 @@ class GeneralSettings extends Settings
     public string $appStore;
     public string $googlePlay;
     public string $address;
+
+    public string $facebook;
+
+
+    public string $instagram;
+
     public string|array $location;
 
-    public string $hero_man;
-    public string $about_img;
+    public ?string $hero_man;
+    public ?string $about_img;
     public string $goals_img;
     public string $questions_img;
     public string $join_us_img1;
@@ -98,6 +104,11 @@ class GeneralSettings extends Settings
 
     public string $policy_desc_ar;
     public string $policy_desc_en;
+
+    public int|string $commission_percentage;
+    public bool|string $enable_commission;
+    public int|string $fixed_fee;
+    public bool|string $enable_fixed_fee;
 
 
     public static function group(): string

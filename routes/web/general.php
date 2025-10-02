@@ -54,3 +54,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/categories/{id}/subcategories', [CategoryController::class, 'getSubcategories']);
+
+Route::post('/subscribe', [\App\Http\Controllers\Site\General\SubscriptionController::class, 'store'])->name('subscribe.store');

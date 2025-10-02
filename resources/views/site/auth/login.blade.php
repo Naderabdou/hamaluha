@@ -38,15 +38,15 @@
             </div>
 
             <div class="login-links">
-                <a href="">
+                <a href="{{ route('site.google.redirect') }}">
                     <img src="{{ asset('site') }}/images/icons_google.svg" alt="" />
                 </a>
-                <a href="">
+                {{-- <a href="">
                     <img src="{{ asset('site') }}/images/logos_facebook.svg" alt="" />
                 </a>
                 <a href="">
                     <img src="{{ asset('site') }}/images/logos_apple.svg" alt="" />
-                </a>
+                </a> --}}
             </div>
 
             <button type="submit" class="main_btn">

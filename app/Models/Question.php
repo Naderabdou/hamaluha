@@ -14,12 +14,12 @@ class Question extends Model
     ];
 
 
-    public function question(): string
+    public function GetQuestionAttribute(): string
     {
         return $this['question_' . app()->getLocale()];
     }
 
-    public function answer(): string
+    public function GetAnswerAttribute(): string
     {
         return $this['answer_' . app()->getLocale()];
     }

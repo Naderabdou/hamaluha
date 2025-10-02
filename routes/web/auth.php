@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Site\Auth\AuthController;
+use App\Http\Controllers\Site\Auth\GoogleController;
+
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'loginForm'])->name('login-form');
@@ -19,6 +21,11 @@ Route::middleware(['guest'])->group(function () {
 
     Route::get('/new-password', [AuthController::class, 'newPasswordForm'])->name('new-password-form');
     Route::post('/new-password', [AuthController::class, 'resetPassword'])->name('reset-password');
+
+
+Route::get('auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
+Route::get('auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
+
 });
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout')->middleware();

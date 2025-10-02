@@ -92,6 +92,31 @@ class Settings extends SettingsPage
                             ->badge(4)
                             ->schema([
 
+                                FileUpload::make('about_img')
+                                    ->label(__('About Image'))
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('settings')
+                                    ->columnSpanFull()
+                                    ->reorderable()
+                                    // ->required()
+                                    ,
+
+                                TextInput::make('about_stores_counter')
+                                    ->label(__('Stores Counter'))
+                                    ->numeric()
+                                    ->minValue(0),
+
+                                TextInput::make('about_products_counter')
+                                    ->label(__('Products Counter'))
+                                    ->numeric()
+                                    ->minValue(0),
+
+                                TextInput::make('about_purchases_counter')
+                                    ->label(__('Purchases Counter'))
+                                    ->numeric()
+                                    ->minValue(0),
+
                                 TextInput::make('about_header_ar')
                                     ->label(__('About (Arabic)'))
                                     ->autofocus()
@@ -154,6 +179,16 @@ class Settings extends SettingsPage
                             ->icon('heroicon-o-cog-6-tooth')
                             ->badge(4)
                             ->schema([
+
+                                FileUpload::make('hero_man')
+                                    ->label(__('Hero Image'))
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('settings')
+                                    ->columnSpanFull()
+                                    ->reorderable()
+                                    // ->required()
+                                    ,
 
                                 RichEditor::make('products_desc_ar')
                                     ->label(__('Products Description (Arabic)'))
@@ -229,6 +264,15 @@ class Settings extends SettingsPage
                                     ->minLength(3)
                                     ->required(),
 
+                                FileUpload::make('questions_img')
+                                    ->label(__('Questions Image'))
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('settings')
+                                    ->columnSpanFull()
+                                    ->reorderable()
+                                    ->required(),
+
                                 RichEditor::make('contacts_desc_ar')
                                     ->label(__('Contact Us Description (Arabic)'))
                                     ->autofocus()
@@ -280,6 +324,33 @@ class Settings extends SettingsPage
                                     ->label(__('Join Us Description (English)'))
                                     ->autofocus()
                                     ->minLength(3)
+                                    ->required(),
+
+                                FileUpload::make('join_us_img1')
+                                    ->label(__('Join Us First Image'))
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('settings')
+                                    ->columnSpanFull()
+                                    ->reorderable()
+                                    ->required(),
+
+                                FileUpload::make('join_us_img2')
+                                    ->label(__('Join Us Second Image'))
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('settings')
+                                    ->columnSpanFull()
+                                    ->reorderable()
+                                    ->required(),
+
+                                FileUpload::make('goals_img')
+                                    ->label(__('Goals Image'))
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('settings')
+                                    ->columnSpanFull()
+                                    ->reorderable()
                                     ->required(),
 
                                 TextInput::make('journey_step1_title_ar')
@@ -375,16 +446,34 @@ class Settings extends SettingsPage
                                     ->required(),
 
                                 TextInput::make('googlePlay')
-                                    ->label(__('Google Play'))
+                                    ->label(__('Snapchat'))
                                     ->autofocus()
 
                                     ->required(),
 
                                 TextInput::make('appStore')
-                                    ->label(__('App Store'))
+                                    ->label(__('Twitter'))
                                     ->autofocus()
 
                                     ->required(),
+
+                                TextInput::make('facebook')
+                                    ->label(__('Facebook'))
+                                    ->autofocus()
+
+                                    ->required(),
+
+                                TextInput::make('instagram')
+                                    ->label(__('Instagram'))
+                                    ->autofocus()
+                                    ->required(),
+
+                                TextInput::make('email')
+                                    ->label(__('email'))
+                                    ->autofocus()
+
+                                    ->required(),
+
 
                                 TextInput::make('address')
                                     ->label(__('Address'))
@@ -419,13 +508,13 @@ class Settings extends SettingsPage
                             ->badge(6)
                             ->schema([
                                 FileUpload::make('footer_logo')
-                                ->label(__('Footer Logo'))
-                                ->image()
-                                ->disk('public')
-                                ->directory('settings')
-                                ->columnSpanFull()
-                                ->reorderable()
-                                ->required(),
+                                    ->label(__('Footer Logo'))
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('settings')
+                                    ->columnSpanFull()
+                                    ->reorderable()
+                                    ->required(),
                                 Textarea::make('subscribe_header_ar')
                                     ->label(__('Subscribe Header (Arabic)'))
                                     ->autofocus()
@@ -472,7 +561,7 @@ class Settings extends SettingsPage
                                     ->minLength(3)
                                     ->maxLength(255)
                                     ->required(),
-                                    Textarea::make('policy_desc_ar')
+                                Textarea::make('policy_desc_ar')
                                     ->label(__('Privacy & Policy Description (Arabic)'))
                                     ->autofocus()
                                     ->minLength(3)
@@ -484,8 +573,44 @@ class Settings extends SettingsPage
                                     ->maxLength(255)
                                     ->required(),
                             ])->columns(2),
-                ])
-        ])->columns(1);
 
+                        Tabs\Tab::make(__('Commission & Fees'))
+                            ->icon('heroicon-o-banknotes')
+                            ->schema([
+                                Section::make(__('Commission Settings'))
+                                    ->schema([
+                                        Toggle::make('enable_commission')
+                                            ->label(__('Enable Commission'))
+                                            ->default(true),
+
+                                        TextInput::make('commission_percentage')
+                                            ->label(__('Commission Percentage (%)'))
+                                            ->numeric()
+                                            ->minValue(0)
+                                            ->maxValue(100)
+                                            ->default(10)
+                                            ->visible(fn($get) => $get('enable_commission')),
+                                    ])
+                                    ->columns(2),
+
+                                Section::make(__('Fixed Fee Settings'))
+                                    ->schema([
+                                        Toggle::make('enable_fixed_fee')
+                                            ->label(__('Enable Fixed Fee'))
+                                            ->default(false),
+
+                                        TextInput::make('fixed_fee')
+                                            ->label(__('Fixed Fee Amount'))
+                                            ->numeric()
+                                            ->minValue(0)
+                                            ->default(0)
+                                            ->visible(fn($get) => $get('enable_fixed_fee')),
+                                    ])
+                                    ->columns(2),
+                            ]),
+
+
+                    ])
+            ])->columns(1);
     }
 }

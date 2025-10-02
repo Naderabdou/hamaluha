@@ -5,6 +5,9 @@ namespace App\Providers;
 use App\Settings\GeneralSettings;
 use Illuminate\Support\ServiceProvider;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+use App\Models\Store;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,5 +35,16 @@ class AppServiceProvider extends ServiceProvider
         };
 
         view()->composer('site.*', $ViewWithSettings);
+          View::composer('*', function ($view) {
+            $user = Auth::user();
+            $store = null;
+            if ($user) {
+                // حاول أولًا العلاقة (user->store) لو معرفه، وإلا جِب من الجدول
+                $store = $user->store ?? Store::where('provider_id', $user->id)->first();
+            }
+            $view->with('store', $store);
+        });
     }
+
+
 }

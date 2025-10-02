@@ -49,10 +49,14 @@
              </li>
 
              <li class="avatar">
-                 <a href="./login.html">
-                     <img src="{{ asset('site') }}/images/stores2.png" alt="" />
+                
+                 <a href="{{ route('site.provider.profile.index') }}">
+                     <img src="{{ $store && $store->image ? asset('storage/' . $store->image) : asset('site/images/stores2.png') }}"
+                         alt="صورة البروفايل" />
+
                  </a>
              </li>
+
          </ul>
      </div>
  </div>

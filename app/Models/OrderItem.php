@@ -31,5 +31,30 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class, 'product_id');
     }
 
-    
+    public function getCommissionAttribute()
+    {
+        $commissionEnabled = $settings->enable_commission;
+        $commission = 0;
+        if ($commissionEnabled) {
+            $percentage = $settings->commission_percentage;
+            $commission = ($this->price * $percentage) / 100;
+        }
+        return $commission;
+    }
+
+    public function getFixedFeeAttribute()
+    {
+        $fixedEnabled = $settings->enable_fixed_fee;
+        return $fixedEnabled ? $settings->fixed_fee : 0;
+    }
+
+    public function getAdminEarningAttribute()
+    {
+        return $this->commission + $this->fixed_fee;
+    }
+
+    public function getVendorEarningAttribute()
+    {
+        return $this->price - $this->admin_earning;
+    }
 }

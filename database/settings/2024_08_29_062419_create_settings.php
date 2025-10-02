@@ -107,5 +107,11 @@ return new class extends SettingsMigration
 
         $this->migrator->add('general.policy_desc_ar', 'سياسة الخصوصية وشروط الاستخدام');
         $this->migrator->add('general.policy_desc_en', ' Privacy Policy and Terms of Use');
+
+        $this->migrator->add('general.commission_percentage', '10');
+        $this->migrator->add('general.enable_commission', '1');
+
+        $this->migrator->add('general.fixed_fee', '5');
+        $this->migrator->add('general.enable_fixed_fee', '1');
     }
 };

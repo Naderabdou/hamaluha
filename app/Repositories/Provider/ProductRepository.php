@@ -50,6 +50,8 @@ class ProductRepository extends BaseRepository
 
         if (!empty($data['hasDiscount'])) {
             $offer = Offer::create([
+                'desc_ar'     => $data['name_ar'],
+                'desc_en'     => $data['name_en'],
                 'discount'    => $data['discount'],
                 'start_at'  => $data['start_at'],
                 'end_at'    => $data['end_at'],

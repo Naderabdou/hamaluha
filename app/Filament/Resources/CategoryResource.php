@@ -51,7 +51,7 @@ class CategoryResource extends Resource
                             TextInput::make('name_ar')
                                 ->label(__('name_ar'))
                                 ->minLength(3)
-                                ->regex('/^[\p{Arabic}\p{N}\s]+$/u')
+                                ->regex('/^[\p{Arabic}\p{N}\s.,]+$/u')
                                 ->maxLength(255)
                                 ->unique(ignoreRecord: true)
                                 ->autofocus()
@@ -61,7 +61,7 @@ class CategoryResource extends Resource
                                 ->label(__('name_en'))
                                 ->minLength(3)
                                 ->maxLength(255)
-                                ->regex('/^[a-zA-Z0-9\s]+$/u')
+                                ->regex('/^[a-zA-Z0-9\s.,]+$/u')
                                 ->unique(ignoreRecord: true)
                                 ->autofocus()
                                 ->required(),

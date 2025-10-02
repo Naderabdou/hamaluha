@@ -35,4 +35,14 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class, 'order_id');
     }
+
+    public function getAdminTotalAttribute()
+    {
+        return $this->orderItems->sum('admin_earning');
+    }
+
+    public function getVendorTotalAttribute()
+    {
+        return $this->orderItems->sum('vendor_earning');
+    }
 }

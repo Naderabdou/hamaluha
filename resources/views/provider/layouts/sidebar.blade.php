@@ -10,6 +10,7 @@
          <div class="logo">
              <a href="{{route('site.home')}}">
                  <img src="{{asset('site')}}/images/logo-admin.png" alt="logo" />
+
              </a>
          </div>
      </div>
@@ -19,6 +20,7 @@
              <li>
                  <a href="{{route('site.provider.home')}}" class="">
                      <img src="{{asset('site')}}/images/home-outline.svg" alt=li">
+
                      <span>الرئيسية</span>
                  </a>
              </li>
@@ -29,20 +31,20 @@
                  </a>
              </li>
              <li>
-                 <a href="./tabaghat.html">
-                     <img src="{{asset('site')}}/images/chat-outline.svg" alt=li">
+                 <a href="{{ route('site.provider.orders.index') }}">
+                     <img src="{{ asset('site') }}/images/chat-outline.svg" alt=li">
                      <span>الطلبات</span>
                  </a>
              </li>
              <li>
-                 <a href="">
-                     <img src="{{asset('site')}}/images/iconamoon_discount.svg" alt=li">
+                 <a href="{{ route('site.provider.offers.index') }}">
+                     <img src="{{ asset('site') }}/images/iconamoon_discount.svg" alt=li">
                      <span>العروض </span>
                  </a>
              </li>
              <li>
                  <a href="">
-                     <img src="{{asset('site')}}/images/chat-outline.svg" alt=li">
+                     <img src="{{ asset('site') }}/images/chat-outline.svg" alt=li">
                      <span>المحادثات</span>
                  </a>
              </li>

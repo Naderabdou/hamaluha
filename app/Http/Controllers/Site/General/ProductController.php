@@ -22,11 +22,14 @@ class ProductController extends Controller
         return view('site.products.index', compact('categories', 'products'));
     }
 
-    public function byCategory(string $Slug)
+    public function byCategory(Request $request ,string $Slug)
     {
         $categories = Category::whereNull('parent_id')->get();
         $category = Category::with(['children.products'])->whereSlug($Slug)->first();
         $products = $category->children->flatMap->products;
+        if ($request->ajax()) {
+            return view('site.products.partials.products', compact('products'))->render();
+        }
         return view('site.products.category', compact('categories', 'category', 'products'));
     }
     public function show($slug)
